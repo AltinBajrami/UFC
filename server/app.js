@@ -16,7 +16,8 @@ const mongoSanitize = require('express-mongo-sanitize');
 // database
 const connectDB = require('./db/connect');
 
-//  routers
+//routers
+const authRouter = require('./routes/authRoutes');
 
 // middleware
 const notFoundMiddleware = require('./middleware/not-found');
@@ -34,9 +35,7 @@ app.use(cookieParser(process.env.JWT_SECRET));
 
 app.use(express.static('./public'));
 
-app.get('/', (req, res) => {
-  res.json({ Hello: 'Hello man' });
-});
+app.use('/api/v1/auth', authRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
