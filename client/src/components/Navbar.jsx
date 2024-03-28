@@ -1,9 +1,115 @@
 import React from 'react'
+import styled from 'styled-components'
+import { NavLink } from 'react-router-dom'
+import { SiUfc } from "react-icons/si";
+import { FaArrowUp, FaArrowDown } from "react-icons/fa";
+import { useAppContext } from '../context/AppContext';
 
 const Navbar = () => {
-    return (
-        <div>Navbar</div>
-    )
+    const { isSidebarOpen, toggleSidebar } = useAppContext()
+    console.log(isSidebarOpen);
+
+    return <Wrapper>
+        <div className="nav-center">
+            <div className="nav-links">
+                <NavLink to={'/events'} className='nav-link'>Events</NavLink>
+                <NavLink to={'/rankings'} className='nav-link'>Rankings</NavLink>
+                <NavLink to={'/athletes'} className='nav-link'>athletes</NavLink>
+            </div>
+            <div className="icons" onClick={toggleSidebar}>
+                <SiUfc className='logo' />
+                <div className='toggle-nav'>Menu
+                    {isSidebarOpen ? <FaArrowDown className='arrow' /> : <FaArrowUp className='arrow' />}</div>
+            </div>
+            <div className="auth-links">
+                <NavLink to={'/login'} className='auth-link'>Login</NavLink>
+                <NavLink to={'/register'} className='auth-link'>Register</NavLink>
+            </div>
+        </div>
+    </Wrapper>
 }
+
+const Wrapper = styled.nav`
+    background: white;
+    color: black;
+    z-index: 5;
+    box-shadow: var(--shadow-1);
+    .nav-center{
+        width: 100vw;
+        max-width: var(--max-width);
+        display: grid;
+        align-items: center;
+        margin: 0 auto;
+        height: 5rem;
+        padding: 0 2rem;
+   }
+   .nav-links,.auth-links{
+    display: none;
+   }
+   .icons{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    cursor: pointer;
+   }
+   
+   .logo{
+    font-size: 3.5rem;
+    transition: var(--transition);
+   }
+   .toggle-nav{
+    justify-self: end;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+    transition: 1s all ease-in-out;
+    }
+   .arrow{
+    font-size: 1rem;
+   }
+   .logo:hover{
+    color: red;
+    border-bottom: 2px solid red;
+}
+   @media (min-width: 900px){
+    .nav-links,.auth-links{
+        display: flex;
+        gap: 1rem;
+        font-size: 1rem;
+        text-transform: uppercase;
+    }
+    .nav-center{
+        grid-template-columns: 1fr 1fr 1fr;
+        justify-content: center;
+    }
+    .toggle-nav{
+        display: none;
+    }
+    .icons{
+        grid-template-columns: 1fr auto;
+        justify-self: center;
+    }
+    .auth-links{
+        justify-self: end;
+    }
+    .nav-link,.auth-link{
+        transition: var(--transition);
+        color: var(--grey-700);
+        padding-bottom: 0.5rem;
+    }
+    .nav-link:hover,.auth-link:hover{
+        color: red;
+        border-bottom: 2px solid red;
+    }
+   }
+   @media (min-width: 1100px){
+    .nav-center{
+        width: 90vw;
+        border-radius: var(--borderRadius);
+    }
+   }
+`
 
 export default Navbar
