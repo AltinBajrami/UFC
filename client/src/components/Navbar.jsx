@@ -1,24 +1,27 @@
 import React from 'react'
 import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { SiUfc } from "react-icons/si";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { useAppContext } from '../context/AppContext';
+import sublinks from '../data'
+
 
 const Navbar = () => {
-    const { isSidebarOpen, toggleSidebar } = useAppContext()
-    console.log(isSidebarOpen);
+    const { isSidebarOpen, toggleSidebar, setPageId } = useAppContext()
 
     return <Wrapper>
         <div className="nav-center">
             <div className="nav-links">
-                <NavLink to={'/events'} className='nav-link'>Events</NavLink>
-                <NavLink to={'/rankings'} className='nav-link'>Rankings</NavLink>
-                <NavLink to={'/athletes'} className='nav-link'>athletes</NavLink>
+                {
+                    sublinks.map(({ page, pageId }) => {
+                        return <NavLink key={pageId} to={`/${page}`} onMouseEnter={() => setPageId(pageId)} className='nav-link'>{page}</NavLink>
+                    })
+                }
             </div>
-            <div className="icons" onClick={toggleSidebar}>
-                <SiUfc className='logo' />
-                <div className='toggle-nav'>Menu
+            <div className="icons" >
+                <Link to={'/'}> <SiUfc className='logo' /></Link>
+                <div className='toggle-nav' onClick={toggleSidebar}>Menu
                     {isSidebarOpen ? <FaArrowDown className='arrow' /> : <FaArrowUp className='arrow' />}</div>
             </div>
             <div className="auth-links">
@@ -56,6 +59,7 @@ const Wrapper = styled.nav`
    .logo{
     font-size: 3.5rem;
     transition: var(--transition);
+    color: black;
    }
    .toggle-nav{
     justify-self: end;

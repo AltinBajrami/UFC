@@ -304,3 +304,40 @@ PROJECT CSS
   visibility: visible;
   opacity: 1;
 }
+@media (min-width: 900px) {
+  .sidebar {
+    transform: translateY(-100%);
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+.submenu {
+  display: none;
+}
+@media screen and (min-width: 992px) {
+  .submenu {
+    display: block;
+    position: fixed;
+    top: 7rem;
+    left: 50%;
+    width: 95vw;
+    max-width: var(--max-width);
+    background: var(--white);
+    padding: 2rem;
+    transform: rotateX(-90deg) translateX(-50%);
+    transform-origin: top;
+    perspective: 1000px;
+    border-radius: var(--borderRadius);
+    visibility: hidden;
+    opacity: 0;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    z-index: -1;
+  }
+  .show-submenu {
+    visibility: visible;
+    opacity: 1;
+    transform: rotateX(0deg) translateX(-50%);
+    z-index: 10;
+  }
+}
