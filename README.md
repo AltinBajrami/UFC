@@ -1,5 +1,4 @@
 # UFC
-
 Project of UFC-Ultimate Fighting Championship
 
 for front end
@@ -13,3 +12,4 @@ npm i
 npm start
 
 In server add .env file with those variables JWT_SECRET,MONGO_URL and GMAIL_PASSWORD
+
