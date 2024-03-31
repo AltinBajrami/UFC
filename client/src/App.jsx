@@ -29,6 +29,18 @@ const router = createBrowserRouter([
         path: 'events',
         element: <Events />
       },
+      {
+        path: 'fightFinish',
+        element: <FightsFinish />
+      },
+      {
+        path: 'fightFinish/create',
+        element: <CreateFightFinish />
+      },
+      {
+        path: 'fightFinish/update/:id',
+        element: <UpdateFightFinish />
+      },
     ]
   }
 ])
