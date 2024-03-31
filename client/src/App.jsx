@@ -19,7 +19,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'fightFinish',
-        element: <FightFinish />
+        element: <FightsFinish />
       },
       {
         path: 'fightFinish/create',
