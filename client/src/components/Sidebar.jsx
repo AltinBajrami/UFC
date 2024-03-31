@@ -2,19 +2,22 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { useAppContext } from '../context/AppContext'
-
+import sublinks from '../data'
 const Sidebar = () => {
-    const { isSidebarOpen } = useAppContext();
+    const { isSidebarOpen, setPageId } = useAppContext();
 
     return <Wrapper className={`${isSidebarOpen ? 'sidebar show-sidebar' : 'sidebar'}`}>
         <div className="nav-links ">
-            <NavLink to={'/events'} className='nav-link'>Events</NavLink>
-            <NavLink to={'/rankings'} className='nav-link'>Rankings</NavLink>
-            <NavLink to={'/athletes'} className='nav-link'>athletes</NavLink>
+            {
+                sublinks.map(({ page, pageId }) => {
+                    return <NavLink key={pageId} to={`/${page}`} onMouseEnter={() => setPageId(pageId)}
+                        className='nav-link'>{page}</NavLink>
+                })
+            }
             <NavLink to={'/login'} className='nav-link'>Login</NavLink>
             <NavLink to={'/register'} className='nav-link'>Register</NavLink>
         </div>
-    </Wrapper>
+    </Wrapper >
 }
 const Wrapper = styled.aside`
 

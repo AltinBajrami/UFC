@@ -4,7 +4,6 @@ const { UnauthenticatedError, UnauthorizedError } = require('../errors');
 
 const authenticateUser = async (req, res, next) => {
   const { accessToken, refreshToken } = req.signedCookies;
-  console.log(accessToken, refreshToken);
   try {
     if (accessToken) {
       const payload = isTokenValid(accessToken);
@@ -12,7 +11,7 @@ const authenticateUser = async (req, res, next) => {
       return next();
     }
 
-    const payload = isTokenVald(refreshToken);
+    const payload = isTokenValid(refreshToken);
 
     const existingToken = await Token.findOne({
       user: payload.user.userId,
