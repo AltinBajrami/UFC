@@ -1,7 +1,7 @@
 
 import './App.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { Events, About, HomeLayout, Landing, Register, Login, Error } from './pages'
+import { Events, About, HomeLayout, Landing, Register, Login, Error, FightsFinish, CreateFightFinish, UpdateFightFinish } from './pages'
 
 const router = createBrowserRouter([
   {
@@ -18,6 +18,18 @@ const router = createBrowserRouter([
         element: <Login />
       },
       {
+        path: 'fightFinish',
+        element: <FightFinish />
+      },
+      {
+        path: 'fightFinish/create',
+        element: <CreateFightFinish />
+      },
+      {
+        path: 'fightFinish/update/:id',
+        element: <UpdateFightFinish />
+      },
+      {
         path: 'register',
         element: <Register />
       },
@@ -28,6 +40,18 @@ const router = createBrowserRouter([
       {
         path: 'events',
         element: <Events />
+      },
+      {
+        path: 'fightFinish',
+        element: <FightsFinish />
+      },
+      {
+        path: 'fightFinish/create',
+        element: <CreateFightFinish />
+      },
+      {
+        path: 'fightFinish/update/:id',
+        element: <UpdateFightFinish />
       },
     ]
   }

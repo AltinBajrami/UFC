@@ -6,4 +6,15 @@ import Register from './Register';
 import Login from './Login';
 import Error from './Error';
 
-export { Events, About, HomeLayout, Landing, Login, Register, Error };
+export {
+  Events,
+  About,
+  HomeLayout,
+  Landing,
+  Login,
+  Register,
+  Error,
+  FightsFinish,
+  CreateFightFinish,
+  UpdateFightFinish,
+};
