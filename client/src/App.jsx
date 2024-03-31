@@ -3,7 +3,6 @@ import './App.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { Events, About, HomeLayout, Landing, Register, Login, Error, FightsFinish, CreateFightFinish, UpdateFightFinish } from './pages'
 
-
 const router = createBrowserRouter([
   {
     path: '/',
