@@ -8,7 +8,7 @@ import Error from './Error';
 import FightsFinish from './FightsFinish';
 import UpdateFightFinish from './UpdateFightFinish';
 import CreateFightFinish from './CreateFightFinish';
-
+import VerifyEmail from './VerifyEmail';
 export {
   Events,
   About,
@@ -20,4 +20,5 @@ export {
   FightsFinish,
   CreateFightFinish,
   UpdateFightFinish,
+  VerifyEmail,
 };

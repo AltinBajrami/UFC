@@ -8,7 +8,7 @@ import sublinks from '../data'
 
 
 const Navbar = () => {
-    const { isSidebarOpen, toggleSidebar, setPageId } = useAppContext()
+    const { isSidebarOpen, toggleSidebar, setPageId, user, logoutUser } = useAppContext()
 
     return <Wrapper>
         <div className="nav-center">
@@ -25,8 +25,10 @@ const Navbar = () => {
                     {isSidebarOpen ? <FaArrowDown className='arrow' /> : <FaArrowUp className='arrow' />}</div>
             </div>
             <div className="auth-links">
-                <NavLink to={'/login'} className='auth-link'>Login</NavLink>
-                <NavLink to={'/register'} className='auth-link'>Register</NavLink>
+                {user ? <NavLink to={'/'} className='auth-link' onClick={logoutUser}>logout</NavLink> :
+                    <> <NavLink to={'/login'} className='auth-link'  >Login</NavLink>
+                        <NavLink to={'/register'} className='auth-link' >Register</NavLink></>
+                }
             </div>
         </div>
     </Wrapper>
@@ -97,6 +99,9 @@ const Wrapper = styled.nav`
     }
     .auth-links{
         justify-self: end;
+    }
+    .auth-link{
+        text-decoration:none ;
     }
     .nav-link,.auth-link{
         transition: var(--transition);

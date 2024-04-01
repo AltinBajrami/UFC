@@ -1,7 +1,19 @@
 
 import './App.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { Events, About, HomeLayout, Landing, Register, Login, Error, FightsFinish, CreateFightFinish, UpdateFightFinish } from './pages'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { Events, About, HomeLayout, Landing, Register, Login, Error, FightsFinish, CreateFightFinish, UpdateFightFinish, VerifyEmail } from './pages'
+import { action as RegisterAction } from './pages/Register';
+
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5
+    }
+  }
+})
 
 const router = createBrowserRouter([
   {
@@ -12,10 +24,6 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Landing />
-      },
-      {
-        path: 'login',
-        element: <Login />
       },
       {
         path: 'fightFinish',
@@ -31,7 +39,16 @@ const router = createBrowserRouter([
       },
       {
         path: 'register',
-        element: <Register />
+        element: <Register />,
+        action: RegisterAction
+      },
+      {
+        path: 'login',
+        element: <Login />,
+      },
+      {
+        path: 'verify-email',
+        element: <VerifyEmail />
       },
       {
         path: 'about',
@@ -59,7 +76,10 @@ const router = createBrowserRouter([
 
 function App() {
   return <>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />;
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   </>
 }
 
