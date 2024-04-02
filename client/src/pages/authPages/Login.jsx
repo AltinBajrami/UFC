@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import styled from 'styled-components'
-import customFetch from '../utils';
+import customFetch from '../../utils';
 import { toast } from 'react-toastify'
-import { useAppContext } from '../context/AppContext';
+import { useAppContext } from '../../context/AppContext';
 
 const Login = () => {
     const navigate = useNavigate();

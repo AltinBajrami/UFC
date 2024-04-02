@@ -3,6 +3,7 @@ import customFetch from '../utils';
 
 const AppContext = createContext();
 
+
 const AppProvider = ({ children }) => {
     const [isSidebarOpen, setIsSidebar] = useState(false);
     const [pageId, setPageId] = useState(null);
@@ -19,7 +20,7 @@ const AppProvider = ({ children }) => {
 
     const fetchUser = async () => {
         try {
-            const { data } = await axios.get(`/api/v1/users/showMe`);
+            const { data } = await customFetch.get(`/users/showMe`, { withCredentials: true });
             saveUser(data.user);
         } catch (error) {
             removeUser();

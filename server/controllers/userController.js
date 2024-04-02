@@ -75,4 +75,20 @@ const updatePassword = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: 'Success! Password Updated.' });
 };
 
-module.exports = { getAllUsers, getUser, showMe, updateUser, updatePassword };
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    throw new BadRequestError('Please provide id');
+  }
+  await User.findByIdAndDelete(id);
+  return res.status(StatusCodes.OK).json({ msg: 'User deleted' });
+};
+
+module.exports = {
+  getAllUsers,
+  getUser,
+  showMe,
+  updateUser,
+  updatePassword,
+  deleteUser,
+};

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { useAppContext } from '../context/AppContext';
+import { useAppContext } from '../../context/AppContext';
 import { useLocation, Link } from 'react-router-dom';
 import styled from 'styled-components';
-import customFetch from '../utils';
+import customFetch from '../../utils';
 import { toast } from 'react-toastify';
 
 function useQuery() {

@@ -3,18 +3,18 @@ import img from '../assets/landingImage.jpg'
 import styled from 'styled-components'
 
 const Hero = () => {
-    return <Wrapper >
-        <div className="landing-info">
-            <h4>UFC 300</h4>
-            <h2>pereira</h2>
-            <p className='vs'>vs</p>
-            <h2>hill</h2>
-            <div className="location">
-                <p className='date'>Sun,Apr 14 / 4:00 AM GMT+1</p>
-                <p>T-Mobile Arena,Las Vegas United States</p>
-            </div>
-        </div>
-    </Wrapper>
+  return <Wrapper >
+    <div className="landing-info">
+      <h4>UFC 300</h4>
+      <h2>pereira</h2>
+      <p className='vs'>vs</p>
+      <h2>hill</h2>
+      <div className="location">
+        <p className='date'>Sun,Apr 14 / 4:00 AM GMT+1</p>
+        <p>T-Mobile Arena,Las Vegas United States</p>
+      </div>
+    </div>
+  </Wrapper>
 }
 const Wrapper = styled.div`
   height: calc(100vh - 5rem);
@@ -25,7 +25,7 @@ const Wrapper = styled.div`
   background-attachment: scroll;
   .landing-info{
     color: white;
-    padding-top: 10rem;
+    padding-top: 8rem;
     display: grid;
     gap: 1.5rem;
     letter-spacing: 2px;
@@ -44,7 +44,6 @@ const Wrapper = styled.div`
     text-transform: uppercase;
   }
   .location{
-    margin-top: 7rem;
     justify-self: center;
     display: flex;
     flex-direction: column;

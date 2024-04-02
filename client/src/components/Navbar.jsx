@@ -5,7 +5,7 @@ import { SiUfc } from "react-icons/si";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { useAppContext } from '../context/AppContext';
 import sublinks from '../data'
-
+import { Dropdown } from 'react-bootstrap'
 
 const Navbar = () => {
     const { isSidebarOpen, toggleSidebar, setPageId, user, logoutUser } = useAppContext()
@@ -25,7 +25,25 @@ const Navbar = () => {
                     {isSidebarOpen ? <FaArrowDown className='arrow' /> : <FaArrowUp className='arrow' />}</div>
             </div>
             <div className="auth-links">
-                {user ? <NavLink to={'/'} className='auth-link' onClick={logoutUser}>logout</NavLink> :
+                {user ?
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', justifyContent: 'start' }}>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="" style={{ marginBottom: '0.5rem', textTransform: 'uppercase' }} id="admin-dropdown">
+                                Menu
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item as={NavLink} to="/profile">Profile</Dropdown.Item>
+                                {user.role === 'admin' &&
+                                    <>
+                                        <Dropdown.Item as={NavLink} to="/users">Users</Dropdown.Item>
+                                        <Dropdown.Item as={NavLink} to="/fightFinish">Fight Finish</Dropdown.Item>
+                                    </>
+                                }
+                            </Dropdown.Menu>
+                        </Dropdown>
+                        <NavLink to={'/'} className='auth-link' onClick={logoutUser}>logout</NavLink>
+                    </div>
+                    :
                     <> <NavLink to={'/login'} className='auth-link'  >Login</NavLink>
                         <NavLink to={'/register'} className='auth-link' >Register</NavLink></>
                 }
@@ -35,6 +53,10 @@ const Navbar = () => {
 }
 
 const Wrapper = styled.nav`
+.dropdown-item.active {
+    background-color: transparent !important;
+    color: red !important; 
+}
     background: white;
     color: black;
     z-index: 5;

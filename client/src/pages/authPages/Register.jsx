@@ -2,21 +2,18 @@ import axios from 'axios';
 import React from 'react'
 import { Form } from 'react-router-dom'
 import styled from 'styled-components'
-import customFetch from '../utils';
+import customFetch from '../../utils';
 import { redirect, Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 export const action = async ({ request }) => {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
-    console.log(data);
     try {
         const response = await customFetch.post('/auth/register', data);
-        console.log(response);
         toast.success('Successfully registered')
         toast.success('Please verify email then login')
         return redirect('/login');
     } catch (error) {
-        console.log(error);
         toast.error(error?.response?.data?.msg);
         return error;
     }
