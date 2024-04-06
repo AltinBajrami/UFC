@@ -10,7 +10,6 @@ import { action as RegisterAction } from './pages/authPages/Register';
 import { action as ForgotPasswordAction } from './pages/authPages/ForgotPassword';
 import { loader as UsersLoader } from './pages/users/Users'
 
-const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 1000 * 60 * 5
@@ -38,6 +37,10 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
+        path: 'fightFinish',
+        element: <FightsFinish />
+      },
+        {
         path: 'verify-email',
         element: <VerifyEmail />
       },

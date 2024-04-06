@@ -81,6 +81,7 @@ const login = async (req, res) => {
     throw new UnauthenticatedError('Invalid Credentials');
   }
 
+  console.log(user);
   if (!user.verified) {
     throw new UnauthenticatedError('Please verify email!');
   }
