@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { useAppContext } from '../context/AppContext'
 import sublinks from '../data'
 const Sidebar = () => {
-    const { isSidebarOpen, setPageId } = useAppContext();
+    const { isSidebarOpen, setPageId, toggleSidebar } = useAppContext();
 
     return <Wrapper className={`${isSidebarOpen ? 'sidebar show-sidebar' : 'sidebar'}`}>
         <div className="nav-links ">
@@ -16,11 +16,16 @@ const Sidebar = () => {
             }
             <NavLink to={'/login'} className='nav-link'>Login</NavLink>
             <NavLink to={'/register'} className='nav-link'>Register</NavLink>
+                    return <NavLink key={pageId} to={`/${page}`} onClick={toggleSidebar}
+                        className='nav-link'>{page}</NavLink>
+                })
+            }
+            <NavLink to={'/login'} className='nav-link' onClick={toggleSidebar}>Login</NavLink>
+            <NavLink to={'/register'} className='nav-link' onClick={toggleSidebar}>Register</NavLink>
         </div>
     </Wrapper >
 }
 const Wrapper = styled.aside`
-
     .nav-links{
         padding: 3rem 0;
         display: grid;

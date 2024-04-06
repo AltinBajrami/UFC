@@ -9,6 +9,7 @@ const {
   showMe,
   updateUser,
   updatePassword,
+  deleteUser,
 } = require('../controllers/userController');
 
 const router = express.Router();
@@ -18,5 +19,10 @@ router.get('/showMe', [authenticateUser], showMe);
 router.patch('/updatePassword', [authenticateUser], updatePassword);
 router.patch('/updateUser', [authenticateUser], updateUser);
 router.get('/:id', [authenticateUser], getUser);
+router.delete(
+  '/:id',
+  [authenticateUser, authorizePermissions('admin')],
+  deleteUser
+);
 
 module.exports = router;
