@@ -5,11 +5,10 @@ import { SiUfc } from "react-icons/si";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { useAppContext } from '../context/AppContext';
 import sublinks from '../data'
-import { Dropdown } from 'react-bootstrap'
+
 
 const Navbar = () => {
-    const { isSidebarOpen, toggleSidebar, setPageId, user, logoutUser } = useAppContext()
-
+    const { isSidebarOpen, toggleSidebar, setPageId, user, logoutUser } = useAppContext();
     return <Wrapper>
         <div className="nav-center">
             <div className="nav-links">

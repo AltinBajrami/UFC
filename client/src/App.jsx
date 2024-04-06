@@ -18,7 +18,6 @@ const queryClient = new QueryClient({
   }
 })
 
-
 const router = createBrowserRouter([
   {
     path: '/',
@@ -43,6 +42,18 @@ const router = createBrowserRouter([
         element: <FightsFinish />
       },
       {
+        path: 'fightFinish/create',
+        element: <CreateFightFinish />
+      },
+      {
+        path: 'fightFinish/update/:id',
+        element: <UpdateFightFinish />
+      },
+      {
+        path: 'register',
+        element: <Register />
+      },
+  {
         path: 'verify-email',
         element: <VerifyEmail />
       },
