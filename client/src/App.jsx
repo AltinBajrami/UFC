@@ -1,7 +1,21 @@
-
 import './App.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { Events, About, HomeLayout, Landing, Register, Login, Error, FightsFinish, CreateFightFinish, UpdateFightFinish } from './pages'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import {
+  Events, About, HomeLayout, Landing, ResetPassword, Register, Login, Error, Users,
+  FightsFinish, CreateFightFinish, UpdateFightFinish, VerifyEmail, ForgotPassword, UpdateUser
+} from './pages'
+import { action as RegisterAction } from './pages/authPages/Register';
+import { action as ForgotPasswordAction } from './pages/authPages/ForgotPassword';
+import { loader as UsersLoader } from './pages/users/Users'
+
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5
+    }
+  }
+})
 
 const router = createBrowserRouter([
   {
@@ -14,24 +28,39 @@ const router = createBrowserRouter([
         element: <Landing />
       },
       {
+        path: 'register',
+        element: <Register />,
+        action: RegisterAction
+      },
+      {
         path: 'login',
-        element: <Login />
+        element: <Login />,
       },
       {
         path: 'fightFinish',
         element: <FightsFinish />
       },
-      {
-        path: 'fightFinish/create',
-        element: <CreateFightFinish />
+        {
+        path: 'verify-email',
+        element: <VerifyEmail />
       },
       {
-        path: 'fightFinish/update/:id',
-        element: <UpdateFightFinish />
+        path: 'forgot-password',
+        element: <ForgotPassword />,
+        action: ForgotPasswordAction
       },
       {
-        path: 'register',
-        element: <Register />
+        path: 'reset-password',
+        element: <ResetPassword />,
+      },
+      {
+        path: 'users',
+        element: <Users />,
+        loader: UsersLoader(queryClient)
+      },
+      {
+        path: 'users/update/:id',
+        element: <UpdateUser />,
       },
       {
         path: 'about',
@@ -59,7 +88,10 @@ const router = createBrowserRouter([
 
 function App() {
   return <>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />;
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   </>
 }
 

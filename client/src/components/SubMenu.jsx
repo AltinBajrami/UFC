@@ -23,10 +23,11 @@ const SubMenu = () => {
 const Wrapper = styled.div`
     
 @media screen and (min-width: 992px) {
+     box-shadow: var(--shadow-4);
      h5 {
-    margin-bottom: 1rem;
-    color: black;
-  }
+     margin-bottom: 1rem;
+     color: black;
+     }
   .submenu-links {
     display: grid;
     row-gap: 0.5rem;

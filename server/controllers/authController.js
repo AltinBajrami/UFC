@@ -31,7 +31,7 @@ const register = async (req, res) => {
     role,
     verificationToken,
   });
-  const origin = 'http://localhost:3000';
+  const origin = 'http://localhost:5174';
 
   await sendVerificationEmail({
     name: user.firstName,
@@ -140,7 +140,7 @@ const forgotPassword = async (req, res) => {
   if (user) {
     const passwordToken = crypto.randomBytes(70).toString('hex');
     // send email
-    const origin = 'http://localhost:3000';
+    const origin = 'http://localhost:5173';
     await sendResetPasswordEmail({
       name: user.firstName,
       email: user.email,
@@ -163,7 +163,7 @@ const forgotPassword = async (req, res) => {
 const resetPassword = async (req, res) => {
   const { token, email, password } = req.body;
   if (!token || !email || !password) {
-    throw new BadRequestError('Please provide all values');
+    throw new BadRequestError('Please provide token,email and password');
   }
   const user = await User.findOne({ email });
 

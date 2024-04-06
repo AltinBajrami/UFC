@@ -3,7 +3,7 @@ const Token = require('../models/Token');
 const { UnauthenticatedError, UnauthorizedError } = require('../errors');
 
 const authenticateUser = async (req, res, next) => {
-  const { accessToken, refreshToken } = req.signedCookies;
+  const { accessToken, refreshToken } = req.cookies;
   try {
     if (accessToken) {
       const payload = isTokenValid(accessToken);
