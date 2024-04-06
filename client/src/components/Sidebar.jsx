@@ -10,12 +10,6 @@ const Sidebar = () => {
         <div className="nav-links ">
             {
                 sublinks.map(({ page, pageId }) => {
-                    return <NavLink key={pageId} to={`/${page}`} onMouseEnter={() => setPageId(pageId)}
-                        className='nav-link'>{page}</NavLink>
-                })
-            }
-            <NavLink to={'/login'} className='nav-link'>Login</NavLink>
-            <NavLink to={'/register'} className='nav-link'>Register</NavLink>
                     return <NavLink key={pageId} to={`/${page}`} onClick={toggleSidebar}
                         className='nav-link'>{page}</NavLink>
                 })
@@ -26,6 +20,7 @@ const Sidebar = () => {
     </Wrapper >
 }
 const Wrapper = styled.aside`
+
     .nav-links{
         padding: 3rem 0;
         display: grid;
