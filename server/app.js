@@ -21,6 +21,7 @@ const authRouter = require('./routes/authRoutes');
 const userRouter = require('./routes/userRoutes');
 const fightFinishRouter = require('./routes/fightFinishRoutes');
 
+
 // middleware
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
@@ -28,7 +29,12 @@ const errorHandlerMiddleware = require('./middleware/error-handler');
 app.use(morgan('dev'));
 app.set('trust proxy', 1);
 app.use(helmet());
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  })
+);
 app.use(xss());
 app.use(mongoSanitize());
 
@@ -40,6 +46,7 @@ app.use(express.static('./public'));
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/fightFinish', fightFinishRouter);
+
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

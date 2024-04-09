@@ -1,9 +1,11 @@
 import React from 'react'
-import { Link, useRouteError } from 'react-router-dom'
+import { Link, useNavigate, useRouteError } from 'react-router-dom'
 import styled from 'styled-components'
 import img from '../assets/not-found.svg';
+import { toast } from 'react-toastify';
 
 const Error = () => {
+    const navigate = useNavigate();
     const error = useRouteError()
     console.log(error);
 
@@ -18,9 +20,12 @@ const Error = () => {
         </Wrapper>
     }
 
-    return <Wrapper>
+    toast.error(error?.response?.data?.msg)
+
+    return <section style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
         <h3>Something Went wrong</h3>
-    </Wrapper>
+        <p>{error?.response?.data?.msg}</p>
+    </section>
 }
 
 
