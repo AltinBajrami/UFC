@@ -74,8 +74,7 @@ const Users = () => {
                             <td>{user.country}</td>
                             <td>{user.role}</td>
                             <td style={{ display: 'flex', gap: '0.5rem' }}>
-                                <Link to={`/users/update/${user._id}`} style={{ textDecoration: 'none' }} className='btn-css'>Edit</Link>
-                                <Link to={'/users'} className='btn-css' style={{ textDecoration: 'none' }} onClick={() => {
+                                <Link to={'/users'} className='btn btn-danger' style={{ textDecoration: 'none' }} onClick={() => {
                                     setIsModalOpen(true);
                                     setUserId(user._id);
                                 }}>delete</Link>

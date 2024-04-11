@@ -36,6 +36,7 @@ const Navbar = () => {
                                     <>
                                         <Dropdown.Item as={NavLink} to="/users">Users</Dropdown.Item>
                                         <Dropdown.Item as={NavLink} to="/fightFinish">Fight Finish</Dropdown.Item>
+                                        <Dropdown.Item as={NavLink} to="/weightClasses">Weight Classes</Dropdown.Item>
                                     </>
                                 }
                             </Dropdown.Menu>
