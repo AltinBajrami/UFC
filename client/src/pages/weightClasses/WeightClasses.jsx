@@ -62,7 +62,7 @@ const WeightClasses = () => {
 
     return (
         <div style={{ display: 'grid' }}>
-            <Link to={'/weightClasses/create'} className='btn-css' style={{ justifySelf: 'start', textDecoration: 'none', margin: '1rem' }}>Create</Link>
+            <Link to={'/weightClasses/create'} className='btn btn-outline-secondary' style={{ justifySelf: 'start', textDecoration: 'none', margin: '1rem' }}>Create</Link>
             <Wrapper>
                 <table>
                     <thead>
@@ -78,8 +78,8 @@ const WeightClasses = () => {
                                 <td>{item.className}</td>
                                 <td>{item.pound}</td>
                                 <td style={{ display: 'flex', gap: '0.5rem' }}>
-                                    <Link to={`/weightClasses/update/${item._id}`} style={{ textDecoration: 'none' }} className='btn-css'>Edit</Link>
-                                    <Link to={'/weightClasses'} className='btn-css' style={{ textDecoration: 'none' }} onClick={() => {
+                                    <Link to={`/weightClasses/update/${item._id}`} style={{ textDecoration: 'none' }} className='btn btn-success'>Edit</Link>
+                                    <Link to={'/weightClasses'} className='btn btn-danger' style={{ textDecoration: 'none' }} onClick={() => {
                                         setIsModalOpen(true);
                                     }}>delete</Link>
                                     <ConfirmationModal
