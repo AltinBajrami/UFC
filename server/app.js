@@ -20,6 +20,8 @@ const connectDB = require('./db/connect');
 const authRouter = require('./routes/authRoutes');
 const userRouter = require('./routes/userRoutes');
 const fightFinishRouter = require('./routes/fightFinishRoutes');
+const weightClassesRouter = require('./routes/weightClassesRoutes');
+
 
 
 // middleware
@@ -46,6 +48,8 @@ app.use(express.static('./public'));
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/fightFinish', fightFinishRouter);
+app.use('/api/v1/weightClasses', weightClassesRouter);
+
 
 
 app.use(notFoundMiddleware);

@@ -13,6 +13,9 @@ import ForgotPassword from './authPages/ForgotPassword';
 import ResetPassword from './authPages/ResetPassword';
 import Users from './users/Users';
 import UpdateUser from './users/UpdateUser';
+import WeightClasses from './weightClasses/WeightClasses';
+import CreateWeightClasses from './weightClasses/CreateWeightClasses';
+import UpdateWeightClasses from './weightClasses/UpdateWeightClasses';
 
 export {
   Events,
@@ -30,4 +33,7 @@ export {
   ResetPassword,
   Users,
   UpdateUser,
+  WeightClasses,
+  CreateWeightClasses,
+  UpdateWeightClasses,
 };
