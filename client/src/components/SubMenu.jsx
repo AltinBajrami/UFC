@@ -23,6 +23,10 @@ const SubMenu = () => {
 const Wrapper = styled.div`
     
 @media screen and (min-width: 992px) {
+     h5 {
+    margin-bottom: 1rem;
+    color: black;
+  }
      box-shadow: var(--shadow-4);
      h5 {
      margin-bottom: 1rem;
