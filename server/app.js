@@ -24,6 +24,7 @@ const fightFinishRouter = require('./routes/fightFinishRoutes');
 const weightClassesRouter = require('./routes/weightClassesRoutes');
 const fighterRoutesRouter = require('./routes/fighterRoutes');
 
+
 // middleware
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
