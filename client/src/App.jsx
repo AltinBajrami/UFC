@@ -5,7 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import {
   Events, About, HomeLayout, Landing, ResetPassword, Register, Login, Error, Users,
   FightsFinish, CreateFightFinish, UpdateFightFinish, VerifyEmail, ForgotPassword, UpdateUser,
-  WeightClasses, CreateWeightClasses, UpdateWeightClasses
+  WeightClasses, CreateWeightClasses, UpdateWeightClasses, Fighters, UpdateFighter, CreateFighter
 } from './pages'
 import { action as RegisterAction } from './pages/authPages/Register';
 import { action as ForgotPasswordAction } from './pages/authPages/ForgotPassword';
@@ -103,6 +103,18 @@ const router = createBrowserRouter([
         element: <UpdateWeightClasses />,
         loader: UpdateWeightClassLoader(queryClient),
         action: UpdateWeightClassAction(queryClient)
+      },
+      {
+        path: 'fighters',
+        element: <Fighters />,
+      },
+      {
+        path: 'fighters/create',
+        element: <CreateFighter />,
+      },
+      {
+        path: 'fighters/update/:id',
+        element: <UpdateFighter />,
       },
     ]
   }
