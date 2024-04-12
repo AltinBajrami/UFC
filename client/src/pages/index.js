@@ -13,6 +13,9 @@ import ForgotPassword from './authPages/ForgotPassword';
 import ResetPassword from './authPages/ResetPassword';
 import Users from './users/Users';
 import UpdateUser from './users/UpdateUser';
+import Arena from './Arena/Arena';
+import CreateArena from './Arena/CreateArena';
+import UpdateArena from './Arena/UpdateArena';
 
 export {
   Events,
@@ -30,4 +33,7 @@ export {
   ResetPassword,
   Users,
   UpdateUser,
+  Arena,
+  CreateArena,
+  UpdateArena,
 };

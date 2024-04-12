@@ -4,11 +4,17 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import {
   Events, About, HomeLayout, Landing, ResetPassword, Register, Login, Error, Users,
-  FightsFinish, CreateFightFinish, UpdateFightFinish, VerifyEmail, ForgotPassword, UpdateUser
+  FightsFinish, CreateFightFinish, UpdateFightFinish, VerifyEmail, ForgotPassword, UpdateUser,
+  Arena, CreateArena, UpdateArena
 } from './pages'
 import { action as RegisterAction } from './pages/authPages/Register';
 import { action as ForgotPasswordAction } from './pages/authPages/ForgotPassword';
+import { action as CreateArenaAction } from './pages/Arena/CreateArena';
+import { action as UpdateArenaAction } from './pages/Arena/UpdateArena';
+
 import { loader as UsersLoader } from './pages/users/Users'
+import { loader as ArenaLoader } from './pages/Arena/Arena'
+import { loader as UpdateArenaLoader } from './pages/Arena/UpdateArena'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -53,7 +59,7 @@ const router = createBrowserRouter([
         path: 'register',
         element: <Register />
       },
-  {
+      {
         path: 'verify-email',
         element: <VerifyEmail />
       },
@@ -94,6 +100,22 @@ const router = createBrowserRouter([
       {
         path: 'fightFinish/update/:id',
         element: <UpdateFightFinish />
+      },
+      {
+        path: 'arena',
+        element: <Arena />,
+        loader: ArenaLoader(queryClient)
+      },
+      {
+        path: 'arena/create',
+        element: <CreateArena />,
+        action: CreateArenaAction(queryClient)
+      },
+      {
+        path: 'arena/update/:id',
+        element: <UpdateArena />,
+        loader: UpdateArenaLoader(queryClient),
+        action: UpdateArenaAction(queryClient),
       },
     ]
   }
