@@ -23,7 +23,8 @@ const userRouter = require('./routes/userRoutes');
 const fightFinishRouter = require('./routes/fightFinishRoutes');
 const weightClassesRouter = require('./routes/weightClassesRoutes');
 const fighterRoutesRouter = require('./routes/fighterRoutes');
-
+const referRoutesRouter = require('./routes/referRoutes');
+const quoteRoutesRouter = require('./routes/quoteRoutes');
 
 // middleware
 const notFoundMiddleware = require('./middleware/not-found');
@@ -48,6 +49,8 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/fightFinish', fightFinishRouter);
 app.use('/api/v1/fighters', fighterRoutesRouter);
 app.use('/api/v1/weightClasses', weightClassesRouter);
+app.use('/api/v1/refers', referRoutesRouter);
+app.use('/api/v1/quotes', quoteRoutesRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

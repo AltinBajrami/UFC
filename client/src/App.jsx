@@ -5,7 +5,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import {
   Events, About, HomeLayout, Landing, ResetPassword, Register, Login, Error, Users,
   FightsFinish, CreateFightFinish, UpdateFightFinish, VerifyEmail, ForgotPassword, UpdateUser,
-  WeightClasses, CreateWeightClasses, UpdateWeightClasses, Fighters, UpdateFighter, CreateFighter
+  WeightClasses, CreateWeightClasses, UpdateWeightClasses, Fighters, UpdateFighter, CreateFighter,
+  Refer, UpdateRefer, CreateRefer, Quotes, CreateQuote, UpdateQuote
 } from './pages'
 import { action as RegisterAction } from './pages/authPages/Register';
 import { action as ForgotPasswordAction } from './pages/authPages/ForgotPassword';
@@ -14,6 +15,18 @@ import { loader as WeightClassLoader } from './pages/weightClasses/WeightClasses
 import { loader as UpdateWeightClassLoader } from './pages/weightClasses/UpdateWeightClasses'
 import { action as UpdateWeightClassAction } from './pages/weightClasses/UpdateWeightClasses'
 import { action as CreateWeightClassAction } from './pages/weightClasses/CreateWeightClasses'
+
+import { loader as ReferLoader } from './pages/refer/Refer'
+import { loader as UpdateReferLoader } from './pages/refer/UpdateRefer'
+import { action as UpdateReferAction } from './pages/refer/UpdateRefer'
+import { action as CreateReferAction } from './pages/refer/CreateRefer'
+
+
+import { loader as QuotesLoader } from './pages/quote/Quotes'
+import { loader as UpdateQuoteLoader } from './pages/quote/UpdateQuote'
+import { action as UpdateQuoteAction } from './pages/quote/UpdateQuote'
+import { loader as CreateQuoteLoader } from './pages/quote/CreateQuote'
+import { action as CreateQuoteAction } from './pages/quote/CreateQuote'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -115,6 +128,39 @@ const router = createBrowserRouter([
       {
         path: 'fighters/update/:id',
         element: <UpdateFighter />,
+      },
+      {
+        path: 'refers',
+        element: <Refer />,
+        loader: ReferLoader(queryClient)
+      },
+      {
+        path: 'refers/create',
+        element: <CreateRefer />,
+        action: CreateReferAction(queryClient)
+      },
+      {
+        path: 'refers/update/:id',
+        element: <UpdateRefer />,
+        loader: UpdateReferLoader(queryClient),
+        action: UpdateReferAction(queryClient)
+      },
+      {
+        path: 'quotes',
+        element: <Quotes />,
+        loader: QuotesLoader(queryClient)
+      },
+      {
+        path: 'quotes/create',
+        element: <CreateQuote />,
+        loader: CreateQuoteLoader(queryClient),
+        action: CreateQuoteAction(queryClient)
+      },
+      {
+        path: 'quotes/update/:id',
+        element: <UpdateQuote />,
+        loader: UpdateQuoteLoader(queryClient),
+        action: UpdateQuoteAction(queryClient)
       },
     ]
   }
