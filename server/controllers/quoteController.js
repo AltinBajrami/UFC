@@ -28,11 +28,11 @@ const createQuote = async (req, res) => {
 
 const getSingleQuote = async (req, res) => {
   const { id } = req.params;
-  const quote = await Quote.findById(id).populate('fighter');
-  if (!quote) {
+  const singleQuote = await Quote.findById(id).populate('fighter');
+  if (!singleQuote) {
     throw new NotFoundError('quote not found!');
   }
-  return res.status(StatusCodes.OK).json({ quote });
+  return res.status(StatusCodes.OK).json({ singleQuote });
 };
 
 const updateQuote = async (req, res) => {
@@ -47,14 +47,12 @@ const updateQuote = async (req, res) => {
   }
   const quoteSchema = await Quote.findById(id);
   if (!quoteSchema) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ error: 'quote not found' });
+    return res.status(StatusCodes.BAD_REQUEST).json({ msg: 'quote not found' });
   }
 
   quoteSchema.quote = quote;
   quoteSchema.fighter = fighter._id;
-  quoteSchema.createdAt = Data.now();
+  quoteSchema.createdAt = Date.now();
   await quoteSchema.save();
   return res.status(StatusCodes.OK).json({ quoteSchema });
 };
