@@ -27,6 +27,11 @@ const Wrapper = styled.div`
     margin-bottom: 1rem;
     color: black;
   }
+     box-shadow: var(--shadow-4);
+     h5 {
+     margin-bottom: 1rem;
+     color: black;
+     }
   .submenu-links {
     display: grid;
     row-gap: 0.5rem;

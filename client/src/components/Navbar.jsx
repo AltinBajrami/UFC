@@ -4,12 +4,12 @@ import { Link, NavLink } from 'react-router-dom'
 import { SiUfc } from "react-icons/si";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { useAppContext } from '../context/AppContext';
+import { Dropdown } from 'react-bootstrap';
 import sublinks from '../data'
 
 
 const Navbar = () => {
-    const { isSidebarOpen, toggleSidebar, setPageId } = useAppContext()
-
+    const { isSidebarOpen, toggleSidebar, setPageId, user, logoutUser } = useAppContext();
     return <Wrapper>
         <div className="nav-center">
             <div className="nav-links">
@@ -25,14 +25,39 @@ const Navbar = () => {
                     {isSidebarOpen ? <FaArrowDown className='arrow' /> : <FaArrowUp className='arrow' />}</div>
             </div>
             <div className="auth-links">
-                <NavLink to={'/login'} className='auth-link'>Login</NavLink>
-                <NavLink to={'/register'} className='auth-link'>Register</NavLink>
+                {user ?
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', justifyContent: 'start' }}>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="" style={{ marginBottom: '0.5rem', textTransform: 'uppercase' }} id="admin-dropdown">
+                                Menu
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item as={NavLink} to="/profile">Profile</Dropdown.Item>
+                                {user.role === 'admin' &&
+                                    <>
+                                        <Dropdown.Item as={NavLink} to="/users">Users</Dropdown.Item>
+                                        <Dropdown.Item as={NavLink} to="/fightFinish">Fight Finish</Dropdown.Item>
+                                        <Dropdown.Item as={NavLink} to="/weightClasses">Weight Classes</Dropdown.Item>
+                                    </>
+                                }
+                            </Dropdown.Menu>
+                        </Dropdown>
+                        <NavLink to={'/'} className='auth-link' onClick={logoutUser}>logout</NavLink>
+                    </div>
+                    :
+                    <> <NavLink to={'/login'} className='auth-link'  >Login</NavLink>
+                        <NavLink to={'/register'} className='auth-link' >Register</NavLink></>
+                }
             </div>
         </div>
     </Wrapper>
 }
 
 const Wrapper = styled.nav`
+.dropdown-item.active {
+    background-color: transparent !important;
+    color: red !important; 
+}
     background: white;
     color: black;
     z-index: 5;
@@ -97,6 +122,9 @@ const Wrapper = styled.nav`
     }
     .auth-links{
         justify-self: end;
+    }
+    .auth-link{
+        text-decoration:none ;
     }
     .nav-link,.auth-link{
         transition: var(--transition);

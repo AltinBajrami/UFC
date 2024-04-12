@@ -156,22 +156,24 @@ ul {
 }
 /* buttons */
 
-.btn {
+.btn-css {
   cursor: pointer;
-  color: var(--white);
-  background: var(--primary-500);
+  color: var(--black);
+  background: transparent;
   border: transparent;
   border-radius: var(--borderRadius);
   letter-spacing: var(--letterSpacing);
+  border: 2px solid black;
   padding: 0.375rem 0.75rem;
   box-shadow: var(--shadow-1);
   transition: var(--transition);
   text-transform: capitalize;
   display: inline-block;
 }
-.btn:hover {
-  background: var(--primary-700);
-  box-shadow: var(--shadow-3);
+.btn-css:hover {
+  background: rgb(255, 0, 0);
+  color: white;
+  box-shadow: var(--shadow-4);
 }
 .btn-hipster {
   color: var(--primary-500);

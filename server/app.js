@@ -20,6 +20,8 @@ const connectDB = require('./db/connect');
 const authRouter = require('./routes/authRoutes');
 const userRouter = require('./routes/userRoutes');
 const fightFinishRouter = require('./routes/fightFinishRoutes');
+const weightClassesRouter = require('./routes/weightClassesRoutes');
+
 
 
 // middleware
@@ -29,7 +31,12 @@ const errorHandlerMiddleware = require('./middleware/error-handler');
 app.use(morgan('dev'));
 app.set('trust proxy', 1);
 app.use(helmet());
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  })
+);
 app.use(xss());
 app.use(mongoSanitize());
 
@@ -41,6 +48,8 @@ app.use(express.static('./public'));
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/fightFinish', fightFinishRouter);
+app.use('/api/v1/weightClasses', weightClassesRouter);
+
 
 
 app.use(notFoundMiddleware);
