@@ -23,7 +23,7 @@ const userRouter = require('./routes/userRoutes');
 const fightFinishRouter = require('./routes/fightFinishRoutes');
 const weightClassesRouter = require('./routes/weightClassesRoutes');
 const fighterRoutesRouter = require('./routes/fighterRoutes');
-const fightRoutesRouter = require('./routes/fightRoutes');
+const fightRoutesRouter = require('./routes/fightsRoutes');
 const rankedRoutesRouter = require('./routes/rankedRoutes');
 
 // middleware
