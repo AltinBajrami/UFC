@@ -1,6 +1,6 @@
 const { StatusCodes } = require('http-status-codes');
 const { BadRequestError, NotFoundError } = require('../errors');
-const Fight = require('../models/Fight');
+const Fight = require('../models/Fights');
 
 const getAllFights = async (req, res) => {
   const fights = await Fight.find({});

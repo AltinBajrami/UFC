@@ -6,7 +6,7 @@ const {
   createFight,
   updateFight,
   deleteFight,
-} = require('../controllers/fightController');
+} = require('../controllers/fightsContoller');
 const {
   authenticateUser,
   authorizePermissions,
