@@ -24,6 +24,7 @@ import {
   Fighters,
   UpdateFighter,
   CreateFighter,
+  Athletes,
 } from "./pages";
 import CreateFight from "./pages/fights/CreateFight";
 import UpdateFight from "./pages/fights/UpdateFight";
@@ -163,6 +164,10 @@ const router = createBrowserRouter([
       {
         path: "ranked/update/:id",
         element: <UpdateRanked />,
+      },
+      {
+        path: "athletes",
+        element: <Athletes />,
       },
     ],
   },
