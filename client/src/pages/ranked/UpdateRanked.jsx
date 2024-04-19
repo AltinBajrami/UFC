@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import customFetch from "../../utils";
 import { toast } from "react-toastify";
 
 const UpdateRanked = () => {
   const { id } = useParams();
-  const [weightClasses, setWeightClasses] = useState([]);
-  const [selectedWeightClass, setSelectedWeightClass] = useState("");
-  const [champion, setChampion] = useState("");
-  const [rankedFighters, setRankedFighters] = useState({});
-  const [fighters, setFighters] = useState([]);
+  const [weightClasses, setWeightClasses] = React.useState([]);
+  const [selectedWeightClass, setSelectedWeightClass] = React.useState("");
+  const [champion, setChampion] = React.useState("");
+  const [rankedFighters, setRankedFighters] = React.useState({});
+  const [fighters, setFighters] = React.useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  React.useEffect(() => {
     getRankedData();
     getAllWeightClasses();
     fetchFighters();
