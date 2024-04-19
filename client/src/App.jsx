@@ -28,6 +28,9 @@ import {
 import CreateFight from "./pages/fights/CreateFight";
 import UpdateFight from "./pages/fights/UpdateFight";
 import Fights from "./pages/fights/Fights";
+import Ranked from "./pages/ranked/Ranked";
+import CreateRanked from "./pages/ranked/CreateRanked";
+import UpdateRanked from "./pages/ranked/UpdateRanked";
 import { action as RegisterAction } from "./pages/authPages/Register";
 import { action as ForgotPasswordAction } from "./pages/authPages/ForgotPassword";
 import { loader as UsersLoader } from "./pages/users/Users";
@@ -148,6 +151,18 @@ const router = createBrowserRouter([
       {
         path: "fights/update/:id",
         element: <UpdateFight />,
+      },
+      {
+        path: "ranked",
+        element: <Ranked />,
+      },
+      {
+        path: "ranked/create",
+        element: <CreateRanked />,
+      },
+      {
+        path: "ranked/update/:id",
+        element: <UpdateRanked />,
       },
     ],
   },
