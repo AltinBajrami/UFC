@@ -16,6 +16,9 @@ import UpdateUser from './users/UpdateUser';
 import WeightClasses from './weightClasses/WeightClasses';
 import CreateWeightClasses from './weightClasses/CreateWeightClasses';
 import UpdateWeightClasses from './weightClasses/UpdateWeightClasses';
+import Fighters from './fighters/Fighters';
+import CreateFighter from './fighters/CreateFighter';
+import UpdateFighter from './fighters/UpdateFighter';
 
 export {
   Events,
@@ -36,4 +39,7 @@ export {
   WeightClasses,
   CreateWeightClasses,
   UpdateWeightClasses,
+  Fighters,
+  UpdateFighter,
+  CreateFighter,
 };
