@@ -125,7 +125,10 @@ const Filters = ({ athletes }) => {
 }
 
 const Wrapper = styled.div`
-
+        text-align: center;
+    form{
+       text-align: center;
+    }
     padding: 1rem 1.5rem;
     .filter-control {
         margin-bottom: 1.25rem;
@@ -148,7 +151,7 @@ const Wrapper = styled.div`
 
   button {
     display: block;
-    margin: 0.25em 0;
+    margin: 0.25em auto;
     padding: 0.25rem 0;
     text-transform: capitalize;
     background: transparent;

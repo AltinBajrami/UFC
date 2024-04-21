@@ -36,7 +36,7 @@ const Athletes = () => {
                         <h2>no fighter found please reset filters</h2>
                     </div> :
                         athletes.map((item) => {
-                            return <Athlete key={item._id} className='fighter' {...item} />
+                            return <Athlete key={item._id} {...item} />
                         })
                 }
             </div>
@@ -50,6 +50,26 @@ const Wrapper = styled.section`
     margin: 4rem auto;
     @media (min-width: 520px) {
         grid-template-columns: 200px 1fr;
+    }
+    .fighters{
+        padding: 1rem;
+        display: grid;
+    }
+    @media (min-width: 720px) {
+        .fighters{
+          padding: 2rem;
+        }
+    }
+    @media (min-width: 992px) {
+        .fighters{
+            grid-template-columns: 1fr 1fr;
+            column-gap: 2rem;
+        }
+    }
+    @media (min-width: 1200px) {
+        .fighters{
+            grid-template-columns: 1fr 1fr 1fr;
+        }
     }
 `
 export default Athletes

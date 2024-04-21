@@ -35,7 +35,14 @@ const FighterSchema = new mongoose.Schema({
     minlength: 3,
     maxlength: 50,
   },
-  image: String,
+  image1: {
+    type: String,
+    default: '/uploads/fighters/no-profile-image.png',
+  },
+  image2: {
+    type: String,
+    default: '/uploads/fighters/no-profile-image.png',
+  },
   gender: {
     type: String,
     enum: ['male', 'female'],
@@ -56,6 +63,11 @@ const FighterSchema = new mongoose.Schema({
   weightClass: {
     type: mongoose.Types.ObjectId,
     ref: 'weightClasses',
+  },
+  age: {
+    type: Number,
+    min: 0,
+    max: 60,
   },
 });
 

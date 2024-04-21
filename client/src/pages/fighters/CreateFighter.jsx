@@ -8,10 +8,12 @@ const CreateFighter = () => {
     const [nickName, setNickName] = useState()
     const [homeTown, setHomeTown] = useState()
     const [reach, setReach] = useState()
+    const [age, setAge] = useState()
     const [legReach, setLegReach] = useState()
     const [status, setStatus] = useState('active')
     const [fightingStyle, setFightingStyle] = useState()
-    const [fighterImage, setFighterImage] = useState(null)
+    const [fighterImage1, setFighterImage1] = useState(null)
+    const [fighterImage2, setFighterImage2] = useState(null)
     const [gender, setGender] = useState('male')
     const [country, setCountry] = useState()
     const [weightClass, setWeightClass] = useState(null);
@@ -55,10 +57,12 @@ const CreateFighter = () => {
             formData.append('legReach', legReach);
             formData.append('status', status);
             formData.append('fightingStyle', fightingStyle);
-            formData.append('fighterImage', fighterImage);
+            formData.append('fighterImage1', fighterImage1);
+            formData.append('fighterImage2', fighterImage2);
             formData.append('gender', gender);
             formData.append('country', country);
             formData.append('weightClass', weightClass);
+            formData.append('age', age);
 
             const { data } = await customFetch.post("/fighters", formData, {
                 withCredentials: true,
@@ -97,13 +101,18 @@ const CreateFighter = () => {
                     </div>
                     <div className='mb-2'>
                         <label htmlFor="">Reach</label>
-                        <input type="text" placeholder='Enter Reach' required className='form-control'
+                        <input type="number" placeholder='Enter Reach' required className='form-control'
                             onChange={(e) => setReach(e.target.value)} />
                     </div>
                     <div className='mb-2'>
                         <label htmlFor="">LegReach</label>
-                        <input type="text" placeholder='Enter LegReach' required className='form-control'
+                        <input type="number" placeholder='Enter LegReach' required className='form-control'
                             onChange={(e) => setLegReach(e.target.value)} />
+                    </div>
+                    <div className='mb-2'>
+                        <label htmlFor="">Age</label>
+                        <input type="number" placeholder='Enter Age' className='form-control'
+                            onChange={(e) => setAge(e.target.value)} />
                     </div>
                     <div className='mb-2'>
                         <label htmlFor="">Status</label>
@@ -126,8 +135,13 @@ const CreateFighter = () => {
                             onChange={(e) => setCountry(e.target.value)} />
                     </div>
                     <div className='mb-2'>
-                        <label htmlFor="">Image</label>
-                        <input type="file" name="fighterImage" onChange={(e) => setFighterImage(e.target.files[0])} className='form-control'
+                        <label htmlFor="">First Image</label>
+                        <input type="file" name="fighterImage1" onChange={(e) => setFighterImage1(e.target.files[0])} className='form-control'
+                        />
+                    </div>
+                    <div className='mb-2'>
+                        <label htmlFor="">Second Image</label>
+                        <input type="file" name="fighterImage2" onChange={(e) => setFighterImage2(e.target.files[0])} className='form-control'
                         />
                     </div>
                     <div className='mb-2'>
