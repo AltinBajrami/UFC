@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import customFetch from "../../utils";
 import { toast } from "react-toastify";
 
 const CreateRanked = () => {
-  const [weightClasses, setWeightClasses] = useState([]);
-  const [selectedWeightClass, setSelectedWeightClass] = useState("");
-  const [champion, setChampion] = useState("");
-  const [rankedFighters, setRankedFighters] = useState([]);
-  const [fighters, setFighters] = useState([]);
-
+  const [weightClasses, setWeightClasses] = React.useState([]);
+  const [selectedWeightClass, setSelectedWeightClass] = React.useState("");
+  const [champion, setChampion] = React.useState("");
+  const [rankedFighters, setRankedFighters] = React.useState({});
+  const [fighters, setFighters] = React.useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  React.useEffect(() => {
     getAllWeightClasses();
     fetchFighters();
   }, []);
@@ -23,7 +22,6 @@ const CreateRanked = () => {
         withCredentials: true,
       });
       setWeightClasses(data?.weightClasses);
-      setSelectedWeightClass(data?.weightClasses[0]?._id);
     } catch (error) {
       console.error("Error fetching weight classes:", error);
       setWeightClasses([]);
@@ -47,18 +45,11 @@ const CreateRanked = () => {
     try {
       const formData = {
         weightClass: selectedWeightClass,
-        champion,
-        rank1: rankedFighters.rank1,
-        rank2: rankedFighters.rank2,
-        rank3: rankedFighters.rank3,
-        rank4: rankedFighters.rank4,
-        rank5: rankedFighters.rank5,
-        rank6: rankedFighters.rank6,
-        rank7: rankedFighters.rank7,
-        rank8: rankedFighters.rank8,
-        rank9: rankedFighters.rank9,
-        rank10: rankedFighters.rank10,
+        champion: champion || null,
+        ...rankedFighters,
       };
+
+      console.log(formData);
 
       await customFetch.post("/ranked", formData);
       toast.success("Ranked fighters created successfully");
@@ -89,6 +80,7 @@ const CreateRanked = () => {
               className="form-select"
               onChange={(e) => setSelectedWeightClass(e.target.value)}
             >
+              <option value="">Select Weight Class</option>
               {weightClasses.map((weightClass) => (
                 <option key={weightClass._id} value={weightClass._id}>
                   {weightClass.className}
@@ -131,7 +123,7 @@ const CreateRanked = () => {
             </div>
           ))}
           <button type="submit" className="btn btn-success">
-            Submit
+            Create
           </button>
         </form>
       </div>
