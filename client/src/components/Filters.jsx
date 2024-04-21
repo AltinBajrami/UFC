@@ -39,7 +39,7 @@ const Filters = ({ athletes }) => {
                     {/* status */}
                     <div className='filter-control'>
                         <h5>status</h5>
-                        <div>
+                        <div className='statuses'>
                             {statuses.map((c, index) => {
                                 return (
                                     <button
@@ -125,10 +125,7 @@ const Filters = ({ athletes }) => {
 }
 
 const Wrapper = styled.div`
-        text-align: center;
-    form{
-       text-align: center;
-    }
+    text-align: center;
     padding: 1rem 1.5rem;
     .filter-control {
         margin-bottom: 1.25rem;
@@ -148,7 +145,6 @@ const Wrapper = styled.div`
   .search-input::placeholder {
     text-transform: capitalize;
   }
-
   button {
     display: block;
     margin: 0.25em auto;
@@ -184,6 +180,14 @@ const Wrapper = styled.div`
       top: 1rem;
     }
   }
+  .statuses{
+      display: flex;
+      justify-content:flex-start; 
+      flex-wrap: wrap;
+  }
+   @media screen and (min-width: 520px) {
+     text-align: start;
+   }
 `
 
 export default Filters

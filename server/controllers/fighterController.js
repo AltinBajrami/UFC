@@ -84,6 +84,9 @@ const createFighter = async (req, res) => {
     image2,
     weightClass,
     age,
+    win,
+    draw,
+    lose,
   });
 
   // Return success response

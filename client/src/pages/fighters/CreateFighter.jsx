@@ -12,6 +12,9 @@ const CreateFighter = () => {
     const [legReach, setLegReach] = useState()
     const [status, setStatus] = useState('active')
     const [fightingStyle, setFightingStyle] = useState()
+    const [win, setWin] = useState(0)
+    const [lose, setLose] = useState(0)
+    const [draw, setDraw] = useState(0)
     const [fighterImage1, setFighterImage1] = useState(null)
     const [fighterImage2, setFighterImage2] = useState(null)
     const [gender, setGender] = useState('male')
@@ -63,6 +66,10 @@ const CreateFighter = () => {
             formData.append('country', country);
             formData.append('weightClass', weightClass);
             formData.append('age', age);
+            formData.append('win', win);
+            formData.append('lose', lose);
+            formData.append('draw', draw);
+
 
             const { data } = await customFetch.post("/fighters", formData, {
                 withCredentials: true,
@@ -113,6 +120,21 @@ const CreateFighter = () => {
                         <label htmlFor="">Age</label>
                         <input type="number" placeholder='Enter Age' className='form-control'
                             onChange={(e) => setAge(e.target.value)} />
+                    </div>
+                    <div className='mb-2'>
+                        <label htmlFor="">Wins</label>
+                        <input type="number" placeholder='wins' className='form-control'
+                            onChange={(e) => setWin(e.target.value)} />
+                    </div>
+                    <div className='mb-2'>
+                        <label htmlFor="">Losses</label>
+                        <input type="number" placeholder='Losses' className='form-control'
+                            onChange={(e) => setLose(e.target.value)} />
+                    </div>
+                    <div className='mb-2'>
+                        <label htmlFor="">Draws</label>
+                        <input type="number" placeholder='Draws' className='form-control'
+                            onChange={(e) => setDraw(e.target.value)} />
                     </div>
                     <div className='mb-2'>
                         <label htmlFor="">Status</label>

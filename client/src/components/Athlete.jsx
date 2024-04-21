@@ -99,8 +99,14 @@ const Wrapper = styled.div`
     }
     .fighter-info-back{
         position: absolute;
-        top: 1rem;
-        left: 1rem;
+        top: 0.5rem;
+        left: 0.5rem;
+    }
+    .fighter-img-back{
+        img{
+            height: 300px;
+            max-height: 300px;
+        }
     }
     .btn-profile{
         position: absolute;
@@ -121,54 +127,6 @@ const Wrapper = styled.div`
          background-color: rgba(0,0,0,0.7);
        }
   
-`
-
-const ArticleWrapper = styled.article`
-        background-color: var(--grey-50);
-        text-align: center;
-        padding: 1rem 0;
-        margin-bottom: 5rem;
-        border-radius: var(--borderRadius);
-        max-height: 360px;
-        box-shadow: var(--shadow-1);
-        transition: var(--transition);
-        border: none;
-
-
-    &:hover{
-        box-shadow:var(--shadow-3)
-    }
-    .fighter-img{
-        border-bottom: 1px solid grey;
-        img{
-            max-height: 150px;
-            filter: drop-shadow(0px 0px 10px rgba(0,0,0,0.5));
-        }
-    }
-    .fighter-info{
-        margin-top: 1rem;
-    }
-    .nickName{
-        color: var(--grey-400);
-        font-weight:bold;
-        letter-spacing: 2px;
-        text-transform:uppercase;
-    }
-    h5{
-        letter-spacing: var(--letterSpacing);
-        text-transform:uppercase;
-        font-weight: bold;
-    }
-    p{
-        letter-spacing: var(--letterSpacing);
-        font-size: 0.9rem;
-        color: var(--grey-700);
-    }
-  
-    .back{
-        display: none;
-    }
-
 `
 
 export default Athlete

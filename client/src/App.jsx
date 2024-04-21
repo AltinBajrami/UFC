@@ -25,6 +25,7 @@ import {
   UpdateFighter,
   CreateFighter,
   Athletes,
+  Profile
 } from "./pages";
 import CreateFight from "./pages/fights/CreateFight";
 import UpdateFight from "./pages/fights/UpdateFight";
@@ -39,6 +40,7 @@ import { loader as WeightClassLoader } from "./pages/weightClasses/WeightClasses
 import { loader as UpdateWeightClassLoader } from "./pages/weightClasses/UpdateWeightClasses";
 import { action as UpdateWeightClassAction } from "./pages/weightClasses/UpdateWeightClasses";
 import { action as CreateWeightClassAction } from "./pages/weightClasses/CreateWeightClasses";
+import { loader as ProfileLoader } from "./pages/users/Profile";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -168,6 +170,11 @@ const router = createBrowserRouter([
       {
         path: "athletes",
         element: <Athletes />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+        loader: ProfileLoader(queryClient)
       },
     ],
   },

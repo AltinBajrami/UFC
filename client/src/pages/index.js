@@ -20,6 +20,7 @@ import Fighters from './fighters/Fighters';
 import CreateFighter from './fighters/CreateFighter';
 import UpdateFighter from './fighters/UpdateFighter';
 import Athletes from './Athletes';
+import Profile from './users/Profile';
 
 export {
   Events,
@@ -44,4 +45,5 @@ export {
   UpdateFighter,
   CreateFighter,
   Athletes,
+  Profile,
 };
