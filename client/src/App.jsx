@@ -30,8 +30,8 @@ import {
   CreateRefer,
   Quotes,
   CreateQuote,
-  UpdateQuote
-    Arena,
+  UpdateQuote,
+  Arena,
   CreateArena,
   UpdateArena
 } from "./pages";
@@ -60,11 +60,10 @@ import { action as UpdateQuoteAction } from './pages/quote/UpdateQuote'
 import { loader as CreateQuoteLoader } from './pages/quote/CreateQuote'
 import { action as CreateQuoteAction } from './pages/quote/CreateQuote'
 
-import { loader as ArenaLoader } from './pages/arena/Arena'
-import { loader as UpdateArenaLoader } from './pages/arena/UpdateArena'
-import { action as UpdateArenaAction } from './pages/arena/UpdateArena'
-import { loader as CreateArenaLoader } from './pages/arena/CreateArena'
-import { action as CreateArenaAction } from './pages/arena/CreateArena'
+import { loader as ArenaLoader } from './pages/Arena/Arena'
+import { loader as UpdateArenaLoader } from './pages/Arena/UpdateArena'
+import { action as UpdateArenaAction } from './pages/Arena/UpdateArena'
+import { action as CreateArenaAction } from './pages/Arena/CreateArena'
 
 
 const queryClient = new QueryClient({
@@ -233,7 +232,7 @@ const router = createBrowserRouter([
         loader: UpdateQuoteLoader(queryClient),
         action: UpdateQuoteAction(queryClient)
       },
-       {
+      {
         path: 'arena',
         element: <Arena />,
         loader: ArenaLoader(queryClient)
