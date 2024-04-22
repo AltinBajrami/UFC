@@ -27,7 +27,7 @@ const Athlete = (props) => {
                     <div className="fighter-img-back">
                         <img src={`http://localhost:5000/` + image2} alt="s" />
                     </div>
-                    <Link to={'/fighter/:' + _id} className='btn-profile'>Athlete Profile</Link>
+                    <Link to={'/fighter/' + _id} className='btn-profile'>Athlete Profile</Link>
                 </div>
             </div>
         </Wrapper>
