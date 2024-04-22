@@ -1,26 +1,54 @@
-import './App.css'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import "./App.css";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
-  Events, About, HomeLayout, Landing, ResetPassword, Register, Login, Error, Users,
-  FightsFinish, CreateFightFinish, UpdateFightFinish, VerifyEmail, ForgotPassword, UpdateUser,
-  WeightClasses, CreateWeightClasses, UpdateWeightClasses, Fighters, UpdateFighter, CreateFighter,
-  Refer, UpdateRefer, CreateRefer, Quotes, CreateQuote, UpdateQuote
-} from './pages'
-import { action as RegisterAction } from './pages/authPages/Register';
-import { action as ForgotPasswordAction } from './pages/authPages/ForgotPassword';
-import { loader as UsersLoader } from './pages/users/Users'
-import { loader as WeightClassLoader } from './pages/weightClasses/WeightClasses'
-import { loader as UpdateWeightClassLoader } from './pages/weightClasses/UpdateWeightClasses'
-import { action as UpdateWeightClassAction } from './pages/weightClasses/UpdateWeightClasses'
-import { action as CreateWeightClassAction } from './pages/weightClasses/CreateWeightClasses'
+  Events,
+  About,
+  HomeLayout,
+  Landing,
+  ResetPassword,
+  Register,
+  Login,
+  Error,
+  Users,
+  FightsFinish,
+  CreateFightFinish,
+  UpdateFightFinish,
+  VerifyEmail,
+  ForgotPassword,
+  UpdateUser,
+  WeightClasses,
+  CreateWeightClasses,
+  UpdateWeightClasses,
+  Fighters,
+  UpdateFighter,
+  CreateFighter,
+    Refer,
+  UpdateRefer,
+  CreateRefer,
+  Quotes,
+  CreateQuote,
+  UpdateQuote
+} from "./pages";
+import CreateFight from "./pages/fights/CreateFight";
+import UpdateFight from "./pages/fights/UpdateFight";
+import Fights from "./pages/fights/Fights";
+import Ranked from "./pages/ranked/Ranked";
+import CreateRanked from "./pages/ranked/CreateRanked";
+import UpdateRanked from "./pages/ranked/UpdateRanked";
+import { action as RegisterAction } from "./pages/authPages/Register";
+import { action as ForgotPasswordAction } from "./pages/authPages/ForgotPassword";
+import { loader as UsersLoader } from "./pages/users/Users";
+import { loader as WeightClassLoader } from "./pages/weightClasses/WeightClasses";
+import { loader as UpdateWeightClassLoader } from "./pages/weightClasses/UpdateWeightClasses";
+import { action as UpdateWeightClassAction } from "./pages/weightClasses/UpdateWeightClasses";
+import { action as CreateWeightClassAction } from "./pages/weightClasses/CreateWeightClasses";
 
 import { loader as ReferLoader } from './pages/refer/Refer'
 import { loader as UpdateReferLoader } from './pages/refer/UpdateRefer'
 import { action as UpdateReferAction } from './pages/refer/UpdateRefer'
 import { action as CreateReferAction } from './pages/refer/CreateRefer'
-
 
 import { loader as QuotesLoader } from './pages/quote/Quotes'
 import { loader as UpdateQuoteLoader } from './pages/quote/UpdateQuote'
@@ -31,95 +59,127 @@ import { action as CreateQuoteAction } from './pages/quote/CreateQuote'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5
-    }
-  }
-})
+      staleTime: 1000 * 60 * 5,
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <HomeLayout />,
     errorElement: <Error />,
     children: [
       {
         index: true,
-        element: <Landing />
+        element: <Landing />,
       },
       {
-        path: 'register',
+        path: "register",
         element: <Register />,
-        action: RegisterAction
+        action: RegisterAction,
       },
       {
-        path: 'login',
+        path: "login",
         element: <Login />,
       },
       {
-        path: 'fightFinish',
-        element: <FightsFinish />
+        path: "fightFinish",
+        element: <FightsFinish />,
       },
       {
-        path: 'verify-email',
-        element: <VerifyEmail />
+        path: "verify-email",
+        element: <VerifyEmail />,
       },
       {
-        path: 'forgot-password',
+        path: "forgot-password",
         element: <ForgotPassword />,
-        action: ForgotPasswordAction
+        action: ForgotPasswordAction,
       },
       {
-        path: 'reset-password',
+        path: "reset-password",
         element: <ResetPassword />,
       },
       {
-        path: 'users',
+        path: "users",
         element: <Users />,
-        loader: UsersLoader(queryClient)
+        loader: UsersLoader(queryClient),
       },
       {
-        path: 'users/update/:id',
+        path: "users/update/:id",
         element: <UpdateUser />,
       },
       {
-        path: 'about',
-        element: <About />
+        path: "about",
+        element: <About />,
       },
       {
-        path: 'events',
-        element: <Events />
+        path: "events",
+        element: <Events />,
       },
       {
-        path: 'fightFinish',
-        element: <FightsFinish />
+        path: "fightFinish",
+        element: <FightsFinish />,
       },
       {
-        path: 'fightFinish/create',
-        element: <CreateFightFinish />
+        path: "fightFinish/create",
+        element: <CreateFightFinish />,
       },
       {
-        path: 'fightFinish/update/:id',
-        element: <UpdateFightFinish />
+        path: "fightFinish/update/:id",
+        element: <UpdateFightFinish />,
       },
       {
-        path: 'weightClasses',
+        path: "weightClasses",
         element: <WeightClasses />,
-        loader: WeightClassLoader(queryClient)
+        loader: WeightClassLoader(queryClient),
       },
       {
-        path: 'weightClasses/create',
+        path: "weightClasses/create",
         element: <CreateWeightClasses />,
-        action: CreateWeightClassAction(queryClient)
+        action: CreateWeightClassAction(queryClient),
       },
       {
-        path: 'weightClasses/update/:id',
+        path: "weightClasses/update/:id",
         element: <UpdateWeightClasses />,
         loader: UpdateWeightClassLoader(queryClient),
-        action: UpdateWeightClassAction(queryClient)
+        action: UpdateWeightClassAction(queryClient),
       },
       {
-        path: 'fighters',
+        path: "fighters",
         element: <Fighters />,
+      },
+      {
+        path: "fighters/create",
+        element: <CreateFighter />,
+      },
+      {
+        path: "fighters/update/:id",
+        element: <UpdateFighter />,
+      },
+      {
+        path: "fights",
+        element: <Fights />,
+      },
+      {
+        path: "fights/create",
+        element: <CreateFight />,
+      },
+      {
+        path: "fights/update/:id",
+        element: <UpdateFight />,
+      },
+      {
+        path: "ranked",
+        element: <Ranked />,
+      },
+      {
+        path: "ranked/create",
+        element: <CreateRanked />,
+      },
+      {
+        path: "ranked/update/:id",
+        element: <UpdateRanked />,
       },
       {
         path: 'fighters/create',
@@ -167,12 +227,14 @@ const router = createBrowserRouter([
 ])
 
 function App() {
-  return <>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />;
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
-  </>
+  return (
+    <>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />;
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </>
+  );
 }
 
-export default App
+export default App;
