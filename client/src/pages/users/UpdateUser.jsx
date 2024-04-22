@@ -17,7 +17,7 @@ const singleUserQuery = (id) => {
 const UpdateUser = () => {
     const { id } = useParams()
     const [updateUser, setUpdateUser] = useState({
-        firstName: '', lastName: '', email: '', country: ''
+        firstName: '', lastName: '', email: '', country: '', profileImage: null
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(true);
@@ -38,11 +38,15 @@ const UpdateUser = () => {
     }
 
     const { mutate: updateUserFn, error, isError: isUpdateError } = useMutation({
-        mutationFn: async (user) => await customFetch.patch('/users/updateUser', { ...user }, { withCredentials: true }),
+        mutationFn: async (user) => await customFetch.patch('/users/updateUser', { ...user }, {
+            withCredentials: true, headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        }),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['users'] });
             toast.success('Updated!');
-            navigate('/users');
+            navigate('/profile');
         },
         onError: (error) => {
             toast.error(error.response.data.msg);
@@ -88,6 +92,11 @@ const UpdateUser = () => {
             <div className="form-row">
                 <label id='country' htmlFor="country" className='form-label'>country</label>
                 <input type="text" name='country' className='form-input' required value={updateUser.country} onChange={handleChange} />
+            </div>
+            <div className='form-row'>
+                <label id='profileImage' htmlFor="profileImage" className='form-label'>profile Image</label>
+                <input type="file" name="profileImage" onChange={(e) => setUpdateUser({ ...updateUser, profileImage: e.target.files[0] })} className='form-control'
+                />
             </div>
             <button type='submit' className='btn-css btn-block'>Submit</button>
         </form>

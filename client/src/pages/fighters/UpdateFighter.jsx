@@ -12,9 +12,11 @@ const UpdateFighter = () => {
     const [homeTown, setHomeTown] = useState('')
     const [reach, setReach] = useState('')
     const [legReach, setLegReach] = useState('')
+    const [age, setAge] = useState('32')
     const [status, setStatus] = useState('')
     const [fightingStyle, setFightingStyle] = useState('')
-    const [image, setImage] = useState(null)
+    const [fighterImage1, setFighterImage1] = useState(null)
+    const [fighterImage2, setFighterImage2] = useState(null)
     const [gender, setGender] = useState('')
     const [country, setCountry] = useState('')
     const [weightClass, setWeightClass] = useState(null);
@@ -33,7 +35,7 @@ const UpdateFighter = () => {
     const getFighter = async () => {
         const response = await customFetch.get('/fighters/' + id, { withCredentials: true, });
         const { fighterName, nickName, homeTown, reach, legReach,
-            status, fightingStyle, gender, country, image, weightClass } = response.data.fighter;
+            status, fightingStyle, gender, country, weightClass, age } = response.data.fighter;
         setFighterName(fighterName)
         setNickName(nickName)
         setHomeTown(homeTown)
@@ -43,8 +45,8 @@ const UpdateFighter = () => {
         setFightingStyle(fightingStyle)
         setGender(gender)
         setCountry(country)
-        setImage(image)
         setWeightClass(weightClass?._id);
+        setAge(age)
     }
     useEffect(() => {
         getFighter()
@@ -56,7 +58,7 @@ const UpdateFighter = () => {
         customFetch.patch("/fighters/" + id, {
             fighterName, nickName,
             homeTown, reach, legReach, status, fightingStyle, gender, country,
-            fighterImage: image, weightClass
+            fighterImage1, weightClass, age, fighterImage2
         }, {
             withCredentials: true, headers: {
                 "Content-Type": "multipart/form-data",
@@ -70,7 +72,7 @@ const UpdateFighter = () => {
         <div className="d-flex vh-50 bg-primary justify-content-center align-items-center p-5">
             <div className='w-50 bg-white rounded p-3'>
                 <form onSubmit={Update}>
-                    <h2>Update User</h2>
+                    <h2>Update Fighter</h2>
                     <div className='mb-2'>
                         <label htmlFor="">FighterName</label>
                         <input type="text" placeholder='Enter FighterName' className='form-control'
@@ -97,6 +99,11 @@ const UpdateFighter = () => {
                             value={legReach} onChange={(e) => setLegReach(e.target.value)} />
                     </div>
                     <div className='mb-2'>
+                        <label htmlFor="">Age</label>
+                        <input type="number" placeholder='Enter Age' className='form-control'
+                            value={age} onChange={(e) => setAge(e.target.value)} />
+                    </div>
+                    <div className='mb-2'>
                         <label htmlFor="">Status</label>
                         <input type="text" placeholder='Enter Status' className='form-control'
                             value={status} onChange={(e) => setStatus(e.target.value)} />
@@ -117,9 +124,14 @@ const UpdateFighter = () => {
                             value={country} onChange={(e) => setCountry(e.target.value)} />
                     </div>
                     <div className='mb-2'>
-                        <label htmlFor="">Image</label>
-                        <input type="file" className='form-control'
-                            onChange={(e) => setImage(e.target.files[0])} />
+                        <label htmlFor="">First Image</label>
+                        <input type="file" name="fighterImage1" onChange={(e) => setFighterImage1(e.target.files[0])} className='form-control'
+                        />
+                    </div>
+                    <div className='mb-2'>
+                        <label htmlFor="">Second Image</label>
+                        <input type="file" name="fighterImage2" onChange={(e) => setFighterImage2(e.target.files[0])} className='form-control'
+                        />
                     </div>
                     <div className='mb-2'>
                         <select name="weightClass" value={weightClass || 'default'} className="form-select" onChange={(e) => setWeightClass(e.target.value)} id="">

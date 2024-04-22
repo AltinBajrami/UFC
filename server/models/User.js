@@ -51,6 +51,10 @@ const UserSchema = new mongose.Schema({
   passwordTokenExpirationDate: {
     type: Date,
   },
+  image: {
+    type: String,
+    default: '/uploads/users/no-profile-image.png',
+  },
 });
 
 UserSchema.pre('save', async function () {
