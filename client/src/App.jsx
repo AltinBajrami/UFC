@@ -24,7 +24,7 @@ import {
   Fighters,
   UpdateFighter,
   CreateFighter,
-    Refer,
+  Refer,
   UpdateRefer,
   CreateRefer,
   Quotes,
