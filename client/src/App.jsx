@@ -26,6 +26,12 @@ import {
   CreateFighter,
   Athletes,
   Profile
+  Refer,
+  UpdateRefer,
+  CreateRefer,
+  Quotes,
+  CreateQuote,
+  UpdateQuote
 } from "./pages";
 import CreateFight from "./pages/fights/CreateFight";
 import UpdateFight from "./pages/fights/UpdateFight";
@@ -41,6 +47,17 @@ import { loader as UpdateWeightClassLoader } from "./pages/weightClasses/UpdateW
 import { action as UpdateWeightClassAction } from "./pages/weightClasses/UpdateWeightClasses";
 import { action as CreateWeightClassAction } from "./pages/weightClasses/CreateWeightClasses";
 import { loader as ProfileLoader } from "./pages/users/Profile";
+
+import { loader as ReferLoader } from './pages/refer/Refer'
+import { loader as UpdateReferLoader } from './pages/refer/UpdateRefer'
+import { action as UpdateReferAction } from './pages/refer/UpdateRefer'
+import { action as CreateReferAction } from './pages/refer/CreateRefer'
+
+import { loader as QuotesLoader } from './pages/quote/Quotes'
+import { loader as UpdateQuoteLoader } from './pages/quote/UpdateQuote'
+import { action as UpdateQuoteAction } from './pages/quote/UpdateQuote'
+import { loader as CreateQuoteLoader } from './pages/quote/CreateQuote'
+import { action as CreateQuoteAction } from './pages/quote/CreateQuote'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -176,9 +193,49 @@ const router = createBrowserRouter([
         element: <Profile />,
         loader: ProfileLoader(queryClient)
       },
-    ],
-  },
-]);
+        path: 'fighters/create',
+        element: <CreateFighter />,
+      },
+      {
+        path: 'fighters/update/:id',
+        element: <UpdateFighter />,
+      },
+      {
+        path: 'refers',
+        element: <Refer />,
+        loader: ReferLoader(queryClient)
+      },
+      {
+        path: 'refers/create',
+        element: <CreateRefer />,
+        action: CreateReferAction(queryClient)
+      },
+      {
+        path: 'refers/update/:id',
+        element: <UpdateRefer />,
+        loader: UpdateReferLoader(queryClient),
+        action: UpdateReferAction(queryClient)
+      },
+      {
+        path: 'quotes',
+        element: <Quotes />,
+        loader: QuotesLoader(queryClient)
+      },
+      {
+        path: 'quotes/create',
+        element: <CreateQuote />,
+        loader: CreateQuoteLoader(queryClient),
+        action: CreateQuoteAction(queryClient)
+      },
+      {
+        path: 'quotes/update/:id',
+        element: <UpdateQuote />,
+        loader: UpdateQuoteLoader(queryClient),
+        action: UpdateQuoteAction(queryClient)
+      },
+    ]
+  }
+])
 
 function App() {
   return (

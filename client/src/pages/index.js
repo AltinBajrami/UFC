@@ -21,6 +21,12 @@ import CreateFighter from './fighters/CreateFighter';
 import UpdateFighter from './fighters/UpdateFighter';
 import Athletes from './Athletes';
 import Profile from './users/Profile';
+import Refer from './refer/Refer';
+import CreateRefer from './refer/CreateRefer';
+import UpdateRefer from './refer/UpdateRefer';
+import Quotes from './quote/Quotes';
+import CreateQuote from './quote/CreateQuote';
+import UpdateQuote from './quote/UpdateQuote';
 
 export {
   Events,
@@ -46,4 +52,10 @@ export {
   CreateFighter,
   Athletes,
   Profile,
+  Refer,
+  UpdateRefer,
+  CreateRefer,
+  Quotes,
+  CreateQuote,
+  UpdateQuote,
 };
