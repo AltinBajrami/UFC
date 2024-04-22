@@ -5,7 +5,7 @@ import { SiUfc } from "react-icons/si";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { useAppContext } from '../context/AppContext';
 import sublinks from '../data'
-
+import { Dropdown } from 'react-bootstrap';
 
 const Navbar = () => {
     const { isSidebarOpen, toggleSidebar, setPageId, user, logoutUser } = useAppContext();
@@ -36,6 +36,13 @@ const Navbar = () => {
                                     <>
                                         <Dropdown.Item as={NavLink} to="/users">Users</Dropdown.Item>
                                         <Dropdown.Item as={NavLink} to="/fightFinish">Fight Finish</Dropdown.Item>
+                                        <Dropdown.Item as={NavLink} to="/weightClasses">Weight Classes</Dropdown.Item>
+                                        <Dropdown.Item as={NavLink} to="/fighters">Fighters</Dropdown.Item>
+                                        <Dropdown.Item as={NavLink} to="/refers">Refers</Dropdown.Item>
+                                        <Dropdown.Item as={NavLink} to="/quotes">quotes</Dropdown.Item>
+                                        <Dropdown.Item as={NavLink} to="/fights">fights</Dropdown.Item>
+                                        <Dropdown.Item as={NavLink} to="/ranked">ranked</Dropdown.Item>
+                                        <Dropdown.Item as={NavLink} to="/arena">arena</Dropdown.Item>
                                     </>
                                 }
                             </Dropdown.Menu>
