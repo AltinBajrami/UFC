@@ -24,6 +24,7 @@ const Login = () => {
             removeUser();
             setValues({ email: '', password: '' })
             toast.error(error?.response?.data?.msg);
+            console.log(error);
         }
     }
     const handleChange = (e) => {
