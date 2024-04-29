@@ -265,7 +265,7 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />;
+        <RouterProvider router={router} />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </>
@@ -273,4 +273,3 @@ function App() {
 }
 
 export default App;
-  
