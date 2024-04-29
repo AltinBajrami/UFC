@@ -25,13 +25,15 @@ import {
   UpdateFighter,
   CreateFighter,
   Athletes,
-  Profile
+  Profile,
   Refer,
   UpdateRefer,
   CreateRefer,
   Quotes,
   CreateQuote,
-  UpdateQuote
+  UpdateQuote,
+  Arena,
+  CreateArena, UpdateArena
 } from "./pages";
 import CreateFight from "./pages/fights/CreateFight";
 import UpdateFight from "./pages/fights/UpdateFight";
@@ -58,6 +60,12 @@ import { loader as UpdateQuoteLoader } from './pages/quote/UpdateQuote'
 import { action as UpdateQuoteAction } from './pages/quote/UpdateQuote'
 import { loader as CreateQuoteLoader } from './pages/quote/CreateQuote'
 import { action as CreateQuoteAction } from './pages/quote/CreateQuote'
+
+import { loader as ArenaLoader } from './pages/Arena/Arena'
+import { loader as UpdateArenaLoader } from './pages/Arena/UpdateArena'
+import { action as UpdateArenaAction } from './pages/Arena/UpdateArena'
+import { action as CreateArenaAction } from './pages/Arena/CreateArena'
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -193,6 +201,7 @@ const router = createBrowserRouter([
         element: <Profile />,
         loader: ProfileLoader(queryClient)
       },
+      {
         path: 'fighters/create',
         element: <CreateFighter />,
       },
@@ -233,9 +242,24 @@ const router = createBrowserRouter([
         loader: UpdateQuoteLoader(queryClient),
         action: UpdateQuoteAction(queryClient)
       },
+      {
+        path: 'arena',
+        element: <Arena />,
+        loader: ArenaLoader(queryClient)
+      },
+      {
+        path: 'arena/create',
+        element: <CreateArena />,
+        action: CreateArenaAction(queryClient)
+      },
+      {
+        path: 'arena/update/:id',
+        element: <UpdateArena />,
+        loader: UpdateArenaLoader(queryClient),
+        action: UpdateArenaAction(queryClient)
+      }
     ]
-  }
-])
+  }])
 
 function App() {
   return (
@@ -249,3 +273,4 @@ function App() {
 }
 
 export default App;
+  
