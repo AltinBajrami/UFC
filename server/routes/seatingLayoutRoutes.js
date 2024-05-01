@@ -1,12 +1,12 @@
 const express = require('express');
-const {
-  getAllArenas,
-  getArena,
-  updateArena,
-  createArena,
-  deleteArena,
-} = require('../controllers/arenaController');
 
+const {
+  createSeatingLayout,
+  getAllSeatingLayouts,
+  getSingleSeatingLayout,
+  updateSeatingLayout,
+  deleteSeatingLayout,
+} = require('../controllers/seatingLayoutController');
 const {
   authenticateUser,
   authorizePermissions,
@@ -14,26 +14,30 @@ const {
 
 const router = express.Router();
 
-router.post(
-  '/',
-  [authenticateUser, authorizePermissions('admin')],
-  createArena
-);
 router.get(
   '/',
   [authenticateUser, authorizePermissions('admin')],
-  getAllArenas
+  getAllSeatingLayouts
 );
-router.get('/:id', [authenticateUser, authorizePermissions('admin')], getArena);
+router.post(
+  '/',
+  [authenticateUser, authorizePermissions('admin')],
+  createSeatingLayout
+);
 router.patch(
   '/:id',
   [authenticateUser, authorizePermissions('admin')],
-  updateArena
+  updateSeatingLayout
+);
+router.get(
+  '/:id',
+  [authenticateUser, authorizePermissions('admin')],
+  getSingleSeatingLayout
 );
 router.delete(
   '/:id',
   [authenticateUser, authorizePermissions('admin')],
-  deleteArena
+  deleteSeatingLayout
 );
 
 module.exports = router;
