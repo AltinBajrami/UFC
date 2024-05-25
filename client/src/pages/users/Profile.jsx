@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useAppContext } from '../../context/AppContext'
 import { useQuery } from '@tanstack/react-query'
 import customFetch from '../../utils'
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import UpdateUserForm from '../../components/UpdateUserForm';
+import UpdateUserPasswordForm from '../../components/UpdateUserPasswordForm';
 
 const getUser = () => {
     return {
@@ -24,30 +26,46 @@ const Profile = () => {
 
     const { data: { user }, isLoading, isError } = useQuery(getUser())
 
-    console.log(user);
-    const { userId } = user;
     return (
-        <Wrapper>
-            {/* Profile Info */}
-            <div className='profile'>
-                <img src="path/to/image.jpg" alt="User" className='img' />
-                <div className='userData'>
-                    <h2>User Name</h2>
-                    <p>Email: user@example.com</p>
-                    <p>Phone: +1234567890</p>
-                </div>
-                <Link to={'/users/update/' + userId}>Update profile</Link>
+        <Wrapper className='page'>
+            <div className="text-info">
+                <h3>Personal Information</h3>
+                <p>Manage your personal information here</p>
+            </div>
+            <div className="update-user-form">
+                <UpdateUserForm {...user} />
+            </div>
+            <div className="text-info">
+                <h3>Change password</h3>
+                <p>Update your password associated with your account.</p>
+            </div>
+            <div className="update-user-password-form">
+                <UpdateUserPasswordForm />
             </div>
 
-            {/* Tickets */}
-            <div className='tikets'>
-                <h2>Tickets</h2>
-
-            </div>
         </Wrapper>
     );
 }
 const Wrapper = styled.section`
-    
+    display: grid;
+    gap: 1rem;
+    @media (min-width: 850px){
+        grid-template-columns: 350px 1fr;
+        gap: 5rem;
+    }
+    .text-info{
+        text-align: start;
+    }
+    .text-info h3{
+        color: black;
+        letter-spacing: --letterSpacing;
+        font-weight: 700;
+    }
+    .text-info p{
+        color: var(--grey-500);
+    }
+    .form{
+        margin: 0;
+    }
 `
 export default Profile

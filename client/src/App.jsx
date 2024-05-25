@@ -33,7 +33,8 @@ import {
   CreateQuote,
   UpdateQuote,
   Arena,
-  CreateArena, UpdateArena
+  CreateArena, UpdateArena,
+  OctagonTickets
 } from "./pages";
 import CreateFight from "./pages/fights/CreateFight";
 import UpdateFight from "./pages/fights/UpdateFight";
@@ -115,10 +116,6 @@ const router = createBrowserRouter([
         path: "users",
         element: <Users />,
         loader: UsersLoader(queryClient),
-      },
-      {
-        path: "users/update/:id",
-        element: <UpdateUser />,
       },
       {
         path: "about",
@@ -273,4 +270,3 @@ function App() {
 }
 
 export default App;
-  
