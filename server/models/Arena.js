@@ -14,8 +14,7 @@ const ArenaSchema = new mongoose.Schema({
   },
   seatingCapacity: {
     type: Number,
-    required: [true, 'Please provide arena seating capacity'],
-    min: [300, 'Arena capacity must be at least 300'],
+    default: 0,
   },
   notes: {
     type: String,
