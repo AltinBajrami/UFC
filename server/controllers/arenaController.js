@@ -1,13 +1,14 @@
 const { StatusCodes } = require('http-status-codes');
 const { BadRequestError, NotFoundError } = require('../errors');
 const Arena = require('../models/Arena');
+const SeatingLayout = require('../models/SeatingLayout');
 
 const createArena = async (req, res) => {
-  const { seatingCapacity, location, name, notes } = req.body;
-  if (!seatingCapacity || !location || !name) {
-    throw new BadRequestError('Please provide name,location and capacity');
+  const { location, name, notes } = req.body;
+  if (!location || !name) {
+    throw new BadRequestError('Please provide name and location');
   }
-  const arena = await Arena.create({ name, location, seatingCapacity, notes });
+  const arena = await Arena.create({ name, location, notes });
   res.status(StatusCodes.OK).json({ msg: 'created arena', arena });
 };
 
@@ -26,10 +27,10 @@ const getArena = async (req, res) => {
 };
 const updateArena = async (req, res) => {
   const { id } = req.params;
-  const { seatingCapacity, location, name } = req.body;
+  const { location, name } = req.body;
 
-  if (!seatingCapacity || !location || !name) {
-    throw new BadRequestError('Please provide name,location and capacity');
+  if (!location || !name) {
+    throw new BadRequestError('Please provide name and location ');
   }
 
   const arena = await Arena.findById(id);
@@ -37,7 +38,6 @@ const updateArena = async (req, res) => {
     throw new NotFoundError('Arena not found');
   }
 
-  arena.seatingCapacity = seatingCapacity;
   arena.location = location;
   arena.name = name;
   await arena.save();
@@ -49,7 +49,11 @@ const deleteArena = async (req, res) => {
   if (!arena) {
     throw new NotFoundError('Arena not found');
   }
-  await arena.deleteOne();
+
+  await Promise.all([
+    arena.deleteOne(),
+    SeatingLayout.deleteMany({ arena: id }),
+  ]);
   res.status(StatusCodes.OK).json({ msg: 'deleted arena' });
 };
 

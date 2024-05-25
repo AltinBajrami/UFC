@@ -34,6 +34,7 @@ import {
   UpdateQuote,
   Arena,
   CreateArena, UpdateArena,
+  OctagonTickets
 } from "./pages";
 import CreateFight from "./pages/fights/CreateFight";
 import UpdateFight from "./pages/fights/UpdateFight";
