@@ -48,6 +48,15 @@ app.use(
   })
 );
 
+app.use('/api/v1/events/:id', (req, res) => {
+  const events = [
+    { name: 'ufc 300', arena: '663240312801f9758587e8d8' },
+    { name: 'ufc 301', arena: '663240722801f9758587e8de' },
+  ];
+  const event = events.filter(item => item.arena === req.params.id);
+  res.status(200).json({ event });
+});
+
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/fightFinish', fightFinishRouter);

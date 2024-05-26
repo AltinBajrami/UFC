@@ -67,6 +67,8 @@ import { loader as UpdateArenaLoader } from './pages/Arena/UpdateArena'
 import { action as UpdateArenaAction } from './pages/Arena/UpdateArena'
 import { action as CreateArenaAction } from './pages/Arena/CreateArena'
 
+import { loader as octagonLoader } from './pages/OctagonTickets'
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -254,6 +256,11 @@ const router = createBrowserRouter([
         element: <UpdateArena />,
         loader: UpdateArenaLoader(queryClient),
         action: UpdateArenaAction(queryClient)
+      },
+      {
+        path: '/events/tickets/:eventId',
+        element: <OctagonTickets />,
+        loader: octagonLoader(queryClient)
       }
     ]
   }])

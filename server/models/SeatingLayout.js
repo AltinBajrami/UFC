@@ -17,6 +17,11 @@ const SeatingLayoutSchema = new mongoose.Schema({
     required: [true, 'provide column'],
     min: 1,
   },
+  price: {
+    type: Number,
+    min: 100,
+    default: 500,
+  },
   arena: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'Arena',
