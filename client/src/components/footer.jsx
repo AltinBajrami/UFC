@@ -60,7 +60,6 @@ const Wrapper = styled.footer`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   .footer-left {
     display: flex;
     align-items: center;

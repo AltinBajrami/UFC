@@ -31,7 +31,7 @@ const OctagonTickets = () => {
     }
 
     return (
-        <Wrapper>
+        <Wrapper rows={seatingLayout.row}>
             <div className="select-list">
                 <h5>Select Stand</h5>
                 <select onChange={(e) => handleOnChangeSelect(e.target.value)}>
@@ -48,7 +48,6 @@ const OctagonTickets = () => {
             <div className="react-seat">
                 <Seats selectedSeats={selectedSeats} setSelectedSeats={setSelectedSeats} seatingLayout={seatingLayout} />
             </div>
-
         </Wrapper>
     );
 };
@@ -80,9 +79,6 @@ const Wrapper = styled.section`
     grid-template-columns:300px  1fr;
     column-gap: 2rem;
    }
-   /* @media (min-width: 600px){
-    grid-template-columns:200px  1fr
-   } */
    button{
         background-color: aliceblue;
         color: black;

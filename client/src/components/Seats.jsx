@@ -50,38 +50,39 @@ const Seats = ({ selectedSeats, setSelectedSeats, seatingLayout }) => {
     return (
         <Wrapper column={column} dimensions={dimensions}>
             <h2>Select Your Seats</h2>
-            <div className="seat-grid">
-                {seatRows.map((rowId, index) => (
-                    <div key={rowId} className="seat-row">
-                        <p>Row {rowId}</p>
-                        <div className="seats">
-                            {seatColumns.map((columnId) => (
-                                <Seat
-                                    key={columnId}
-                                    className={`seat ${selectedSeats.find((item) =>
-                                        item.rowId === rowId && item.columnId === columnId) ? 'selected' : ''}`}
-                                    onClick={() => handleSeatClick(rowId, columnId)}
-                                >
-                                    {''}
-                                </Seat>
-                            ))}
+            <>
+                <div className="seat-grid">
+                    {seatRows.map((rowId, index) => (
+                        <div key={rowId} className="seat-row">
+                            <p>Row {rowId}</p>
+                            <div className="seats">
+                                {seatColumns.map((columnId) => (
+                                    <Seat
+                                        key={columnId}
+                                        className={`seat ${selectedSeats.find((item) =>
+                                            item.rowId === rowId && item.columnId === columnId) ? 'selected' : ''}`}
+                                        onClick={() => handleSeatClick(rowId, columnId)}
+                                    >
+                                        {''}
+                                    </Seat>
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            </ >
             <ZoomInAndOutButtons handleZoomOut={handleZoomOut} handleZoomIn={handleZoomIn} />
-        </Wrapper >
+        </Wrapper>
     );
 };
 
 const Wrapper = styled.div`
     margin-top: 20px;
     width: 90%;
-    overflow-x:auto;
-    @media (max-width:830px){
-        .seat-grid{
-            overflow-x: ${props => props.column > 18 ? 'scroll' : ''};
-        }
+    display: grid;
+    grid-template-rows: auto 300px auto;
+    @media (min-width:830px){
+        grid-template-rows: auto 400px auto;
     }
     h2{
         margin-bottom: 1rem;
@@ -97,6 +98,7 @@ const Wrapper = styled.div`
         padding: 1rem 2rem;
         border-radius: var(--borderRadius);
         overflow-x:auto;
+        overflow-x:auto;
     }
 
     .seat-row {
@@ -106,7 +108,7 @@ const Wrapper = styled.div`
     }
     .seat-row p{
         align-self:center;
-        margin-right:0.5rem;
+        margin-right:1rem;
         font-weight: bold;
     }
     .seats{
