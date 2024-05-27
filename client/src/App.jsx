@@ -34,7 +34,8 @@ import {
   UpdateQuote,
   Arena,
   CreateArena, UpdateArena,
-  OctagonTickets
+  OctagonTickets,
+  Success, Cancel, Orders
 } from "./pages";
 import CreateFight from "./pages/fights/CreateFight";
 import UpdateFight from "./pages/fights/UpdateFight";
@@ -68,6 +69,7 @@ import { action as UpdateArenaAction } from './pages/Arena/UpdateArena'
 import { action as CreateArenaAction } from './pages/Arena/CreateArena'
 
 import { loader as octagonLoader } from './pages/OctagonTickets'
+import { loader as ordersLoader } from './pages/tickets/Orders'
 
 
 const queryClient = new QueryClient({
@@ -261,6 +263,19 @@ const router = createBrowserRouter([
         path: '/events/tickets/:eventId',
         element: <OctagonTickets />,
         loader: octagonLoader(queryClient)
+      },
+      {
+        path: '/tickets/success',
+        element: <Success />,
+      },
+      {
+        path: '/tickets/cancel',
+        element: <Cancel />,
+      },
+      {
+        path: '/my-orders',
+        element: <Orders />,
+        loader: ordersLoader(queryClient),
       }
     ]
   }])

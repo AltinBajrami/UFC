@@ -5,13 +5,13 @@ import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import Seats from '../components/Seats';
 import SelectedSeats from '../components/SelectedSeats';
+import { loadStripe } from '@stripe/stripe-js'
 
 export const loader = (queryClient) => async ({ params }) => {
     try {
         const { data } = await customFetch(`/events/${params.eventId}`);
         const response = await customFetch('/seatingLayout/arena/' + data?.event[0].arena)
         const seatingLayouts = response?.data?.seatingLayouts;
-        console.log("🚀 ~ loader ~ seatingLayouts:", seatingLayouts)
 
         return { seatingLayouts }
     } catch (error) {
@@ -30,6 +30,23 @@ const OctagonTickets = () => {
         setSelectedSeats([])
     }
 
+    const handleBuyButton = async () => {
+        const stripe = await loadStripe('pk_test_51OdDEELJvWI9WaXNfpv6F9Cu7Fe8DBHGlJYuFYDoNuDzb7uEBYwesH1oalL3mfeUctywZujS090gyHzPTA2h7vBt006mQwku3w');
+        const body = { tickets: selectedSeats, event: 'event 1', seatingLayoutId: seatingLayout._id };
+        try {
+            const { data } = await customFetch.post('/tickets', body, { withCredentials: true });
+
+            const result = await stripe.redirectToCheckout({
+                sessionId: data?.id
+            })
+
+        } catch (error) {
+            toast.error('Failed to fetch seats,please try later')
+            console.log(error);
+            return redirect('/events')
+        }
+    }
+
     return (
         <Wrapper rows={seatingLayout.row}>
             <div className="select-list">
@@ -42,7 +59,7 @@ const OctagonTickets = () => {
                 <div className="selected-seats">
                     <SelectedSeats selectedSeats={selectedSeats} />
                 </div>
-                {selectedSeats.length > 0 && <button className="btn">Order Now</button>}
+                {selectedSeats.length > 0 && <button onClick={handleBuyButton} className="btn">Order Now</button>}
             </div>
 
             <div className="react-seat">

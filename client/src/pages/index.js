@@ -31,6 +31,9 @@ import Arena from './Arena/Arena';
 import CreateArena from './Arena/CreateArena';
 import UpdateArena from './Arena/UpdateArena';
 import OctagonTickets from './OctagonTickets';
+import Success from './tickets/Success';
+import Cancel from './tickets/Cancel';
+import Orders from './tickets/Orders';
 
 export {
   Events,
@@ -66,4 +69,7 @@ export {
   CreateArena,
   UpdateArena,
   OctagonTickets,
+  Success,
+  Cancel,
+  Orders,
 };
