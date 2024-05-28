@@ -3,14 +3,27 @@ import styled from 'styled-components'
 import { MdCancel } from "react-icons/md";
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import customFetch from '../../utils';
 
 const Cancel = () => {
     const navigate = useNavigate()
+    const location = useLocation();
+    const sessionId = new URLSearchParams(location.search).get('sessionId');
+
     useEffect(() => {
         toast.error('Payment Failed,redirecting to home');
         setTimeout(() => {
             return navigate('/');
         }, 3000)
+    }, [])
+
+    const getSession = async () => {
+        await customFetch.post('/tickets/failed', { sessionId }, { withCredentials: true });
+    }
+
+    useEffect(() => {
+        getSession()
     }, [])
 
     return (

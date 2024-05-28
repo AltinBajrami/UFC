@@ -7,18 +7,25 @@ import customFetch from '../../utils';
 import { useLocation } from 'react-router-dom';
 
 const Success = () => {
+    const navigate = useNavigate()
     const location = useLocation();
     const sessionId = new URLSearchParams(location.search).get('sessionId');
 
-    useEffect(() => {
-        toast.success('Payment Successfully,redirecting to events');
-        // setTimeout(() => {
-        //     return navigate('/events');
-        // }, 3000)
-    }, [])
+
 
     const getSession = async () => {
-        await customFetch.post('/tickets/success', { sessionId }, { withCredentials: true });
+        try {
+            await customFetch.post('/tickets/success', { sessionId }, { withCredentials: true });
+            toast.success('Payment Successfully,redirecting to orders');
+            setTimeout(() => {
+                return navigate('/my-orders');
+            }, 3000)
+        } catch (error) {
+            toast.error(error?.response?.data?.msg)
+        }
+        setTimeout(() => {
+            return navigate('/my-orders');
+        }, 3000)
     }
     useEffect(() => {
         getSession()

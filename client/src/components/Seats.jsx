@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import ZoomInAndOutButtons from './ZoomInAndOutButtons';
 
-const Seats = ({ selectedSeats, setSelectedSeats, seatingLayout }) => {
+const Seats = ({ selectedSeats, setSelectedSeats, seatingLayout, occupiedSeats }) => {
     const [dimensions, setDimensions] = useState(20);
     const { row, column, price } = seatingLayout;
 
@@ -12,6 +12,12 @@ const Seats = ({ selectedSeats, setSelectedSeats, seatingLayout }) => {
     const seatColumns = Array.from({ length: column }, (_, index) => index + 1);
 
     const handleSeatClick = (rowId, columnId) => {
+        if (occupiedSeats.some(seat => seat.row === rowId.toString() && seat.column === columnId.toString())) {
+            toast.error(`You can't select this ticket`);
+            return;
+        }
+
+        console.log("🚀 ~ handleSeatClick ~:", occupiedSeats.includes({ row: rowId, column: columnId }))
         setSelectedSeats(prevSelectedSeats => {
             let newSelectedSeats = [...prevSelectedSeats];
 
@@ -60,7 +66,9 @@ const Seats = ({ selectedSeats, setSelectedSeats, seatingLayout }) => {
                                     <Seat
                                         key={columnId}
                                         className={`seat ${selectedSeats.find((item) =>
-                                            item.rowId === rowId && item.columnId === columnId) ? 'selected' : ''}`}
+                                            item.rowId === rowId && item.columnId === columnId) ? 'selected' : ''} 
+                                            ${occupiedSeats.find((item) =>
+                                                item.row == rowId && item.column == columnId) ? 'disabled' : ''} `}
                                         onClick={() => handleSeatClick(rowId, columnId)}
                                     >
                                         {''}
@@ -137,6 +145,9 @@ const Seat = styled.div`
 
     &.selected {
         background-color: #6cb2eb;
+    }
+    &.disabled {
+        background-color: red;
     }
 `;
 

@@ -59,20 +59,65 @@ const createTicketsOrder = async (req, res) => {
 
 const ticketsSuccess = async (req, res) => {
   const sessionId = req.body.sessionId;
-
+  if (!sessionId) {
+    throw new BadRequestError('Provide session Id');
+  }
   const session = await stripe.checkout.sessions.retrieve(sessionId);
-  console.log('🚀 ~ ticketsSuccess ~ session:', session);
 
   if (session?.payment_status === 'paid') {
     const ticketsOrder = await Ticket.findOne({ sessionId });
     ticketsOrder.paymentIntentId = session.payment_intent;
+    ticketsOrder.status = 'paid';
     await ticketsOrder.save();
   }
 
   res.send(`Payment successful`);
 };
 
+const ticketsFailedToPay = async (req, res) => {
+  const sessionId = req.body.sessionId;
+  if (!sessionId) {
+    throw new BadRequestError('Provide session Id');
+  }
+  const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+  if (session) {
+    const ticketsOrder = await Ticket.findOne({ sessionId });
+    await ticketsOrder.deleteOne();
+  }
+
+  res.send(`Payment failed`);
+};
+
+const getAllTicketsOrders = async (req, res) => {
+  const orders = await Tickets.find({ userId: req.user.userId }).populate(
+    'seatingLayout'
+  );
+  return res.status(StatusCodes.OK).json({ orders });
+};
+
+const getAllTicketsOrdersFromSingleSeatingLayout = async (req, res) => {
+  const { id } = req.params;
+  const seatingLayoutTemp = await SeatingLayout.findById(id);
+  if (!seatingLayoutTemp) {
+    throw new BadRequestError('Provide a valid seatingLayout id');
+  }
+
+  const orders = await Tickets.find({
+    seatingLayout: id,
+  });
+
+  const occupiedSeats = orders.flatMap(item =>
+    item.orderItems.map(({ row, column }) => ({ row, column }))
+  );
+
+  return res.status(StatusCodes.OK).json({ occupiedSeats });
+};
+
 module.exports = {
   createTicketsOrder,
   ticketsSuccess,
+  getAllTicketsOrders,
+  ticketsFailedToPay,
+  getAllTicketsOrdersFromSingleSeatingLayout,
 };

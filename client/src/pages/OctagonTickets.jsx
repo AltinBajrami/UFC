@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import customFetch from '../utils'
 import { redirect, useLoaderData } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -12,7 +12,6 @@ export const loader = (queryClient) => async ({ params }) => {
         const { data } = await customFetch(`/events/${params.eventId}`);
         const response = await customFetch('/seatingLayout/arena/' + data?.event[0].arena)
         const seatingLayouts = response?.data?.seatingLayouts;
-
         return { seatingLayouts }
     } catch (error) {
         toast.error('Failed to load events tickets,please try later')
@@ -24,6 +23,7 @@ const OctagonTickets = () => {
     const { seatingLayouts } = useLoaderData()
     const [seatingLayout, setSeatingLayout] = useState(seatingLayouts[0])
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const [occupiedSeats, setOccupiedSeats] = useState([]);
 
     const handleOnChangeSelect = (value) => {
         setSeatingLayout(seatingLayouts.find((item) => item.sectionName.toLowerCase() === value.toLowerCase()))
@@ -32,7 +32,7 @@ const OctagonTickets = () => {
 
     const handleBuyButton = async () => {
         const stripe = await loadStripe('pk_test_51OdDEELJvWI9WaXNfpv6F9Cu7Fe8DBHGlJYuFYDoNuDzb7uEBYwesH1oalL3mfeUctywZujS090gyHzPTA2h7vBt006mQwku3w');
-        const body = { tickets: selectedSeats, event: 'event 1', seatingLayoutId: seatingLayout._id };
+        const body = { tickets: selectedSeats, eventId: 'event 1', seatingLayoutId: seatingLayout._id };
         try {
             const { data } = await customFetch.post('/tickets', body, { withCredentials: true });
 
@@ -46,6 +46,15 @@ const OctagonTickets = () => {
             return redirect('/events')
         }
     }
+
+    useEffect(() => {
+        const getOccupiedSeats = async () => {
+            const { data } = await customFetch(`/tickets/seatingLayout/${seatingLayout._id}`, { withCredentials: true })
+            setOccupiedSeats(data?.occupiedSeats)
+            console.log(data);
+        }
+        getOccupiedSeats()
+    }, [seatingLayout])
 
     return (
         <Wrapper rows={seatingLayout.row}>
@@ -63,7 +72,8 @@ const OctagonTickets = () => {
             </div>
 
             <div className="react-seat">
-                <Seats selectedSeats={selectedSeats} setSelectedSeats={setSelectedSeats} seatingLayout={seatingLayout} />
+                <Seats selectedSeats={selectedSeats} setSelectedSeats={setSelectedSeats}
+                    seatingLayout={seatingLayout} occupiedSeats={occupiedSeats} />
             </div>
         </Wrapper>
     );
