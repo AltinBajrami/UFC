@@ -14,7 +14,6 @@ const Fights = () => {
         });
         if (response.status === 200) {
           const fetchedFights = response.data.fights;
-          console.log(fetchedFights);
           // Fetch details of fighter1, fighter2, winner, and finish for each fight
           const promises = fetchedFights.map(async (fight) => {
             const fighter1Response = await customFetch.get(
