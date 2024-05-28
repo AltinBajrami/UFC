@@ -19,12 +19,17 @@ import UpdateWeightClasses from './weightClasses/UpdateWeightClasses';
 import Fighters from './fighters/Fighters';
 import CreateFighter from './fighters/CreateFighter';
 import UpdateFighter from './fighters/UpdateFighter';
+import Athletes from './Athletes';
+import Profile from './users/Profile';
 import Refer from './refer/Refer';
 import CreateRefer from './refer/CreateRefer';
 import UpdateRefer from './refer/UpdateRefer';
 import Quotes from './quote/Quotes';
 import CreateQuote from './quote/CreateQuote';
 import UpdateQuote from './quote/UpdateQuote';
+import Arena from './Arena/Arena';
+import CreateArena from './Arena/CreateArena';
+import UpdateArena from './Arena/UpdateArena';
 
 export {
   Events,
@@ -48,10 +53,15 @@ export {
   Fighters,
   UpdateFighter,
   CreateFighter,
+  Athletes,
+  Profile,
   Refer,
   UpdateRefer,
   CreateRefer,
   Quotes,
   CreateQuote,
   UpdateQuote,
+  Arena,
+  CreateArena,
+  UpdateArena,
 };

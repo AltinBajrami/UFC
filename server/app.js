@@ -27,6 +27,8 @@ const fightRoutesRouter = require('./routes/fightsRoutes');
 const rankedRoutesRouter = require('./routes/rankedRoutes');
 const referRoutesRouter = require('./routes/referRoutes');
 const quoteRoutesRouter = require('./routes/quoteRoutes');
+const arenaRouter = require('./routes/arenaRoutes');
+const seatingLayoutRouter = require('./routes/seatingLayoutRoutes');
 
 // middleware
 const notFoundMiddleware = require('./middleware/not-found');
@@ -55,6 +57,8 @@ app.use('/api/v1/fights', fightRoutesRouter);
 app.use('/api/v1/ranked', rankedRoutesRouter);
 app.use('/api/v1/refers', referRoutesRouter);
 app.use('/api/v1/quotes', quoteRoutesRouter);
+app.use('/api/v1/arena', arenaRouter);
+app.use('/api/v1/seatingLayout', seatingLayoutRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
