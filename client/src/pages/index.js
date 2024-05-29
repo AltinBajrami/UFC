@@ -5,9 +5,9 @@ import Landing from './Landing';
 import Register from './authPages/Register';
 import Login from './authPages/Login';
 import Error from './Error';
-import FightsFinish from './FightsFinish';
-import UpdateFightFinish from './UpdateFightFinish';
-import CreateFightFinish from './CreateFightFinish';
+import FightsFinish from './fightFinish/FightsFinish';
+import UpdateFightFinish from './fightFinish/UpdateFightFinish';
+import CreateFightFinish from './fightFinish/CreateFightFinish';
 import VerifyEmail from './authPages/VerifyEmail';
 import ForgotPassword from './authPages/ForgotPassword';
 import ResetPassword from './authPages/ResetPassword';
@@ -32,6 +32,10 @@ import UpdateQuote from './quote/UpdateQuote';
 import Arena from './Arena/Arena';
 import CreateArena from './Arena/CreateArena';
 import UpdateArena from './Arena/UpdateArena';
+import OctagonTickets from './OctagonTickets';
+import Success from './tickets/Success';
+import Cancel from './tickets/Cancel';
+import Orders from './tickets/Orders';
 import MiniEvent from './miniEvent/MiniEvent';
 import CreateMiniEvent from './miniEvent/CreateMiniEvent';
 import UpdateMiniEvent from './miniEvent/UpdateMiniEvent';
@@ -71,6 +75,10 @@ export {
   Arena,
   CreateArena,
   UpdateArena,
+  OctagonTickets,
+  Success,
+  Cancel,
+  Orders,
   MiniEvent,
   CreateMiniEvent,
   UpdateMiniEvent,

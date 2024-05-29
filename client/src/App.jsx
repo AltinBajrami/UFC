@@ -34,6 +34,8 @@ import {
   UpdateQuote,
   Arena,
   CreateArena, UpdateArena,
+  OctagonTickets,
+  Success, Cancel, Orders
   MiniEvent, CreateMiniEvent, UpdateMiniEvent
 } from "./pages";
 import CreateFight from "./pages/fights/CreateFight";
@@ -66,6 +68,9 @@ import { loader as ArenaLoader } from './pages/Arena/Arena'
 import { loader as UpdateArenaLoader } from './pages/Arena/UpdateArena'
 import { action as UpdateArenaAction } from './pages/Arena/UpdateArena'
 import { action as CreateArenaAction } from './pages/Arena/CreateArena'
+
+import { loader as octagonLoader } from './pages/OctagonTickets'
+import { loader as ordersLoader } from './pages/tickets/Orders'
 
 import { loader as MiniEventLoader } from './pages/miniEvent/MiniEvent'
 import { loader as UpdateMiniEventLoader } from './pages/miniEvent/UpdateMiniEvent'
@@ -260,6 +265,24 @@ const router = createBrowserRouter([
         action: UpdateArenaAction(queryClient)
       },
       {
+        path: '/events/tickets/:eventId',
+        element: <OctagonTickets />,
+        loader: octagonLoader(queryClient)
+      },
+      {
+        path: '/tickets/success',
+        element: <Success />,
+      },
+      {
+        path: '/tickets/cancel',
+        element: <Cancel />,
+      },
+      {
+        path: '/my-orders',
+        element: <Orders />,
+        loader: ordersLoader(queryClient),
+      },
+        {
         path: 'mini-event',
         element: <MiniEvent />,
         loader: MiniEventLoader(queryClient)
