@@ -37,6 +37,8 @@ import Orders from './tickets/Orders';
 import MiniEvent from './miniEvent/MiniEvent';
 import CreateMiniEvent from './miniEvent/CreateMiniEvent';
 import UpdateMiniEvent from './miniEvent/UpdateMiniEvent';
+import CreateEvent from './events/CreateEvent';
+import ManageEvents from './events/ManageEvents';
 
 export {
   Events,
@@ -78,4 +80,6 @@ export {
   MiniEvent,
   CreateMiniEvent,
   UpdateMiniEvent,
+  CreateEvent,
+  ManageEvents,
 };
