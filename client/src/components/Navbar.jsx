@@ -38,6 +38,12 @@ const Navbar = () => {
                                         <Dropdown.Item as={NavLink} to="/fightFinish">Fight Finish</Dropdown.Item>
                                         <Dropdown.Item as={NavLink} to="/weightClasses">Weight Classes</Dropdown.Item>
                                         <Dropdown.Item as={NavLink} to="/fighters">Fighters</Dropdown.Item>
+                                        <Dropdown.Item as={NavLink} to="/refers">Refers</Dropdown.Item>
+                                        <Dropdown.Item as={NavLink} to="/quotes">quotes</Dropdown.Item>
+                                        <Dropdown.Item as={NavLink} to="/fights">fights</Dropdown.Item>
+                                        <Dropdown.Item as={NavLink} to="/ranked">ranked</Dropdown.Item>
+                                        <Dropdown.Item as={NavLink} to="/arena">arena</Dropdown.Item>
+                                        <Dropdown.Item as={NavLink} to="/mini-event">Mini-Event</Dropdown.Item>
                                     </>
                                 }
                             </Dropdown.Menu>

@@ -23,9 +23,9 @@ export const loader = (queryClient) => async () => {
 
 
 const WeightClasses = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [deleteItemId, setDeleteItemId] = useState(null);
     const { data, error, isLoading, isError } = useQuery(getAll());
-    const { weightClasses } = data
+    const { weightClasses } = data;
 
     const queryClient = useQueryClient();
     const { mutate } = useMutation({
@@ -33,14 +33,15 @@ const WeightClasses = () => {
         onSuccess: (response) => {
             queryClient.invalidateQueries(['weightClasses'])
             toast.success('Deleted successfully')
-            setIsModalOpen(false);
+            setDeleteItemId(null);
         },
         onError: (error) => {
-            setIsModalOpen(false);
+            setDeleteItemId(null);
             toast.error(error.response.data.msg)
         }
     })
     const handleDeleteWeightClass = (id) => {
+        setDeleteItemId(id)
         mutate(id)
     };
 
@@ -80,11 +81,11 @@ const WeightClasses = () => {
                                 <td style={{ display: 'flex', gap: '0.5rem' }}>
                                     <Link to={`/weightClasses/update/${item._id}`} style={{ textDecoration: 'none' }} className='btn btn-success'>Edit</Link>
                                     <Link to={'/weightClasses'} className='btn btn-danger' style={{ textDecoration: 'none' }} onClick={() => {
-                                        setIsModalOpen(true);
+                                        setDeleteItemId(item._id);
                                     }}>delete</Link>
                                     <ConfirmationModal
-                                        isOpen={isModalOpen}
-                                        onClose={() => setIsModalOpen(false)}
+                                        isOpen={deleteItemId === item._id}
+                                        onClose={() => setDeleteItemId(null)}
                                         onConfirm={() => handleDeleteWeightClass(item._id)}
                                     />
                                 </td>

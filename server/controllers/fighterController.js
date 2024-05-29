@@ -3,6 +3,7 @@ const { BadRequestError, NotFoundError } = require('../errors');
 const Fighter = require('../models/Fighter');
 const WeightClass = require('../models/WeightClass');
 const path = require('path');
+const { log } = require('console');
 
 const getAll = async (req, res) => {
   const fighters = await Fighter.find({}).populate('weightClass');
@@ -24,6 +25,7 @@ const createFighter = async (req, res) => {
     lose,
     homeTown,
     weightClass,
+    age,
   } = req.body;
 
   // Check if weightClass exists
@@ -34,32 +36,37 @@ const createFighter = async (req, res) => {
       .json({ error: 'Please provide a valid weight class ID' });
   }
 
-  // Check if file was uploaded
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ error: 'No files were uploaded' });
+  let image1;
+  let image2;
+
+  if (req.files && Object.keys(req.files).length !== 0) {
+    const fighterImage1 = req.files.fighterImage1;
+    const fighterImage2 = req.files.fighterImage2;
+    const maxSize = 1024 * 1024;
+    if (fighterImage1.size > maxSize) {
+      throw new BadRequestError('Please upload first image smaller 1MB');
+    }
+    if (fighterImage2.size > maxSize) {
+      throw new BadRequestError('Please upload second image smaller 1MB');
+    }
+
+    const imagePath1 = path.join(
+      __dirname,
+      `../public/uploads/fighters/` + `${fighterImage1.name}`
+    );
+
+    const imagePath2 = path.join(
+      __dirname,
+      `../public/uploads/fighters/` + `${fighterImage2.name}`
+    );
+
+    await fighterImage1.mv(imagePath1);
+    await fighterImage2.mv(imagePath2);
+    image1 = `/uploads/fighters/${fighterImage1.name}`;
+    image2 = `/uploads/fighters/${fighterImage2.name}`;
   }
-
-  // Validate file size
-  const fighterImage = req.files.fighterImage;
-  const maxSize = 1024 * 1024; // 1MB
-  if (fighterImage.size > maxSize) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ error: 'Please upload an image smaller than 1MB' });
-  }
-
-  // Move uploaded file to destination
-  const imagePath = path.join(
-    __dirname,
-    '../public/uploads/fighters/',
-    fighterImage.name
-  );
-  await fighterImage.mv(imagePath);
-
   // Create fighter record
-  const image = `/uploads/fighters/${fighterImage.name}`;
+
   const newFighter = await Fighter.create({
     fighterName,
     fightingStyle,
@@ -73,8 +80,13 @@ const createFighter = async (req, res) => {
     homeTown,
     status,
     legReach,
-    image,
+    image1,
+    image2,
     weightClass,
+    age,
+    win,
+    draw,
+    lose,
   });
 
   // Return success response
@@ -103,6 +115,7 @@ const updateFighter = async (req, res) => {
     legReach,
     homeTown,
     weightClass,
+    age,
   } = req.body;
   const weightClassSchema = await WeightClass.findById(weightClass);
   if (!weightClassSchema) {
@@ -112,27 +125,43 @@ const updateFighter = async (req, res) => {
   }
 
   const fighter = await Fighter.findById(id);
-  let image;
-
-  if (req.files && Object.keys(req.files).length !== 0) {
-    const fighterImage = req.files.fighterImage;
-    const maxSize = 1024 * 1024;
-    if (fighterImage.size > maxSize) {
-      throw new CustomError.BadRequestError('Please upload image smaller 1MB');
-    }
-    const imagePath = path.join(
-      __dirname,
-      '../public/uploads/fighters/' + `${fighterImage.name}`
-    );
-
-    await fighterImage.mv(imagePath);
-    image = `/uploads/fighters/${fighterImage.name}`;
-    fighter.image = image;
-  }
 
   if (!fighter) {
     throw new NotFoundError('fighter not found!');
   }
+
+  if (req.files && Object.keys(req.files).length !== 0) {
+    const fighterImage1 = req.files?.fighterImage1;
+    const fighterImage2 = req.files?.fighterImage2;
+    const maxSize = 1024 * 1024;
+
+    if (fighterImage1) {
+      if (fighterImage1.size > maxSize) {
+        throw new BadRequestError('Please upload first image smaller 1MB');
+      }
+
+      const imagePath1 = path.join(
+        __dirname,
+        `../public/uploads/fighters/` + `${fighterImage1.name}`
+      );
+      await fighterImage1.mv(imagePath1);
+      fighter.image1 = `/uploads/fighters/${fighterImage1.name}`;
+    }
+
+    if (fighterImage2) {
+      if (fighterImage2.size > maxSize) {
+        throw new BadRequestError('Please upload second image smaller 1MB');
+      }
+      const imagePath2 = path.join(
+        __dirname,
+        `../public/uploads/fighters/` + `${fighterImage2.name}`
+      );
+
+      await fighterImage2.mv(imagePath2);
+      fighter.image2 = `/uploads/fighters/${fighterImage2.name}`;
+    }
+  }
+
   fighter.fighterName = fighterName;
   fighter.nickName = nickName;
   fighter.country = country;
@@ -143,6 +172,7 @@ const updateFighter = async (req, res) => {
   fighter.fightingStyle = fightingStyle;
   fighter.status = status;
   fighter.weightClass = weightClassSchema._id;
+  fighter.age = age;
   await fighter.save();
   return res.status(StatusCodes.OK).json({ fighter });
 };

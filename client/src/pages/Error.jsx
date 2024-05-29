@@ -22,6 +22,7 @@ const Error = () => {
 
     toast.error(error?.response?.data?.msg)
 
+
     return <section style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
         <h3>Something Went wrong</h3>
         <p>{error?.response?.data?.msg}</p>

@@ -1,112 +1,211 @@
-import './App.css'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import "./App.css";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
-  Events, About, HomeLayout, Landing, ResetPassword, Register, Login, Error, Users,
-  FightsFinish, CreateFightFinish, UpdateFightFinish, VerifyEmail, ForgotPassword, UpdateUser,
-  WeightClasses, CreateWeightClasses, UpdateWeightClasses, Fighters, UpdateFighter, CreateFighter
-} from './pages'
-import { action as RegisterAction } from './pages/authPages/Register';
-import { action as ForgotPasswordAction } from './pages/authPages/ForgotPassword';
-import { loader as UsersLoader } from './pages/users/Users'
-import { loader as WeightClassLoader } from './pages/weightClasses/WeightClasses'
-import { loader as UpdateWeightClassLoader } from './pages/weightClasses/UpdateWeightClasses'
-import { action as UpdateWeightClassAction } from './pages/weightClasses/UpdateWeightClasses'
-import { action as CreateWeightClassAction } from './pages/weightClasses/CreateWeightClasses'
+  Events,
+  About,
+  HomeLayout,
+  Landing,
+  ResetPassword,
+  Register,
+  Login,
+  Error,
+  Users,
+  FightsFinish,
+  CreateFightFinish,
+  UpdateFightFinish,
+  VerifyEmail,
+  ForgotPassword,
+  UpdateUser,
+  WeightClasses,
+  CreateWeightClasses,
+  UpdateWeightClasses,
+  Fighters,
+  UpdateFighter,
+  CreateFighter,
+  Athletes,
+  Profile,
+  Refer,
+  UpdateRefer,
+  CreateRefer,
+  Quotes,
+  CreateQuote,
+  UpdateQuote,
+  Arena,
+  CreateArena, UpdateArena,
+  OctagonTickets,
+  Success, Cancel, Orders,
+  MiniEvent, CreateMiniEvent, UpdateMiniEvent
+} from "./pages";
+import CreateFight from "./pages/fights/CreateFight";
+import UpdateFight from "./pages/fights/UpdateFight";
+import Fights from "./pages/fights/Fights";
+import Ranked from "./pages/ranked/Ranked";
+import CreateRanked from "./pages/ranked/CreateRanked";
+import UpdateRanked from "./pages/ranked/UpdateRanked";
+import { action as RegisterAction } from "./pages/authPages/Register";
+import { action as ForgotPasswordAction } from "./pages/authPages/ForgotPassword";
+import { loader as UsersLoader } from "./pages/users/Users";
+import { loader as WeightClassLoader } from "./pages/weightClasses/WeightClasses";
+import { loader as UpdateWeightClassLoader } from "./pages/weightClasses/UpdateWeightClasses";
+import { action as UpdateWeightClassAction } from "./pages/weightClasses/UpdateWeightClasses";
+import { action as CreateWeightClassAction } from "./pages/weightClasses/CreateWeightClasses";
+import { loader as ProfileLoader } from "./pages/users/Profile";
+
+import { loader as ReferLoader } from './pages/refer/Refer'
+import { loader as UpdateReferLoader } from './pages/refer/UpdateRefer'
+import { action as UpdateReferAction } from './pages/refer/UpdateRefer'
+import { action as CreateReferAction } from './pages/refer/CreateRefer'
+
+import { loader as QuotesLoader } from './pages/quote/Quotes'
+import { loader as UpdateQuoteLoader } from './pages/quote/UpdateQuote'
+import { action as UpdateQuoteAction } from './pages/quote/UpdateQuote'
+import { loader as CreateQuoteLoader } from './pages/quote/CreateQuote'
+import { action as CreateQuoteAction } from './pages/quote/CreateQuote'
+
+import { loader as ArenaLoader } from './pages/Arena/Arena'
+import { loader as UpdateArenaLoader } from './pages/Arena/UpdateArena'
+import { action as UpdateArenaAction } from './pages/Arena/UpdateArena'
+import { action as CreateArenaAction } from './pages/Arena/CreateArena'
+
+import { loader as octagonLoader } from './pages/OctagonTickets'
+import { loader as ordersLoader } from './pages/tickets/Orders'
+
+import { loader as MiniEventLoader } from './pages/miniEvent/MiniEvent'
+import { loader as UpdateMiniEventLoader } from './pages/miniEvent/UpdateMiniEvent'
+import { action as UpdateMiniEventAction } from './pages/miniEvent/UpdateMiniEvent'
+import { action as CreateMiniEventAction } from './pages/miniEvent/CreateMiniEvent'
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5
-    }
-  }
-})
+      staleTime: 1000 * 60 * 5,
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <HomeLayout />,
     errorElement: <Error />,
     children: [
       {
         index: true,
-        element: <Landing />
+        element: <Landing />,
       },
       {
-        path: 'register',
+        path: "register",
         element: <Register />,
-        action: RegisterAction
+        action: RegisterAction,
       },
       {
-        path: 'login',
+        path: "login",
         element: <Login />,
       },
       {
-        path: 'fightFinish',
-        element: <FightsFinish />
+        path: "fightFinish",
+        element: <FightsFinish />,
       },
       {
-        path: 'verify-email',
-        element: <VerifyEmail />
+        path: "verify-email",
+        element: <VerifyEmail />,
       },
       {
-        path: 'forgot-password',
+        path: "forgot-password",
         element: <ForgotPassword />,
-        action: ForgotPasswordAction
+        action: ForgotPasswordAction,
       },
       {
-        path: 'reset-password',
+        path: "reset-password",
         element: <ResetPassword />,
       },
       {
-        path: 'users',
+        path: "users",
         element: <Users />,
-        loader: UsersLoader(queryClient)
+        loader: UsersLoader(queryClient),
       },
       {
-        path: 'users/update/:id',
-        element: <UpdateUser />,
+        path: "about",
+        element: <About />,
       },
       {
-        path: 'about',
-        element: <About />
+        path: "events",
+        element: <Events />,
       },
       {
-        path: 'events',
-        element: <Events />
+        path: "fightFinish",
+        element: <FightsFinish />,
       },
       {
-        path: 'fightFinish',
-        element: <FightsFinish />
+        path: "fightFinish/create",
+        element: <CreateFightFinish />,
       },
       {
-        path: 'fightFinish/create',
-        element: <CreateFightFinish />
+        path: "fightFinish/update/:id",
+        element: <UpdateFightFinish />,
       },
       {
-        path: 'fightFinish/update/:id',
-        element: <UpdateFightFinish />
-      },
-      {
-        path: 'weightClasses',
+        path: "weightClasses",
         element: <WeightClasses />,
-        loader: WeightClassLoader(queryClient)
+        loader: WeightClassLoader(queryClient),
       },
       {
-        path: 'weightClasses/create',
+        path: "weightClasses/create",
         element: <CreateWeightClasses />,
-        action: CreateWeightClassAction(queryClient)
+        action: CreateWeightClassAction(queryClient),
       },
       {
-        path: 'weightClasses/update/:id',
+        path: "weightClasses/update/:id",
         element: <UpdateWeightClasses />,
         loader: UpdateWeightClassLoader(queryClient),
-        action: UpdateWeightClassAction(queryClient)
+        action: UpdateWeightClassAction(queryClient),
       },
       {
-        path: 'fighters',
+        path: "fighters",
         element: <Fighters />,
+      },
+      {
+        path: "fighters/create",
+        element: <CreateFighter />,
+      },
+      {
+        path: "fighters/update/:id",
+        element: <UpdateFighter />,
+      },
+      {
+        path: "fights",
+        element: <Fights />,
+      },
+      {
+        path: "fights/create",
+        element: <CreateFight />,
+      },
+      {
+        path: "fights/update/:id",
+        element: <UpdateFight />,
+      },
+      {
+        path: "ranked",
+        element: <Ranked />,
+      },
+      {
+        path: "ranked/create",
+        element: <CreateRanked />,
+      },
+      {
+        path: "ranked/update/:id",
+        element: <UpdateRanked />,
+      },
+      {
+        path: "athletes",
+        element: <Athletes />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+        loader: ProfileLoader(queryClient)
       },
       {
         path: 'fighters/create',
@@ -116,17 +215,101 @@ const router = createBrowserRouter([
         path: 'fighters/update/:id',
         element: <UpdateFighter />,
       },
+      {
+        path: 'refers',
+        element: <Refer />,
+        loader: ReferLoader(queryClient)
+      },
+      {
+        path: 'refers/create',
+        element: <CreateRefer />,
+        action: CreateReferAction(queryClient)
+      },
+      {
+        path: 'refers/update/:id',
+        element: <UpdateRefer />,
+        loader: UpdateReferLoader(queryClient),
+        action: UpdateReferAction(queryClient)
+      },
+      {
+        path: 'quotes',
+        element: <Quotes />,
+        loader: QuotesLoader(queryClient)
+      },
+      {
+        path: 'quotes/create',
+        element: <CreateQuote />,
+        loader: CreateQuoteLoader(queryClient),
+        action: CreateQuoteAction(queryClient)
+      },
+      {
+        path: 'quotes/update/:id',
+        element: <UpdateQuote />,
+        loader: UpdateQuoteLoader(queryClient),
+        action: UpdateQuoteAction(queryClient)
+      },
+      {
+        path: 'arena',
+        element: <Arena />,
+        loader: ArenaLoader(queryClient)
+      },
+      {
+        path: 'arena/create',
+        element: <CreateArena />,
+        action: CreateArenaAction(queryClient)
+      },
+      {
+        path: 'arena/update/:id',
+        element: <UpdateArena />,
+        loader: UpdateArenaLoader(queryClient),
+        action: UpdateArenaAction(queryClient)
+      },
+      {
+        path: '/events/tickets/:eventId',
+        element: <OctagonTickets />,
+        loader: octagonLoader(queryClient)
+      },
+      {
+        path: '/tickets/success',
+        element: <Success />,
+      },
+      {
+        path: '/tickets/cancel',
+        element: <Cancel />,
+      },
+      {
+        path: '/my-orders',
+        element: <Orders />,
+        loader: ordersLoader(queryClient),
+      },
+      {
+        path: 'mini-event',
+        element: <MiniEvent />,
+        loader: MiniEventLoader(queryClient)
+      },
+      {
+        path: 'mini-event/create',
+        element: <CreateMiniEvent />,
+        action: CreateMiniEventAction(queryClient)
+      },
+      {
+        path: 'mini-event/update/:id',
+        element: <UpdateMiniEvent />,
+        loader: UpdateMiniEventLoader(queryClient),
+        action: UpdateMiniEventAction(queryClient)
+      },
     ]
-  }
-])
+  }])
 
 function App() {
-  return <>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />;
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
-  </>
+  return (
+    <>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </>
+  );
 }
 
-export default App
+export default App;
