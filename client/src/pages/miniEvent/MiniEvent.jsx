@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import React, { useState } from 'react'
+import customFetch from '../../utils';
 import { Link } from 'react-router-dom';
 import ConfirmationModal from '../../components/ConfirmationModal';
-import { toast } from 'react-toastify';
 import styled from 'styled-components';
-import customFetch from '../../utils';
-import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 
 const getAll = () => {
     return {
-        queryKey: ['refers'],
+        queryKey: ['mini-events'],
         queryFn: async () => {
-            const response = await customFetch.get('/refers', { withCredentials: true });
+            const response = await customFetch.get('/mini-events', { withCredentials: true });
             return response.data;
         }
     };
@@ -21,18 +21,16 @@ export const loader = (queryClient) => async () => {
     return '';
 };
 
-const Refer = () => {
-    const { data, error, isLoading, isError } = useQuery(getAll());
-    const { refers } = data;
-
-    const queryClient = useQueryClient();
+const MiniEvent = () => {
+    const { data, isLoading, isError, error } = useQuery(getAll());
     const [deleteItemId, setDeleteItemId] = useState(null);
+    const queryClient = useQueryClient();
 
     const { mutate } = useMutation({
-        mutationFn: (id) => customFetch.delete(`refers/${id}`, { withCredentials: true }),
+        mutationFn: (id) => customFetch.delete(`mini-events/${id}`, { withCredentials: true }),
         onSuccess: (response) => {
             console.log(response);
-            queryClient.invalidateQueries(['refers']);
+            queryClient.invalidateQueries(['mini-events']);
             toast.success('Deleted successfully');
             setDeleteItemId(null);
         },
@@ -42,7 +40,7 @@ const Refer = () => {
         }
     });
 
-    const handleDeleteRefer = (id) => {
+    const handleDeleteMiniEvent = (id) => {
         setDeleteItemId(id);
         mutate(id);
     };
@@ -60,39 +58,33 @@ const Refer = () => {
             </div>
         </div>;
     }
-
+    console.log(data);
     return (
         <div style={{ display: 'grid' }}>
-            <Link to={'/refers/create'} className='btn btn-outline-secondary' style={{ justifySelf: 'start', textDecoration: 'none', margin: '1rem' }}>Create</Link>
+            <Link to={'/mini-event/create'} className='btn btn-outline-secondary' style={{ justifySelf: 'start', textDecoration: 'none', margin: '1rem' }}>Create</Link>
             <Wrapper>
                 <table>
                     <thead>
                         <tr>
                             <th> Name</th>
-                            <th>Age</th>
-                            <th>Refered Events</th>
-                            <th>Home Town</th>
                             <th>Customize</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {refers.map((item) => (
-                            <tr key={item._id}>
-                                <td>{item.name}</td>
-                                <td>{item.age}</td>
-                                <td>{item.referedEvents}</td>
-                                <td>{item.homeTown}</td>
+                        {data.map((item) => (
+                            <tr key={item.minieventid}>
+                                <td>{item.eventtypename}</td>
                                 <td style={{ display: 'flex', gap: '0.5rem' }}>
-                                    <Link to={`/refers/update/${item._id}`} style={{ textDecoration: 'none' }} className='btn btn-success'>Edit</Link>
+                                    <Link to={`/mini-event/update/${item.minieventid}`} style={{ textDecoration: 'none' }} className='btn btn-success'>Edit</Link>
                                     <Link className='btn btn-danger' style={{ textDecoration: 'none' }} onClick={() => {
-                                        setDeleteItemId(item._id);
+                                        setDeleteItemId(item.minieventid);
                                     }}>delete</Link>
+                                    <ConfirmationModal
+                                        isOpen={deleteItemId === item.minieventid}
+                                        onClose={() => setDeleteItemId(null)}
+                                        onConfirm={() => handleDeleteMiniEvent(item.minieventid)}
+                                    />
                                 </td>
-                                <ConfirmationModal
-                                    isOpen={deleteItemId === item._id}
-                                    onClose={() => setDeleteItemId(null)}
-                                    onConfirm={() => handleDeleteRefer(item._id)}
-                                />
                             </tr>
                         ))}
                     </tbody>
@@ -102,7 +94,7 @@ const Refer = () => {
     );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.section`
     overflow-x: auto; 
     max-width: 100%;
     table {
@@ -124,6 +116,7 @@ const Wrapper = styled.div`
     tr:hover {
         background-color: #ddd;
     }
-`;
+`
 
-export default Refer;
+
+export default MiniEvent

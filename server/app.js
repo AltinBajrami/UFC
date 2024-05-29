@@ -14,6 +14,7 @@ const cors = require('cors');
 const mongoSanitize = require('express-mongo-sanitize');
 const fileUpload = require('express-fileupload');
 const path = require('path');
+const sql = require('./utils/db');
 // database
 const connectDB = require('./db/connect');
 
@@ -31,9 +32,11 @@ const arenaRouter = require('./routes/arenaRoutes');
 const seatingLayoutRouter = require('./routes/seatingLayoutRoutes');
 const ticketsRouter = require('./routes/ticketsRoutes');
 
+const miniEventRouter = require('./routes/miniEventRoutes');
 // middleware
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
+const createMiniEventTable = require('./models/miniEvent');
 
 app.use(morgan('dev'));
 app.use(fileUpload());
@@ -71,6 +74,8 @@ app.use('/api/v1/arena', arenaRouter);
 app.use('/api/v1/seatingLayout', seatingLayoutRouter);
 app.use('/api/v1/tickets', ticketsRouter);
 
+app.use('/api/v1/mini-events', miniEventRouter);
+
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
@@ -78,6 +83,7 @@ const port = process.env.PORT || 5000;
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URL);
+    await createMiniEventTable(sql);
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)
     );

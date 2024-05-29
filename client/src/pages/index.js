@@ -21,6 +21,8 @@ import CreateFighter from './fighters/CreateFighter';
 import UpdateFighter from './fighters/UpdateFighter';
 import Athletes from './Athletes';
 import Profile from './users/Profile';
+import Athletes from './Athletes';
+import Profile from './users/Profile';
 import Refer from './refer/Refer';
 import CreateRefer from './refer/CreateRefer';
 import UpdateRefer from './refer/UpdateRefer';
@@ -34,6 +36,9 @@ import OctagonTickets from './OctagonTickets';
 import Success from './tickets/Success';
 import Cancel from './tickets/Cancel';
 import Orders from './tickets/Orders';
+import MiniEvent from './miniEvent/MiniEvent';
+import CreateMiniEvent from './miniEvent/CreateMiniEvent';
+import UpdateMiniEvent from './miniEvent/UpdateMiniEvent';
 
 export {
   Events,
@@ -59,6 +64,8 @@ export {
   CreateFighter,
   Athletes,
   Profile,
+  Athletes,
+  Profile,
   Refer,
   UpdateRefer,
   CreateRefer,
@@ -72,4 +79,7 @@ export {
   Success,
   Cancel,
   Orders,
+  MiniEvent,
+  CreateMiniEvent,
+  UpdateMiniEvent,
 };
