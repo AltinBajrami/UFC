@@ -40,6 +40,12 @@ const getSingleSeatingLayout = async (req, res) => {
   return res.status(StatusCodes.OK).json({ seatingLayout });
 };
 
+const getByArenaId = async (req, res) => {
+  const { arenaId } = req.params;
+  const seatingLayouts = await SeatingLayout.find({ arena: arenaId });
+  return res.status(StatusCodes.OK).json({ seatingLayouts });
+};
+
 const updateSeatingLayout = async (req, res) => {
   const { id } = req.params;
   const { sectionName, row, column, arenaId } = req.body;
@@ -94,4 +100,5 @@ module.exports = {
   getSingleSeatingLayout,
   updateSeatingLayout,
   deleteSeatingLayout,
+  getByArenaId,
 };
