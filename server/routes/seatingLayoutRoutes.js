@@ -6,6 +6,7 @@ const {
   getSingleSeatingLayout,
   updateSeatingLayout,
   deleteSeatingLayout,
+  getByArenaId,
 } = require('../controllers/seatingLayoutController');
 const {
   authenticateUser,
@@ -24,6 +25,7 @@ router.post(
   [authenticateUser, authorizePermissions('admin')],
   createSeatingLayout
 );
+router.get('/arena/:arenaId', getByArenaId);
 router.patch(
   '/:id',
   [authenticateUser, authorizePermissions('admin')],

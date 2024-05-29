@@ -21,6 +21,8 @@ import CreateFighter from './fighters/CreateFighter';
 import UpdateFighter from './fighters/UpdateFighter';
 import Athletes from './Athletes';
 import Profile from './users/Profile';
+import Athletes from './Athletes';
+import Profile from './users/Profile';
 import Refer from './refer/Refer';
 import CreateRefer from './refer/CreateRefer';
 import UpdateRefer from './refer/UpdateRefer';
@@ -30,6 +32,9 @@ import UpdateQuote from './quote/UpdateQuote';
 import Arena from './Arena/Arena';
 import CreateArena from './Arena/CreateArena';
 import UpdateArena from './Arena/UpdateArena';
+import MiniEvent from './miniEvent/MiniEvent';
+import CreateMiniEvent from './miniEvent/CreateMiniEvent';
+import UpdateMiniEvent from './miniEvent/UpdateMiniEvent';
 
 export {
   Events,
@@ -55,6 +60,8 @@ export {
   CreateFighter,
   Athletes,
   Profile,
+  Athletes,
+  Profile,
   Refer,
   UpdateRefer,
   CreateRefer,
@@ -64,4 +71,7 @@ export {
   Arena,
   CreateArena,
   UpdateArena,
+  MiniEvent,
+  CreateMiniEvent,
+  UpdateMiniEvent,
 };

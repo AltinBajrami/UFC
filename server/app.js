@@ -14,6 +14,7 @@ const cors = require('cors');
 const mongoSanitize = require('express-mongo-sanitize');
 const fileUpload = require('express-fileupload');
 const path = require('path');
+const sql = require('./utils/db');
 // database
 const connectDB = require('./db/connect');
 
@@ -29,10 +30,11 @@ const referRoutesRouter = require('./routes/referRoutes');
 const quoteRoutesRouter = require('./routes/quoteRoutes');
 const arenaRouter = require('./routes/arenaRoutes');
 const seatingLayoutRouter = require('./routes/seatingLayoutRoutes');
-
+const miniEventRouter = require('./routes/miniEventRoutes');
 // middleware
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
+const createMiniEventTable = require('./models/miniEvent');
 
 app.use(morgan('dev'));
 app.use(fileUpload());
@@ -48,6 +50,15 @@ app.use(
   })
 );
 
+app.use('/api/v1/events/:id', (req, res) => {
+  const events = [
+    { name: 'ufc 300', arena: '663240312801f9758587e8d8' },
+    { name: 'ufc 301', arena: '663240722801f9758587e8de' },
+  ];
+  const event = events.filter(item => item.arena === req.params.id);
+  res.status(200).json({ event });
+});
+
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/fightFinish', fightFinishRouter);
@@ -60,6 +71,8 @@ app.use('/api/v1/quotes', quoteRoutesRouter);
 app.use('/api/v1/arena', arenaRouter);
 app.use('/api/v1/seatingLayout', seatingLayoutRouter);
 
+app.use('/api/v1/mini-events', miniEventRouter);
+
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
@@ -67,6 +80,7 @@ const port = process.env.PORT || 5000;
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URL);
+    await createMiniEventTable(sql);
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)
     );

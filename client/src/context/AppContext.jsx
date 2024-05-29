@@ -51,7 +51,10 @@ const AppProvider = ({ children }) => {
         setIsSidebar(!isSidebarOpen);
     }
 
-    return <AppContext.Provider value={{ isSidebarOpen, toggleSidebar, setPageId, pageId, user, saveUser, removeUser, logoutUser, fetchUser }}>
+    return <AppContext.Provider value={{
+        isSidebarOpen, toggleSidebar, setPageId,
+        pageId, user, saveUser, removeUser, logoutUser, fetchUser,
+    }}>
         {children}
     </AppContext.Provider>
 }
