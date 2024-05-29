@@ -35,7 +35,7 @@ import {
   Arena,
   CreateArena, UpdateArena,
   OctagonTickets,
-  Success, Cancel, Orders
+  Success, Cancel, Orders,
   MiniEvent, CreateMiniEvent, UpdateMiniEvent
 } from "./pages";
 import CreateFight from "./pages/fights/CreateFight";
@@ -282,7 +282,7 @@ const router = createBrowserRouter([
         element: <Orders />,
         loader: ordersLoader(queryClient),
       },
-        {
+      {
         path: 'mini-event',
         element: <MiniEvent />,
         loader: MiniEventLoader(queryClient)

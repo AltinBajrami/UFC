@@ -21,8 +21,6 @@ import CreateFighter from './fighters/CreateFighter';
 import UpdateFighter from './fighters/UpdateFighter';
 import Athletes from './Athletes';
 import Profile from './users/Profile';
-import Athletes from './Athletes';
-import Profile from './users/Profile';
 import Refer from './refer/Refer';
 import CreateRefer from './refer/CreateRefer';
 import UpdateRefer from './refer/UpdateRefer';
@@ -62,8 +60,6 @@ export {
   Fighters,
   UpdateFighter,
   CreateFighter,
-  Athletes,
-  Profile,
   Athletes,
   Profile,
   Refer,
