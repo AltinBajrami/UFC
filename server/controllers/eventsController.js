@@ -3,7 +3,7 @@ const sql = require('../utils/db');
 const { BadRequestError } = require('../errors');
 const path = require('path');
 const Arena = require('../models/Arena');
-const { log } = require('console');
+const fs = require('fs');
 
 const createEvent = async (req, res) => {
   const { name, date, venueInformation, arenaId } = req.body;
@@ -35,18 +35,17 @@ const createEvent = async (req, res) => {
     return res.status(404).json({ msg: 'earlyPrelimsEvent not found' });
   }
 
-  // const image = req.files?.eventImage;
-  // console.log(req.body, req.files);
-  // if (!req.files || !image) {
-  //   throw new BadRequestError('Provide event image please');
-  // }
-  // const imagePath1 = path.join(
-  //   __dirname,
-  //   `../public/uploads/events/` + `${image.name}`
-  // );
+  const image = req.files?.eventImage;
+  if (!req.files || !image) {
+    throw new BadRequestError('Provide event image please');
+  }
+  const imagePath1 = path.join(
+    __dirname,
+    `../public/uploads/events/` + `${image.name}`
+  );
 
-  // await image.mv(imagePath1);
-  // const eventImage = `/uploads/events/${image.name}`;
+  await image.mv(imagePath1);
+  const eventImage = `/uploads/events/${image.name}`;
 
   const arenaExists = await Arena.findById(arenaId);
   if (!arenaExists) {
@@ -57,10 +56,9 @@ const createEvent = async (req, res) => {
       INSERT INTO Events (name, date, MainEventID, PrelimsEventID, EarlyPrelimsEventID, VenueInformation,
          ArenaID,Image)
       VALUES (${name},${date},${mainEventId[0].minieventid},${prelimsEventId[0].minieventid},
-        ${earlyPrelimsEventId[0].minieventid},${venueInformation},${arenaId},'')
+        ${earlyPrelimsEventId[0].minieventid},${venueInformation},${arenaId},${eventImage})
     `;
-  console.log(result);
-  return res.status(200).json({ result: result.rows });
+  return res.status(200).json({ msg: 'event created' });
 };
 
 const getAllEvents = async (req, res) => {
@@ -87,28 +85,22 @@ const getEventById = async (req, res) => {
       res.status(StatusCodes.OK).json(result[0]);
     }
   } catch (error) {
-    console.error('Error getting mini-event by ID:', error);
+    console.error('Error getting event by ID:', error);
     res.status(500).json({ msg: 'Internal server error' });
   }
 };
 
 const updateEvent = async (req, res) => {
-  const { eventId } = req.params;
-  const {
-    name,
-    date,
-    mainEventId,
-    prelimsEventId,
-    earlyPrelimsEventId,
-    venueInformation,
-    arenaId,
-  } = req.body;
+  const { id } = req.params;
+  const { name, date, venueInformation, arenaId } = req.body;
 
-  const event = await sql('SELECT * FROM Events WHERE eventId = $1', [eventId]);
+  const result = await sql`SELECT * FROM Events WHERE eventId = ${id}`;
 
-  if (event?.rows?.length === 0) {
-    return res.status(404).json({ msg: `Event with ID ${eventId} not found` });
+  console.log('🚀 ~ updateEvent ~ event:', result);
+  if (result.length === 0) {
+    return res.status(404).json({ msg: `Event with ID ${id} not found` });
   }
+  const event = result[0];
 
   const arenaExists = await Arena.findById(arenaId);
   if (!arenaExists) {
@@ -117,6 +109,11 @@ const updateEvent = async (req, res) => {
 
   let eventImage = event.image;
   if (req.files && Object.keys(req.files).length !== 0) {
+    const imagePath = path.join(__dirname, '../public', eventImage);
+    if (fs.existsSync(imagePath)) {
+      fs.unlinkSync(imagePath);
+    }
+
     const image = req.files?.eventImage;
 
     const imagePath1 = path.join(
@@ -128,27 +125,18 @@ const updateEvent = async (req, res) => {
     eventImage = `/uploads/events/${image.name}`;
   }
 
-  const updatedEvent = await sql(
-    `
-      UPDATE Events
-      SET name = $1, date = $2, MainEventID = $3, PrelimsEventID = $4, EarlyPrelimsEventID = $5,
-          VenueInformation = $6, ArenaID = $7, Image = $8
-      WHERE eventId = $9
-      RETURNING *
-    `,
-    [
-      name,
-      date,
-      mainEventId,
-      prelimsEventId,
-      earlyPrelimsEventId,
-      venueInformation,
-      arenaId,
-      eventImage,
-    ]
-  );
+  await sql`
+    UPDATE Events
+    SET
+        name = ${name},
+        date = ${date},
+        VenueInformation = ${venueInformation},
+        ArenaID = ${arenaId},
+        Image = ${eventImage}
+    WHERE eventId = ${id}
+`;
 
-  res.status(200).json(updatedEvent.rows[0]);
+  res.status(200).json({ msg: 'Updated event' });
 };
 
 const deleteEvent = async (req, res) => {
@@ -160,9 +148,16 @@ const deleteEvent = async (req, res) => {
     WHERE eventId = ${id}
     `;
     console.log(event, id);
+
     if (event[0].length === 0) {
       return res.status(404).json({ msg: 'Event not found' });
     }
+
+    const imagePath = path.join(__dirname, '../public', event[0].image);
+    if (fs.existsSync(imagePath)) {
+      fs.unlinkSync(imagePath);
+    }
+
     await sql`
           DELETE FROM Events
           WHERE eventId = ${id}

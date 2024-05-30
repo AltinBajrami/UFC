@@ -2,58 +2,32 @@ import React from "react";
 import customFetch from "../../utils";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
+
+const getAllFights = () => {
+  return {
+    queryKey: ['fights'],
+    queryFn: async () => {
+      const response = await customFetch.get('/fights', { withCredentials: true });
+      return response.data;
+    }
+  }
+}
+
+export const loader = (queryClient) => async () => {
+  await queryClient.ensureQueryData(getAllFights())
+  return null;
+}
 
 const Fights = () => {
-  const [fights, setFights] = React.useState([]);
 
-  React.useEffect(() => {
-    const fetchFights = async () => {
-      try {
-        const response = await customFetch.get("/fights", {
-          withCredentials: true,
-        });
-        if (response.status === 200) {
-          const fetchedFights = response.data.fights;
-          console.log(fetchedFights);
-          // Fetch details of fighter1, fighter2, winner, and finish for each fight
-          const promises = fetchedFights.map(async (fight) => {
-            const fighter1Response = await customFetch.get(
-              `/fighters/${fight.fighter1ID}`,
-            );
-            const fighter2Response = await customFetch.get(
-              `/fighters/${fight.fighter2ID}`,
-            );
-            const winnerResponse = await customFetch.get(
-              `/fighters/${fight.winnerID}`,
-            );
-            const finishResponse = await customFetch.get(
-              `/fightFinish/${fight.finishID}`,
-            );
-            fight.fighter1 = fighter1Response.data;
-            fight.fighter2 = fighter2Response.data;
-            fight.winner = winnerResponse.data;
-            fight.finish = finishResponse.data;
-            return fight;
-          });
-          const updatedFights = await Promise.all(promises);
-          setFights(updatedFights);
-        } else {
-          toast.error("Failed to fetch fights");
-        }
-      } catch (error) {
-        console.error("Error fetching fights:", error);
-        toast.error("Failed to fetch fights");
-      }
-    };
-
-    fetchFights();
-  }, []);
-
-  console.log(fights);
+  const { data } = useQuery(getAllFights())
+  const fights = data.fights
+  console.log("🚀 ~ Fights ~ fights:", fights)
 
   const handleDelete = async (id) => {
     try {
-      await customFetch.delete("/fights/" + id);
+      await customFetch.delete("/fights/" + id, { withCredentials: true });
       toast.success("Deleted fight");
       window.location.reload();
     } catch (error) {
@@ -75,40 +49,34 @@ const Fights = () => {
               <th>Fighter 2</th>
               <th>Winner</th>
               <th>Round</th>
-              <th>Time</th>
               <th>Finish Type</th>
-              <th>Referee ID</th>
-              <th>Mini Event ID</th>
+              <th>Weight Class</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {fights.map((fight, index) => (
-              <tr key={index}>
+            {data.fights.map((fight) => (
+              <tr key={fights._id}>
                 <td>
-                  {fight.fighter1
-                    ? `${fight.fighter1.fighter.fighterName} (${fight.fighter1.fighter.nickName})`
+                  {fight.fighter1ID.fighterName}
+                </td>
+                <td>
+                  {fight.fighter2ID.fighterName}
+                </td>
+                <td>
+                  {fight.winnerID
+                    ? `${fight.winnerID.fighterName}`
+                    : "N/A"}
+                </td>
+                <td>{fight.round ? fight.round : 'N/A'}</td>
+                <td>
+                  {fight.finishID
+                    ? `${fight.finishID.finishType} `
                     : "N/A"}
                 </td>
                 <td>
-                  {fight.fighter2
-                    ? `${fight.fighter2.fighter.fighterName} (${fight.fighter2.fighter.nickName})`
-                    : "N/A"}
+                  {fight.weightClassID.className}
                 </td>
-                <td>
-                  {fight.winner
-                    ? `${fight.winner.fighter.fighterName} (${fight.winner.fighter.nickName})`
-                    : "N/A"}
-                </td>
-                <td>{fight.round}</td>
-                <td>{fight.time}</td>
-                <td>
-                  {fight.finish
-                    ? `${fight.finish.fightFinish.finishType} (${fight.finish.fightFinish.description})`
-                    : "N/A"}
-                </td>
-                <td>{fight.refereeID || "N/A"}</td>
-                <td>{fight.miniEventID || "N/A"}</td>
                 <td>
                   <Link
                     to={`/fights/update/${fight._id}`}

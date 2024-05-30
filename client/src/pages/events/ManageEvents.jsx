@@ -79,9 +79,9 @@ const ManageEvents = () => {
                             <tr key={item.eventid}>
                                 <td>{item.name}</td>
                                 <td>{item.venueinformation}</td>
-                                <td>{day(item.date).format('MMM Do, YYYY HH:mm ')}</td>
-                                <td style={{ display: 'flex', gap: '0.5rem' }}>
-                                    <Link to={`/mini-event/update/${item.eventid}`} style={{ textDecoration: 'none' }} className='btn btn-success'>Edit</Link>
+                                <td>{day(item.date).format('MMM D, YYYY h:mm ')}</td>
+                                <td className='customizeBtns' >
+                                    <Link to={`/events/update/${item.eventid}`} style={{ textDecoration: 'none' }} className='btn btn-success'>Edit</Link>
                                     <Link className='btn btn-danger' style={{ textDecoration: 'none' }} onClick={() => {
                                         setDeleteItemId(item.eventid);
                                     }}>delete</Link>
@@ -101,11 +101,12 @@ const ManageEvents = () => {
 };
 
 const Wrapper = styled.section`
-    overflow-x: auto; 
     max-width: 100%;
+    overflow-x: auto;
+    margin: 5rem auto;
+
     table {
         width: 90%;
-        margin: 5rem auto;
         border-collapse: collapse;
     }
     th, td {
@@ -122,6 +123,11 @@ const Wrapper = styled.section`
     tr:hover {
         background-color: #ddd;
     }
+    .customizeBtns{
+         display: flex;
+         gap: 1rem;
+    }
+
 `
 
 

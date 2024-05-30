@@ -3,7 +3,7 @@ const createEventTable = async sql => {
     CREATE TABLE IF NOT EXISTS Events (
         eventId SERIAL PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
-        date DATE NOT NULL,
+        date VARCHAR(255) NOT NULL,
         MainEventID INT,
         PrelimsEventID INT,
         EarlyPrelimsEventID INT,

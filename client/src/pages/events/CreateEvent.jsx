@@ -4,6 +4,7 @@ import { Form, redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import customFetch from '../../utils';
 import { toast } from 'react-toastify';
+
 const getAllArenas = () => {
     return {
         queryKey: ['arenas'],
@@ -20,7 +21,11 @@ export const action =
             const formData = await request.formData();
             const data = Object.fromEntries(formData);
             try {
-                const response = await customFetch.post('/events', data, { withCredentials: true });
+                const response = await customFetch.post('/events', data, {
+                    withCredentials: true, headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
                 queryClient.invalidateQueries(['events']);
                 toast.success(' Event added successfully ');
                 return redirect('/events/manage');
@@ -59,11 +64,11 @@ const CreateEvent = () => {
                 </div>
                 <div className="form-row">
                     <label htmlFor="venueInformation" className="form-label">venue Information</label>
-                    <input type="textarea" className="form-input" name='venueInformation' />
+                    <textarea className="form-input" name='venueInformation' />
                 </div>
                 <div className="form-row">
                     <label htmlFor="eventImage" className="form-label">Event Image</label>
-                    <input type="file" id='eventImage' className="form-input" name='image' />
+                    <input type="file" id='eventImage' className="form-input" name='eventImage' />
                 </div>
                 <button type="submit" className='btn-css btn-block'>Submit</button>
             </Form>

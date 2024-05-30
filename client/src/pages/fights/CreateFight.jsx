@@ -1,180 +1,161 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Form, redirect, useNavigate } from "react-router-dom";
 import customFetch from "../../utils";
 import { toast } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
+import styled from "styled-components";
 
-const CreateFight = () => {
-  const [fighter1ID, setFighter1ID] = React.useState("");
-  const [fighter2ID, setFighter2ID] = React.useState("");
-  const [winnerID, setWinnerID] = React.useState("");
-  const [round, setRound] = React.useState("");
-  const [time, setTime] = React.useState("");
-  const [finishID, setFinishID] = React.useState("");
-  // const [refereeID, setRefereeID] = React.useState("");
-  // const [miniEventID, setMiniEventID] = React.useState("");
-
-  const [fighters, setFighters] = React.useState([]);
-  const [fightFinishs, setFightFinishs] = React.useState([]);
-
-  const navigate = useNavigate();
-
-  React.useEffect(() => {
-    // Fetch fighters and fight finishes...
-
-    const fetchFighters = async () => {
-      try {
-        const response = await customFetch("/fighters");
-        if (response.status === 200) {
-          setFighters(response.data.fighters);
-        } else {
-          toast.error("Failed to fetch fighters");
-        }
-      } catch (error) {
-        console.error("Error fetching fighters:", error);
-        toast.error("Failed to fetch fighters");
-      }
-    };
-
-    const fetchFightFinishs = async () => {
-      try {
-        const response = await customFetch("/fightFinish");
-        if (response.status === 200) {
-          setFightFinishs(response.data.fightFinishs);
-        } else {
-          toast.error("Failed to fetch fight finishes");
-        }
-      } catch (error) {
-        console.error("Error fetching fight finishes:", error);
-        toast.error("Failed to fetch fight finishes");
-      }
-    };
-
-    fetchFighters();
-    fetchFightFinishs();
-  }, []);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const payload = {
-        fighter1ID,
-        fighter2ID,
-        winnerID,
-        round,
-        time,
-        finishID,
-      };
-
-      const { data } = await customFetch.post("/fights", payload);
-
-      console.log(data);
-
-      // Redirect after successful submission
-      navigate("/fights");
-    } catch (error) {
-      toast.error(error?.response?.data?.msg);
-      console.log(error);
+const getAllRefers = () => {
+  return {
+    queryKey: ['refers'],
+    queryFn: async () => {
+      const response = await customFetch.get('/refers', { withCredentials: true });
+      return response.data;
     }
   };
-
-  return (
-    <div className="d-flex vh-50 bg-primary justify-content-center align-items-center p-5">
-      <div className="w-50 bg-white rounded p-3">
-        <form onSubmit={handleSubmit}>
-          <h2>Add Fight</h2>
-          <div className="mb-2">
-            <label htmlFor="">Fighter 1</label>
-            <select
-              className="form-control"
-              value={fighter1ID}
-              onChange={(e) => setFighter1ID(e.target.value)}
-              required
-            >
-              <option value="">Select Fighter 1</option>
-              {fighters.map((fighter) => (
-                <option key={fighter._id} value={fighter._id}>
-                  {fighter.fighterName} ({fighter.nickName})
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-2">
-            <label htmlFor="">Fighter 2</label>
-            <select
-              className="form-control"
-              value={fighter2ID}
-              onChange={(e) => setFighter2ID(e.target.value)}
-              required
-            >
-              <option value="">Select Fighter 2</option>
-              {fighters.map((fighter) => (
-                <option key={fighter._id} value={fighter._id}>
-                  {fighter.fighterName} ({fighter.nickName})
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-2">
-            <label htmlFor="">Winner</label>
-            <select
-              className="form-control"
-              value={winnerID}
-              onChange={(e) => setWinnerID(e.target.value)}
-              required
-            >
-              <option value="">Select Winner</option>
-              {fighters.map((fighter) => (
-                <option key={fighter._id} value={fighter._id}>
-                  {fighter.fighterName} ({fighter.nickName})
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-2">
-            <label htmlFor="">Round</label>
-            <input
-              type="number"
-              placeholder="Enter Round"
-              required
-              className="form-control"
-              value={round}
-              onChange={(e) => setRound(e.target.value)}
-            />
-          </div>
-          <div className="mb-2">
-            <label htmlFor="">Time</label>
-            <input
-              type="text"
-              placeholder="Enter Time"
-              required
-              className="form-control"
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-            />
-          </div>
-          <div className="mb-2">
-            <label htmlFor="">Fight Finish</label>
-            <select
-              className="form-control"
-              value={finishID}
-              onChange={(e) => setFinishID(e.target.value)}
-              required
-            >
-              <option value="">Select Finish Type</option>
-              {fightFinishs.map((fightFinish) => (
-                <option key={fightFinish._id} value={fightFinish._id}>
-                  {fightFinish.finishType} ({fightFinish.description})
-                </option>
-              ))}
-            </select>
-          </div>
-          <button type="submit" className="btn btn-success">
-            Submit
-          </button>
-        </form>
-      </div>
-    </div>
-  );
 };
 
+const getAllEvents = () => {
+  return {
+    queryKey: ['events'],
+    queryFn: async () => {
+      const response = await customFetch.get('/events', { withCredentials: true });
+      return response.data;
+    }
+  };
+};
+
+const getAllMiniEvents = () => {
+  return {
+    queryKey: ['mini-events'],
+    queryFn: async () => {
+      const response = await customFetch.get('/mini-events', { withCredentials: true });
+      return response.data;
+    }
+  };
+};
+const getAllFighters = () => {
+  return {
+    queryKey: ['fighters'],
+    queryFn: async () => {
+      const response = await customFetch.get('/fighters', { withCredentials: true });
+      return response.data;
+    }
+  };
+};
+const getAllWeightClasses = () => {
+  return {
+    queryKey: ['weightClasses'],
+    queryFn: async () => {
+      const response = await customFetch.get('/weightClasses', { withCredentials: true });
+      return response.data;
+    }
+  }
+}
+
+export const loader = (queryClient) => async () => {
+  await queryClient.ensureQueryData(getAllMiniEvents());
+  await queryClient.ensureQueryData(getAllEvents());
+  await queryClient.ensureQueryData(getAllRefers());
+  await queryClient.ensureQueryData(getAllFighters());
+  await queryClient.ensureQueryData(getAllWeightClasses());
+  return ''
+}
+
+export const action =
+  (queryClient) =>
+    async ({ request }) => {
+      const formData = await request.formData();
+      const data = Object.fromEntries(formData);
+      try {
+        const response = await customFetch.post('/fights', data, {
+          withCredentials: true,
+        });
+        queryClient.invalidateQueries(['fights']);
+        toast.success(' Fight added successfully ');
+        return redirect('/fights');
+      } catch (error) {
+        toast.error(error?.response?.data?.msg);
+        return error;
+      }
+    };
+
+const CreateFight = () => {
+  const { data } = useQuery(getAllEvents())
+  const { data: data1 } = useQuery(getAllMiniEvents())
+  const { data: data2 } = useQuery(getAllRefers())
+  const { data: data4 } = useQuery(getAllFighters())
+  const { data: data5 } = useQuery(getAllWeightClasses())
+
+
+  const events = data;
+  const miniEvents = data1;
+  const refers = data2.refers;
+  const weightClasses = data5.weightClasses;
+  const [weightClass, setWeightClass] = useState(weightClasses[4]._id);
+  // const fighters = data4.fighters;
+  // console.log("🚀 ~ CreateFight ~ fighters:", fighters)
+  const fighters = data4.fighters.filter((item) => item.weightClass._id === weightClass);
+  return (
+    <Form method="post" className="form">
+      <h2 style={{ textAlign: 'center', letterSpacing: '4px', marginBottom: '1rem' }} >Create  Event</h2>
+      <Wrapper>
+        <div className="form-row">
+          <label htmlFor='weightClassID' className="form-label">Fighter 1</label>
+          <select name='weightClassID' id='weightClassID' onChange={(e) => setWeightClass(e.target.value)} className='form-select' defaultValue={weightClass}>
+            {weightClasses.map((item) => {
+              return <option key={item._id} value={item._id}>{item.className}</option>
+            })}
+          </select>
+        </div>
+        <div className="form-row">
+          <label htmlFor='fighter1ID' className="form-label">Fighter 1</label>
+          <select name='fighter1ID' id='fighter1ID' className='form-select' defaultValue={fighters[0]._id}>
+            {fighters.map((item) => {
+              return <option key={item._id} value={item._id}>{item.fighterName}</option>
+            })}
+          </select>
+        </div>
+        <div className="form-row">
+          <label htmlFor='fighter2ID' className="form-label">Fighter 2</label>
+          <select name='fighter2ID' id='fighter2ID' className='form-select' defaultValue={fighters[1]._id}>
+            {fighters.map((item) => {
+              return <option key={item._id} value={item._id}>{item.fighterName}</option>
+            })}
+          </select>
+        </div>
+        <div className="form-row">
+          <label htmlFor='eventID' className="form-label">Event </label>
+          <select name='eventID' id='eventID' className='form-select' defaultValue={events[0]._id}>
+            {events.map((item) => {
+              return <option key={item.eventid} value={item.eventid}>{item.name}</option>
+            })}
+          </select>
+        </div>
+        <div className="form-row">
+          <label htmlFor='miniEventID' className="form-label">Mini event </label>
+          <select name='miniEventID' id='miniEventID' className='form-select' defaultValue={miniEvents[0]._id}>
+            {miniEvents.map((item) => {
+              return <option key={item.minieventid} value={item.minieventid}>{item.eventtypename}</option>
+            })}
+          </select>
+        </div>
+        <div className="form-row">
+          <label htmlFor='refereeID' className="form-label">Referee </label>
+          <select name='refereeID' id='miniEventID' className='form-select' defaultValue={refers[0]._id}>
+            {refers.map((item) => {
+              return <option key={item._id} value={item._id}>{item.name}</option>
+            })}
+          </select>
+        </div>
+
+
+        <button type="submit" className='btn-css btn-block'>Submit</button>
+      </Wrapper>
+    </Form>
+  );
+};
+const Wrapper = styled.div`
+  
+`
 export default CreateFight;

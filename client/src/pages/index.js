@@ -39,6 +39,7 @@ import CreateMiniEvent from './miniEvent/CreateMiniEvent';
 import UpdateMiniEvent from './miniEvent/UpdateMiniEvent';
 import CreateEvent from './events/CreateEvent';
 import ManageEvents from './events/ManageEvents';
+import UpdateEvent from './events/UpdateEvent';
 
 export {
   Events,
@@ -82,4 +83,5 @@ export {
   UpdateMiniEvent,
   CreateEvent,
   ManageEvents,
+  UpdateEvent,
 };

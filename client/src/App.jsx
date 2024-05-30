@@ -38,7 +38,8 @@ import {
   Success, Cancel, Orders,
   MiniEvent, CreateMiniEvent, UpdateMiniEvent,
   CreateEvent,
-  ManageEvents
+  ManageEvents,
+  UpdateEvent
 } from "./pages";
 import CreateFight from "./pages/fights/CreateFight";
 import UpdateFight from "./pages/fights/UpdateFight";
@@ -81,7 +82,15 @@ import { action as CreateMiniEventAction } from './pages/miniEvent/CreateMiniEve
 
 import { action as CreateEventAction } from './pages/events/CreateEvent'
 import { loader as CreateEventLoader } from './pages/events/CreateEvent'
+import { action as UpdateEventAction } from './pages/events/UpdateEvent'
+import { loader as UpdateEventLoader } from './pages/events/UpdateEvent'
 import { loader as ManageEventLoader } from './pages/events/ManageEvents'
+
+import { action as CreateFightAction } from './pages/fights/CreateFight'
+import { loader as CreateFightLoader } from './pages/fights/CreateFight'
+import { action as UpdateFightAction } from './pages/fights/UpdateFight'
+import { loader as UpdateFightLoader } from './pages/fights/UpdateFight'
+import { loader as FightsLoader } from './pages/fights/Fights'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -174,23 +183,28 @@ const router = createBrowserRouter([
       },
       {
         path: "fighters/create",
-        element: <CreateFighter />,
+        element: <CreateFighter />
       },
       {
         path: "fighters/update/:id",
-        element: <UpdateFighter />,
+        element: <UpdateFighter />
       },
       {
         path: "fights",
         element: <Fights />,
+        loader: FightsLoader(queryClient)
       },
       {
         path: "fights/create",
         element: <CreateFight />,
+        loader: CreateFightLoader(queryClient),
+        action: CreateFightAction(queryClient)
       },
       {
         path: "fights/update/:id",
         element: <UpdateFight />,
+        loader: UpdateFightLoader(queryClient),
+        action: UpdateFightAction(queryClient)
       },
       {
         path: "ranked",
@@ -314,7 +328,13 @@ const router = createBrowserRouter([
         path: 'events/manage',
         element: <ManageEvents />,
         loader: ManageEventLoader(queryClient)
-      }
+      },
+      {
+        path: 'events/update/:id',
+        element: <UpdateEvent />,
+        action: UpdateEventAction(queryClient),
+        loader: UpdateEventLoader(queryClient)
+      },
     ]
   }])
 
