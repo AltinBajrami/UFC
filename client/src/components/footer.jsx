@@ -1,15 +1,13 @@
+
 import React from 'react';
 import styled from 'styled-components';
 import { SiUfc } from "react-icons/si";
 import { Link } from 'react-router-dom';
-
 const Footer = () => {
   return (
     <Wrapper>
       <div className="footer-left">
-        <Link to="/">
-          <SiUfc className="icon-u" />
-        </Link>
+      <Link to="/"><SiUfc /></Link>
       </div>
       <div className="footer-right">
         <div className="footer-column">
@@ -60,13 +58,9 @@ const Wrapper = styled.footer`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  .footer-left {
-    display: flex;
-    align-items: center;
-  }
 
-  .icon-u {
-    width: 120px; /* Shtoni madhësinë që deshironi për ikonën */
+  .footer-left img {
+    width: 100px;
     height: auto;
   }
 
@@ -104,4 +98,3 @@ const Wrapper = styled.footer`
 `;
 
 export default Footer;
-

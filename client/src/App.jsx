@@ -34,9 +34,13 @@ import {
   UpdateQuote,
   Arena,
   CreateArena, UpdateArena,
-  OctagonTickets,
-  Success, Cancel, Orders
-  MiniEvent, CreateMiniEvent, UpdateMiniEvent
+<<<<<<< HEAD
+  SeatingLayout,
+  CreateSeatingLayout,
+  UpdateSeatingLayout
+=======
+  OctagonTickets
+>>>>>>> 41924ac6cb14512093362125085148073a4cd50b
 } from "./pages";
 import CreateFight from "./pages/fights/CreateFight";
 import UpdateFight from "./pages/fights/UpdateFight";
@@ -69,13 +73,11 @@ import { loader as UpdateArenaLoader } from './pages/Arena/UpdateArena'
 import { action as UpdateArenaAction } from './pages/Arena/UpdateArena'
 import { action as CreateArenaAction } from './pages/Arena/CreateArena'
 
-import { loader as octagonLoader } from './pages/OctagonTickets'
-import { loader as ordersLoader } from './pages/tickets/Orders'
-
-import { loader as MiniEventLoader } from './pages/miniEvent/MiniEvent'
-import { loader as UpdateMiniEventLoader } from './pages/miniEvent/UpdateMiniEvent'
-import { action as UpdateMiniEventAction } from './pages/miniEvent/UpdateMiniEvent'
-import { action as CreateMiniEventAction } from './pages/miniEvent/CreateMiniEvent'
+import { loader as SeatingLayoutLoader } from './pages/seatingLayout/SeatingLayout'
+import { loader as UpdateSeatingLayoutLoader } from './pages/seatingLayout/UpdateSeatingLayout'
+import { action as UpdateSeatingLayoutAction } from './pages/seatingLayout/UpdateSeatingLayout'
+import { action as CreateSeatingLayoutAction } from './pages/seatingLayout/CreateSeatingLayout'
+import { loader as CreateSeatingLayoutLoader } from './pages/seatingLayout/CreateSeatingLayout'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -265,39 +267,22 @@ const router = createBrowserRouter([
         action: UpdateArenaAction(queryClient)
       },
       {
-        path: '/events/tickets/:eventId',
-        element: <OctagonTickets />,
-        loader: octagonLoader(queryClient)
+        path: 'seating-layout',
+        element: <SeatingLayout />,
+        loader: SeatingLayoutLoader(queryClient)
       },
       {
-        path: '/tickets/success',
-        element: <Success />,
+        path: 'seating-layout/create',
+        element: <CreateSeatingLayout />,
+        action: CreateSeatingLayoutAction(queryClient),
+        loader: CreateSeatingLayoutLoader(queryClient)
       },
       {
-        path: '/tickets/cancel',
-        element: <Cancel />,
-      },
-      {
-        path: '/my-orders',
-        element: <Orders />,
-        loader: ordersLoader(queryClient),
-      },
-        {
-        path: 'mini-event',
-        element: <MiniEvent />,
-        loader: MiniEventLoader(queryClient)
-      },
-      {
-        path: 'mini-event/create',
-        element: <CreateMiniEvent />,
-        action: CreateMiniEventAction(queryClient)
-      },
-      {
-        path: 'mini-event/update/:id',
-        element: <UpdateMiniEvent />,
-        loader: UpdateMiniEventLoader(queryClient),
-        action: UpdateMiniEventAction(queryClient)
-      },
+        path: 'seating-layout/update/:id',
+        element: <UpdateSeatingLayout />,
+        loader: UpdateSeatingLayoutLoader(queryClient),
+        action: UpdateSeatingLayoutAction(queryClient)
+      }
     ]
   }])
 

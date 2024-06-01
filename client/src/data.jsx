@@ -24,7 +24,7 @@ const sublinks = [
                 id: nanoid(),
                 label: 'tickets',
                 icon: <IoTicketSharp />,
-                url: '/my-orders',
+                url: '/product/tickets',
             },
             {
                 id: nanoid(),

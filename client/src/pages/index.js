@@ -5,9 +5,9 @@ import Landing from './Landing';
 import Register from './authPages/Register';
 import Login from './authPages/Login';
 import Error from './Error';
-import FightsFinish from './fightFinish/FightsFinish';
-import UpdateFightFinish from './fightFinish/UpdateFightFinish';
-import CreateFightFinish from './fightFinish/CreateFightFinish';
+import FightsFinish from './FightsFinish';
+import UpdateFightFinish from './UpdateFightFinish';
+import CreateFightFinish from './CreateFightFinish';
 import VerifyEmail from './authPages/VerifyEmail';
 import ForgotPassword from './authPages/ForgotPassword';
 import ResetPassword from './authPages/ResetPassword';
@@ -21,8 +21,6 @@ import CreateFighter from './fighters/CreateFighter';
 import UpdateFighter from './fighters/UpdateFighter';
 import Athletes from './Athletes';
 import Profile from './users/Profile';
-import Athletes from './Athletes';
-import Profile from './users/Profile';
 import Refer from './refer/Refer';
 import CreateRefer from './refer/CreateRefer';
 import UpdateRefer from './refer/UpdateRefer';
@@ -32,13 +30,9 @@ import UpdateQuote from './quote/UpdateQuote';
 import Arena from './Arena/Arena';
 import CreateArena from './Arena/CreateArena';
 import UpdateArena from './Arena/UpdateArena';
-import OctagonTickets from './OctagonTickets';
-import Success from './tickets/Success';
-import Cancel from './tickets/Cancel';
-import Orders from './tickets/Orders';
-import MiniEvent from './miniEvent/MiniEvent';
-import CreateMiniEvent from './miniEvent/CreateMiniEvent';
-import UpdateMiniEvent from './miniEvent/UpdateMiniEvent';
+import SeatingLayout from './seatingLayout/SeatingLayout';
+import CreateSeatingLayout from './seatingLayout/CreateSeatingLayout';
+import UpdateSeatingLayout from './seatingLayout/UpdateSeatingLayout';
 
 export {
   Events,
@@ -64,8 +58,6 @@ export {
   CreateFighter,
   Athletes,
   Profile,
-  Athletes,
-  Profile,
   Refer,
   UpdateRefer,
   CreateRefer,
@@ -75,11 +67,7 @@ export {
   Arena,
   CreateArena,
   UpdateArena,
-  OctagonTickets,
-  Success,
-  Cancel,
-  Orders,
-  MiniEvent,
-  CreateMiniEvent,
-  UpdateMiniEvent,
+  SeatingLayout,
+  CreateSeatingLayout,
+  UpdateSeatingLayout,
 };

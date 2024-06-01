@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, redirect, useLoaderData } from 'react-router-dom';
+import { Form, redirect, useLoaderData, useNavigation } from 'react-router-dom';
 import customFetch from '../../utils';
 import { toast } from 'react-toastify';
 import { useQuery } from '@tanstack/react-query';
@@ -41,8 +41,11 @@ const UpdateArena = () => {
     const id = useLoaderData();
     const { data } = useQuery(getArena(id));
 
+    const navigate = useNavigation();
+    const isSubmitting = navigate.state === 'submitting'
+
     const { arena } = data;
-    const { name, location, seatingCapacity } = arena
+    const { name, location } = arena
 
     return (
         <Form className='form' method='post'>
@@ -55,11 +58,7 @@ const UpdateArena = () => {
                 <label htmlFor="location" className="form-label">location</label>
                 <input type="text" className="form-input" name='location' required defaultValue={location} />
             </div>
-            <div className="form-row">
-                <label htmlFor="seatingCapacity" className="form-label">Seat Capasity</label>
-                <input type="number" className="form-input" name='seatingCapacity' required defaultValue={seatingCapacity} />
-            </div>
-            <button className='btn-css btn-block' type='submit'>Submit</button>
+            <button className='btn-css btn-block' type='submit' disabled={isSubmitting}>{isSubmitting ? 'Submitting' : 'Submit'}</button>
         </Form>
     )
 }
