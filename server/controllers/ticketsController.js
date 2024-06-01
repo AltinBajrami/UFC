@@ -3,7 +3,8 @@ const Tickets = require('../models/Ticket');
 const SeatingLayout = require('../models/SeatingLayout');
 const { BadRequestError } = require('../errors');
 const Ticket = require('../models/Ticket');
-const sql = require('../utils/db');
+const path = require('path');
+const fs = require('fs');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const createTicketsOrder = async (req, res) => {
@@ -121,10 +122,70 @@ const getAllTicketsOrdersFromSingleSeatingLayout = async (req, res) => {
   return res.status(StatusCodes.OK).json({ occupiedSeats });
 };
 
+const downloadTicket = async (req, res) => {
+  try {
+    const { ticketId } = req.params;
+    const ticket = await Ticket.findById(ticketId).populate('seatingLayout');
+
+    if (!ticket) {
+      throw new BadRequestError('Ticket not found');
+    }
+
+    const filePath = path.join(
+      __dirname,
+      '../public',
+      `ticket_${ticketId}.txt`
+    );
+    const fileContent = `
+          Ticket Details:
+          ---------------
+          Event: ${ticket.name}
+          Section: ${ticket.seatingLayout.sectionName}
+          Amount: ${ticket.amount}$
+          Status: ${ticket.status}
+          Date of Purchase: ${ticket.createdAt.toDateString()}
+          
+          Order Items:
+          ------------
+          ${ticket.orderItems
+            .map(
+              (item, index) => `
+          Item ${index + 1}:
+          - Row: ${item.row}
+          - Column: ${item.column}
+          - Price: ${item.price}$
+          `
+            )
+            .join('\n')}
+              `;
+
+    fs.writeFileSync(filePath, fileContent);
+
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename=ticket_${ticketId}.txt`
+    );
+    res.setHeader('Content-Type', 'text/plain');
+
+    res.download(filePath, err => {
+      if (err) {
+        console.error('Error downloading file:', err);
+        res.status(500).send('Error downloading file');
+      } else {
+        fs.unlinkSync(filePath);
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: 'Server error' });
+  }
+};
+
 module.exports = {
   createTicketsOrder,
   ticketsSuccess,
   getAllTicketsOrders,
   ticketsFailedToPay,
   getAllTicketsOrdersFromSingleSeatingLayout,
+  downloadTicket,
 };

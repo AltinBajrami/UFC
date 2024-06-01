@@ -6,6 +6,7 @@ const {
   getAllTicketsOrders,
   ticketsFailedToPay,
   getAllTicketsOrdersFromSingleSeatingLayout,
+  downloadTicket,
 } = require('../controllers/ticketsController');
 const {
   authenticateUser,
@@ -23,5 +24,6 @@ router.get(
 router.post('/', [authenticateUser], createTicketsOrder);
 router.post('/success', [authenticateUser], ticketsSuccess);
 router.post('/failed', [authenticateUser], ticketsFailedToPay);
+router.get('/download/:ticketId', [authenticateUser], downloadTicket);
 
 module.exports = router;

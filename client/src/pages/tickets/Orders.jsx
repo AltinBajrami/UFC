@@ -1,7 +1,7 @@
 import React from 'react'
 import customFetch from '../../utils'
 import styled from 'styled-components'
-import { redirect, useLoaderData } from 'react-router-dom'
+import { Link, redirect, useLoaderData } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import ufcimg from '../../assets/landingImage.jpg'
 
@@ -17,6 +17,40 @@ export const loader = (queryClient) => async () => {
 const Orders = () => {
     const orders = useLoaderData();
     console.log(orders);
+    const handleDownload = async (ticketId) => {
+        try {
+            const { data } = await customFetch('/tickets/download/' + ticketId);
+
+            // Create a Blob object from the data string
+            const blob = new Blob([data], { type: 'text/plain' });
+
+            // Create a URL for the Blob object
+            const url = window.URL.createObjectURL(blob);
+
+            // Create a link element to trigger the download
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `ticket_${ticketId}.txt`;
+            document.body.appendChild(a);
+
+            // Simulate a click on the link element to trigger the download
+            a.click();
+
+            // Clean up by revoking the URL object
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error downloading the file', error);
+        }
+    };
+
+    if (orders.length === 0) {
+        return <Wrapper style={{ display: 'grid', placeItems: 'center' }}>
+            <h4>No tickets bought...</h4>
+            <Link to={'/events'} style={{ marginTop: '-15rem' }} className='btn'> Buy some</Link>
+        </Wrapper>
+    }
+
     return (
         <Wrapper>
             <h4>My orders</h4>
@@ -44,7 +78,8 @@ const Orders = () => {
                                 }
                             </div>
                             <div className="btn-container">
-                                <button className='btn bg-body-secondary'>Download Ticket</button>
+                                <button className='btn bg-body-secondary'
+                                    onClick={() => handleDownload(item._id)}>Download</button>
                             </div>
                         </article>
                     })
@@ -66,14 +101,18 @@ const Wrapper = styled.section`
     }
     .orders{
         margin-top: 2rem;
+        display: grid;
+        place-items: center;
+
     }
     .order{
         background-color: var(--grey-100);
         padding: 1rem;
         border-radius: var(--borderRadius);
         box-shadow:var(--shadow-2);
-        margin-bottom:1rem;
+        margin-bottom:3rem;
         display: grid;
+        gap: 1rem;
     }
     .order:hover{
         box-shadow:var(--shadow-4);
@@ -138,6 +177,37 @@ const Wrapper = styled.section`
             flex-direction: column;
          }
     }
+
+    .btn {
+            position: relative;
+            display: inline-block;
+            border: 2px solid black;
+            border-radius: 0;
+            color: black;
+            padding: 0.7rem 3rem;
+            overflow: hidden;
+            transition: 0.5s all ease-in;
+            text-transform:uppercase;
+            font-weight:bold;
+        }
+        .btn::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: red;
+            transition: 0.5s all ease-in;
+        }
+
+        .btn:hover {
+            background-color: var(--grey-200);
+        }
+
+        .btn:hover::before {
+            width: 100%;
+        }
     
 `
 
