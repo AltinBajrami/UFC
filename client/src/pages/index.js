@@ -30,6 +30,9 @@ import UpdateQuote from './quote/UpdateQuote';
 import Arena from './Arena/Arena';
 import CreateArena from './Arena/CreateArena';
 import UpdateArena from './Arena/UpdateArena';
+import SeatingLayout from './seatingLayout/SeatingLayout';
+import CreateSeatingLayout from './seatingLayout/CreateSeatingLayout';
+import UpdateSeatingLayout from './seatingLayout/UpdateSeatingLayout';
 
 export {
   Events,
@@ -64,4 +67,7 @@ export {
   Arena,
   CreateArena,
   UpdateArena,
+  SeatingLayout,
+  CreateSeatingLayout,
+  UpdateSeatingLayout,
 };

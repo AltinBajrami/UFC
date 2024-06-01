@@ -25,7 +25,7 @@ const Error = () => {
 
     return <section style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
         <h3>Something Went wrong</h3>
-        <h3>{error?.response?.data}</h3>
+        {/* <h3>{error?.response?.data}</h3> */}
         <p>{error?.response?.data?.msg}</p>
     </section>
 }

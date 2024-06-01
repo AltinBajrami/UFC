@@ -58,50 +58,55 @@ const Arena = () => {
     }
     const { arenas } = data;
     return <>
-        <Wrapper>
-            <Link to={'create'} className='btn-css'
-                style={{ marginTop: '1rem', textDecoration: 'none', marginLeft: '1rem' }} >Create</Link>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Location</th>
-                        <th>Seat Capacity</th>
-                        <th>Customize</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {arenas.map((arena) => (
-                        <tr key={arena._id}>
-                            <td>{arena.name}</td>
-                            <td>{arena.location}</td>
-                            <td>{arena.seatingCapacity}</td>
-                            <td style={{ display: 'flex', gap: '0.5rem' }}>
-                                <Link to={`update/${arena._id}`} style={{ textDecoration: 'none' }} className='btn-css'>Edit</Link>
-                                <Link to={'/arena'} className='btn-css' style={{ textDecoration: 'none' }} onClick={() => {
-                                    setIsModalOpen(true);
-                                    setArenaId(arena._id)
-                                }}>delete</Link>
-                            </td>
+        <Wrapper className='page'>
+            <div className="section">
+                <Link to={'create'} className='btn-css'
+                    style={{ marginTop: '1rem', textDecoration: 'none', marginLeft: '1rem' }} >Create</Link>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Location</th>
+                            <th>Seat Capacity</th>
+                            <th>Customize</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-            <ConfirmationModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                onConfirm={() => { handleDeleteArena({ id: arenaId }); setIsModalOpen(false) }}
-            />
+                    </thead>
+                    <tbody>
+                        {arenas.map((arena) => (
+                            <tr key={arena._id}>
+                                <td>{arena.name}</td>
+                                <td>{arena.location}</td>
+                                <td>{arena.seatingCapacity}</td>
+                                <td style={{ display: 'flex', gap: '0.5rem' }}>
+                                    <Link to={`update/${arena._id}`} style={{ textDecoration: 'none' }} className='btn-css'>Edit</Link>
+                                    <Link to={'/arena'} className='btn-css' style={{ textDecoration: 'none' }} onClick={() => {
+                                        setIsModalOpen(true);
+                                        setArenaId(arena._id)
+                                    }}>delete</Link>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <ConfirmationModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    onConfirm={() => { handleDeleteArena({ id: arenaId }); setIsModalOpen(false) }}
+                />
+
+            </div>
         </Wrapper>
     </>
 }
 const Wrapper = styled.div`
-    overflow-x: auto; 
-    max-width: 100%;
+    .section{
+        overflow-x: auto; 
+    }
     table {
         width: 90%;
         margin: 5rem auto;
         border-collapse: collapse;
+        margin-bottom: 0;
     }
     
     th, td {

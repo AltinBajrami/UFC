@@ -43,6 +43,7 @@ const Navbar = () => {
                                         <Dropdown.Item as={NavLink} to="/fights">fights</Dropdown.Item>
                                         <Dropdown.Item as={NavLink} to="/ranked">ranked</Dropdown.Item>
                                         <Dropdown.Item as={NavLink} to="/arena">arena</Dropdown.Item>
+                                        <Dropdown.Item as={NavLink} to="/seating-layout">seating layout</Dropdown.Item>
                                     </>
                                 }
                             </Dropdown.Menu>
