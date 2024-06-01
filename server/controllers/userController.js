@@ -6,7 +6,7 @@ const {
 } = require('../errors');
 const path = require('path');
 const User = require('../models/User');
-
+const fs = require('fs');
 const {
   checkPermissions,
   createTokenUser,
@@ -46,6 +46,7 @@ const showMe = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const { email, firstName, lastName, country } = req.body;
+
   if (!email || !firstName || !lastName || !country) {
     throw new BadRequestError(
       'Please provide all values:email,firsName,lastName,country'
@@ -64,6 +65,13 @@ const updateUser = async (req, res) => {
       __dirname,
       `../public/uploads/users/` + `${profileImageTemp.name}`
     );
+
+    if (user.image !== '/uploads/users/no-profile-image.png') {
+      const imagePath = path.join(__dirname, '../public', user.image);
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+      }
+    }
 
     await profileImageTemp.mv(imagePath1);
     user.image = `/uploads/users/${profileImageTemp.name}`;
@@ -105,8 +113,38 @@ const deleteUser = async (req, res) => {
   if (!id) {
     throw new BadRequestError('Please provide id');
   }
-  await User.findByIdAndDelete(id);
+
+  const user = await User.findById(id);
+
+  if (user.image !== '/uploads/users/no-profile-image.png') {
+    const imagePath = path.join(__dirname, '../public', user.image);
+    if (fs.existsSync(imagePath)) {
+      fs.unlinkSync(imagePath);
+    }
+  }
+
+  await user.deleteOne();
   return res.status(StatusCodes.OK).json({ msg: 'User deleted' });
+};
+const changeUserRole = async (req, res) => {
+  const { id } = req.params;
+  const { role } = req.body;
+
+  if (!id) {
+    throw new BadRequestError('Please provide id');
+  }
+  if (!role) {
+    throw new BadRequestError('Please provide role');
+  }
+  const user = await User.findById(id);
+  if (!user) {
+    throw new NotFoundError(`User with id ${id} not found`);
+  }
+
+  user.role = role;
+  await user.save();
+
+  return res.status(StatusCodes.OK).json({ msg: 'User role updated!' });
 };
 
 module.exports = {
@@ -116,4 +154,5 @@ module.exports = {
   updateUser,
   updatePassword,
   deleteUser,
+  changeUserRole,
 };

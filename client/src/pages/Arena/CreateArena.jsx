@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, redirect, useNavigate, useNavigation } from 'react-router-dom'
+import { Form, redirect } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import customFetch from '../../utils';
 
@@ -19,8 +19,6 @@ export const action = (queryClient) => async ({ request }) => {
 }
 
 const CreateArena = () => {
-    const navigate = useNavigation();
-    const isSubmitting = navigate.state === 'submitting'
     return (
         <Form className='form' method='post'>
             <h2 style={{ textAlign: 'center', marginBottom: '2rem' }} >Create Arena</h2>
@@ -32,7 +30,11 @@ const CreateArena = () => {
                 <label htmlFor="location" className="form-label">location</label>
                 <input type="text" className="form-input" name='location' required />
             </div>
-            <button className='btn-css btn-block' type='submit' disabled={isSubmitting}>{isSubmitting ? 'Submitting' : 'Submit'}</button>
+            <div className="form-row">
+                <label htmlFor="seatingCapacity" className="form-label">Seat Capasity</label>
+                <input type="number" className="form-input" name='seatingCapacity' required />
+            </div>
+            <button className='btn-css btn-block' type='submit'>Submit</button>
         </Form>
     )
 }

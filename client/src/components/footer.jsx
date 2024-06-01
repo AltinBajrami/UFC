@@ -1,13 +1,15 @@
-
 import React from 'react';
 import styled from 'styled-components';
 import { SiUfc } from "react-icons/si";
 import { Link } from 'react-router-dom';
+
 const Footer = () => {
   return (
     <Wrapper>
       <div className="footer-left">
-      <Link to="/"><SiUfc /></Link>
+        <Link to="/">
+          <SiUfc className="icon-u" />
+        </Link>
       </div>
       <div className="footer-right">
         <div className="footer-column">
@@ -23,11 +25,11 @@ const Footer = () => {
         <div className="footer-column">
           <h3>Social Media</h3>
           <ul>
-            <li><a href="#">Facebook</a></li>
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">TikTok</a></li>
-            <li><a href="#">Twitter</a></li>
-            <li><a href="#">YouTube</a></li>
+            <li><a href="http://facebook.com">Facebook</a></li>
+            <li><a href="https://instagram.com">Instagram</a></li>
+            <li><a href="https://tiktok.com">TikTok</a></li>
+            <li><a href="https://twitter.com">Twitter</a></li>
+            <li><a href="https://youtube.com">YouTube</a></li>
           </ul>
         </div>
         <div className="footer-column">
@@ -59,8 +61,13 @@ const Wrapper = styled.footer`
   justify-content: space-between;
   align-items: center;
 
-  .footer-left img {
-    width: 100px;
+  .footer-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .icon-u {
+    width: 120px; /* Shtoni madhësinë që deshironi për ikonën */
     height: auto;
   }
 
@@ -98,3 +105,4 @@ const Wrapper = styled.footer`
 `;
 
 export default Footer;
+

@@ -69,11 +69,6 @@ import { loader as UpdateArenaLoader } from './pages/Arena/UpdateArena'
 import { action as UpdateArenaAction } from './pages/Arena/UpdateArena'
 import { action as CreateArenaAction } from './pages/Arena/CreateArena'
 
-import { loader as SeatingLayoutLoader } from './pages/seatingLayout/SeatingLayout'
-import { loader as UpdateSeatingLayoutLoader } from './pages/seatingLayout/UpdateSeatingLayout'
-import { action as UpdateSeatingLayoutAction } from './pages/seatingLayout/UpdateSeatingLayout'
-import { action as CreateSeatingLayoutAction } from './pages/seatingLayout/CreateSeatingLayout'
-import { loader as CreateSeatingLayoutLoader } from './pages/seatingLayout/CreateSeatingLayout'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -265,23 +260,6 @@ const router = createBrowserRouter([
         element: <UpdateArena />,
         loader: UpdateArenaLoader(queryClient),
         action: UpdateArenaAction(queryClient)
-      },
-      {
-        path: 'seating-layout',
-        element: <SeatingLayout />,
-        loader: SeatingLayoutLoader(queryClient)
-      },
-      {
-        path: 'seating-layout/create',
-        element: <CreateSeatingLayout />,
-        action: CreateSeatingLayoutAction(queryClient),
-        loader: CreateSeatingLayoutLoader(queryClient)
-      },
-      {
-        path: 'seating-layout/update/:id',
-        element: <UpdateSeatingLayout />,
-        loader: UpdateSeatingLayoutLoader(queryClient),
-        action: UpdateSeatingLayoutAction(queryClient)
       }
     ]
   }])
@@ -290,7 +268,7 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <RouterProvider router={router} />;
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </>
@@ -298,3 +276,4 @@ function App() {
 }
 
 export default App;
+  
