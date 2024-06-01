@@ -98,7 +98,7 @@ const CreateFighter = () => {
                     </div>
                     <div className='mb-2'>
                         <label htmlFor="">NickName</label>
-                        <input type="text" placeholder='Enter NickName' required className='form-control'
+                        <input type="text" placeholder='Enter NickName' className='form-control'
                             onChange={(e) => setNickName(e.target.value)} />
                     </div>
                     <div className='mb-2'>

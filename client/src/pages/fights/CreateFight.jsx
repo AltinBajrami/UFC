@@ -95,7 +95,7 @@ const CreateFight = () => {
   const [weightClass, setWeightClass] = useState(weightClasses[4]._id);
   // const fighters = data4.fighters;
   // console.log("🚀 ~ CreateFight ~ fighters:", fighters)
-  const fighters = data4.fighters.filter((item) => item.weightClass._id === weightClass);
+  const fighters = data4.fighters.filter((item) => item.weightClass._id === weightClass && item.status === 'active');
   return (
     <Form method="post" className="form">
       <h2 style={{ textAlign: 'center', letterSpacing: '4px', marginBottom: '1rem' }} >Create  Event</h2>

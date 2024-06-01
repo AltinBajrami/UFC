@@ -55,8 +55,8 @@ const Fights = () => {
             </tr>
           </thead>
           <tbody>
-            {data.fights.map((fight) => (
-              <tr key={fights._id}>
+            {data.fights.map((fight, index) => (
+              <tr key={index}>
                 <td>
                   {fight.fighter1ID.fighterName}
                 </td>

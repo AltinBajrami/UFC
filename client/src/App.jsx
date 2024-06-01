@@ -39,7 +39,8 @@ import {
   MiniEvent, CreateMiniEvent, UpdateMiniEvent,
   CreateEvent,
   ManageEvents,
-  UpdateEvent
+  UpdateEvent,
+  SingleEventPage
 } from "./pages";
 import CreateFight from "./pages/fights/CreateFight";
 import UpdateFight from "./pages/fights/UpdateFight";
@@ -91,6 +92,9 @@ import { loader as CreateFightLoader } from './pages/fights/CreateFight'
 import { action as UpdateFightAction } from './pages/fights/UpdateFight'
 import { loader as UpdateFightLoader } from './pages/fights/UpdateFight'
 import { loader as FightsLoader } from './pages/fights/Fights'
+
+import { loader as EventsLoader } from './pages/Events';
+import { loader as SingleEventLoader } from './pages/events/SingleEventPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -148,6 +152,7 @@ const router = createBrowserRouter([
       {
         path: "events",
         element: <Events />,
+        loader: EventsLoader(queryClient)
       },
       {
         path: "fightFinish",
@@ -334,6 +339,11 @@ const router = createBrowserRouter([
         element: <UpdateEvent />,
         action: UpdateEventAction(queryClient),
         loader: UpdateEventLoader(queryClient)
+      },
+      {
+        path: 'events/:id',
+        element: <SingleEventPage />,
+        loader: SingleEventLoader(queryClient)
       },
     ]
   }])

@@ -3,6 +3,7 @@ const sql = require('../utils/db');
 const { BadRequestError } = require('../errors');
 const path = require('path');
 const Arena = require('../models/Arena');
+const Fights = require('../models/Fights');
 const fs = require('fs');
 
 const createEvent = async (req, res) => {
@@ -64,10 +65,42 @@ const createEvent = async (req, res) => {
 const getAllEvents = async (req, res) => {
   try {
     const result = await sql`
-          SELECT * FROM Events
+          SELECT 
+          e.eventId,
+          e.name,
+          e.date,
+          e.VenueInformation,
+          e.ArenaID,
+          e.Image,
+          e.MainEventID,
+          e.PrelimsEventID,
+          e.EarlyPrelimsEventID,
+          me1.eventTypeName AS MainEventType,
+          me2.eventTypeName AS PrelimsEventType,
+          me3.eventTypeName AS EarlyPrelimsEventType
+      FROM 
+          Events e
+      LEFT JOIN 
+          MiniEvents me1 ON e.MainEventID = me1.miniEventId
+      LEFT JOIN 
+          MiniEvents me2 ON e.PrelimsEventID = me2.miniEventId
+      LEFT JOIN 
+          MiniEvents me3 ON e.EarlyPrelimsEventID = me3.miniEventId
+          ORDER BY 
+           e.date ASC
         `;
+    for (let i = 0; i < result.length; i++) {
+      const fights = await Fights.find({ eventID: result[i].eventid }).populate(
+        'fighter1ID fighter2ID winnerID weightClassID finishID'
+      );
+
+      const arena = await Arena.findOne({ _id: result[i].arenaid });
+      result[i].fights = fights;
+      result[i].arena = arena;
+    }
     res.status(StatusCodes.OK).json(result);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ msg: 'Internal server error' });
   }
 };
@@ -80,10 +113,17 @@ const getEventById = async (req, res) => {
           WHERE eventId = ${id}
         `;
     if (result.length === 0) {
-      res.status(404).json({ msg: 'Event not found' });
-    } else {
-      res.status(StatusCodes.OK).json(result[0]);
+      return res.status(404).json({ msg: 'Event not found' });
     }
+    const fights = await Fights.find({ eventID: result[0].eventid }).populate(
+      'fighter1ID fighter2ID winnerID weightClassID finishID'
+    );
+
+    const arena = await Arena.findOne({ _id: result[0].arenaid });
+    result[0].fights = fights;
+    result[0].arena = arena;
+
+    return res.status(StatusCodes.OK).json(result[0]);
   } catch (error) {
     console.error('Error getting event by ID:', error);
     res.status(500).json({ msg: 'Internal server error' });

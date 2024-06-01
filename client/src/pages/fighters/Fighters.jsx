@@ -24,7 +24,7 @@ const Fighters = () => {
     }
 
     return (
-        <div className="d-flex vh-100 bg-primary justify-content-center align-items-center">
+        <div className="d-flex bg-primary justify-content-center align-items-center m-5">
             <div className='w-100 bg-white rounded p-3'>
                 <Link to="/fighters/create" className='btn btn-success'>Add +</Link>
                 <table className='table'>

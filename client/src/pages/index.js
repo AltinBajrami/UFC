@@ -40,6 +40,7 @@ import UpdateMiniEvent from './miniEvent/UpdateMiniEvent';
 import CreateEvent from './events/CreateEvent';
 import ManageEvents from './events/ManageEvents';
 import UpdateEvent from './events/UpdateEvent';
+import SingleEventPage from './events/SingleEventPage';
 
 export {
   Events,
@@ -84,4 +85,5 @@ export {
   CreateEvent,
   ManageEvents,
   UpdateEvent,
+  SingleEventPage,
 };
