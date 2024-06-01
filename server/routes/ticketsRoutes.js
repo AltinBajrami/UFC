@@ -16,7 +16,7 @@ const router = express.Router();
 
 router.get('/', [authenticateUser], getAllTicketsOrders);
 router.get(
-  '/seatingLayout/:id',
+  '/:eventId/seatingLayout/:id',
   [authenticateUser],
   getAllTicketsOrdersFromSingleSeatingLayout
 );

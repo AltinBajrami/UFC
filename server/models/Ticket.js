@@ -34,6 +34,8 @@ const TicketsOrderLayoutSchema = new mongoose.Schema(
     },
     orderItems: [SingleOrderItemSchema],
     paymentIntentId: String,
+    image: String,
+    name: String,
   },
   { timestamps: true }
 );

@@ -98,7 +98,7 @@ const CreateFight = () => {
   const fighters = data4.fighters.filter((item) => item.weightClass._id === weightClass && item.status === 'active');
   return (
     <Form method="post" className="form">
-      <h2 style={{ textAlign: 'center', letterSpacing: '4px', marginBottom: '1rem' }} >Create  Event</h2>
+      <h2 style={{ textAlign: 'center', letterSpacing: '4px', marginBottom: '1rem' }} >Create  Fight</h2>
       <Wrapper>
         <div className="form-row">
           <label htmlFor='weightClassID' className="form-label">Fighter 1</label>

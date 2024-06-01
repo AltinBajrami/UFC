@@ -25,10 +25,9 @@ const Orders = () => {
                     orders.map(item => {
                         return <article key={item._id} className='order'>
                             <div className="img-container">
-                                <img src={ufcimg} alt="not found" className='img' />
+                                <img src={`http://localhost:5000/${item.image}`} alt="not found" className='img' />
                                 <div className="header-info">
-                                    <h5>{item.event}</h5>
-                                    <p>Arena Name</p>
+                                    <h5>{item.name}</h5>
                                 </div>
                             </div>
                             <div className="info">

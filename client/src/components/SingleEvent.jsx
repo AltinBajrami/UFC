@@ -7,10 +7,17 @@ day.extend(advancedFormat);
 
 const SingleEvent = ({ fights, arena, name, date, eventid }) => {
 
-    if (!fights[0]) {
-        return <h2>no fights added</h2>
+    let fighter1ID;
+    let fighter2ID;
+
+    if (fights[0]) {
+        fighter1ID = fights[0].fighter1ID;
+        fighter2ID = fights[0].fighter2ID;
+    } else {
+        fighter1ID = { image1: '/uploads/fighters/no-profile-image.png', fighterName: 'Tbo tbo' };
+        fighter2ID = { image1: '/uploads/fighters/no-profile-image.png', fighterName: 'Tbo tbo' };
     }
-    const { fighter1ID, fighter2ID } = fights[0]
+
     return (
         <Wrapper>
             <div className="header">

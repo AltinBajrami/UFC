@@ -3,6 +3,7 @@ const Tickets = require('../models/Ticket');
 const SeatingLayout = require('../models/SeatingLayout');
 const { BadRequestError } = require('../errors');
 const Ticket = require('../models/Ticket');
+const sql = require('../utils/db');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const createTicketsOrder = async (req, res) => {
@@ -10,7 +11,8 @@ const createTicketsOrder = async (req, res) => {
     eventId: event,
     seatingLayoutId: seatingLayout,
     tickets,
-    amount,
+    image,
+    name,
   } = req.body;
   const { userId } = req.user;
 
@@ -53,6 +55,8 @@ const createTicketsOrder = async (req, res) => {
     amount: tickets[0].price * tickets.length,
     sessionId: session.id,
     orderItems,
+    name,
+    image,
   });
   res.status(StatusCodes.CREATED).json({ id: session.id });
 };
@@ -93,11 +97,13 @@ const getAllTicketsOrders = async (req, res) => {
   const orders = await Tickets.find({ userId: req.user.userId }).populate(
     'seatingLayout'
   );
+
   return res.status(StatusCodes.OK).json({ orders });
 };
 
 const getAllTicketsOrdersFromSingleSeatingLayout = async (req, res) => {
-  const { id } = req.params;
+  const { id, eventId } = req.params;
+  console.log(req.params);
   const seatingLayoutTemp = await SeatingLayout.findById(id);
   if (!seatingLayoutTemp) {
     throw new BadRequestError('Provide a valid seatingLayout id');
@@ -105,6 +111,7 @@ const getAllTicketsOrdersFromSingleSeatingLayout = async (req, res) => {
 
   const orders = await Tickets.find({
     seatingLayout: id,
+    event: eventId,
   });
 
   const occupiedSeats = orders.flatMap(item =>

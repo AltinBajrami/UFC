@@ -28,8 +28,8 @@ const Events = () => {
         return <h3>No events,please add some</h3>
     }
 
-    const { name, date, image, arena, fights } = data[1];
-    const { fighter1ID, fighter2ID } = fights[1];
+    const { name, date, image, arena, fights } = data[0];
+    const { fighter1ID, fighter2ID } = fights[0];
 
     return <Wrapper>
         <EventLanding name={name} fighter1Name={fighter1ID?.fighterName.split(' ')[0]}
