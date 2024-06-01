@@ -6,7 +6,7 @@ const getAllRanked = async (req, res) => {
   try {
     const ranked = await Ranked.find({})
       .populate("weightClass", "className")
-      .populate("champion", "fighterName nickName")
+      .populate("champion", "fighterName nickName image1")
       .populate(
         "rank1 rank2 rank3 rank4 rank5 rank6 rank7 rank8 rank9 rank10",
         "fighterName nickName",

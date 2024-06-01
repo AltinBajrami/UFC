@@ -33,15 +33,13 @@ import {
   CreateQuote,
   UpdateQuote,
   Arena,
-  CreateArena, UpdateArena,
-<<<<<<< HEAD
+  CreateArena,
+  UpdateArena,
   SeatingLayout,
   CreateSeatingLayout,
-  UpdateSeatingLayout
-=======
-  OctagonTickets
->>>>>>> 41924ac6cb14512093362125085148073a4cd50b
+  UpdateSeatingLayout,
 } from "./pages";
+import Rankings from "./pages/Rankings";
 import CreateFight from "./pages/fights/CreateFight";
 import UpdateFight from "./pages/fights/UpdateFight";
 import Fights from "./pages/fights/Fights";
@@ -57,27 +55,27 @@ import { action as UpdateWeightClassAction } from "./pages/weightClasses/UpdateW
 import { action as CreateWeightClassAction } from "./pages/weightClasses/CreateWeightClasses";
 import { loader as ProfileLoader } from "./pages/users/Profile";
 
-import { loader as ReferLoader } from './pages/refer/Refer'
-import { loader as UpdateReferLoader } from './pages/refer/UpdateRefer'
-import { action as UpdateReferAction } from './pages/refer/UpdateRefer'
-import { action as CreateReferAction } from './pages/refer/CreateRefer'
+import { loader as ReferLoader } from "./pages/refer/Refer";
+import { loader as UpdateReferLoader } from "./pages/refer/UpdateRefer";
+import { action as UpdateReferAction } from "./pages/refer/UpdateRefer";
+import { action as CreateReferAction } from "./pages/refer/CreateRefer";
 
-import { loader as QuotesLoader } from './pages/quote/Quotes'
-import { loader as UpdateQuoteLoader } from './pages/quote/UpdateQuote'
-import { action as UpdateQuoteAction } from './pages/quote/UpdateQuote'
-import { loader as CreateQuoteLoader } from './pages/quote/CreateQuote'
-import { action as CreateQuoteAction } from './pages/quote/CreateQuote'
+import { loader as QuotesLoader } from "./pages/quote/Quotes";
+import { loader as UpdateQuoteLoader } from "./pages/quote/UpdateQuote";
+import { action as UpdateQuoteAction } from "./pages/quote/UpdateQuote";
+import { loader as CreateQuoteLoader } from "./pages/quote/CreateQuote";
+import { action as CreateQuoteAction } from "./pages/quote/CreateQuote";
 
-import { loader as ArenaLoader } from './pages/Arena/Arena'
-import { loader as UpdateArenaLoader } from './pages/Arena/UpdateArena'
-import { action as UpdateArenaAction } from './pages/Arena/UpdateArena'
-import { action as CreateArenaAction } from './pages/Arena/CreateArena'
+import { loader as ArenaLoader } from "./pages/Arena/Arena";
+import { loader as UpdateArenaLoader } from "./pages/Arena/UpdateArena";
+import { action as UpdateArenaAction } from "./pages/Arena/UpdateArena";
+import { action as CreateArenaAction } from "./pages/Arena/CreateArena";
 
-import { loader as SeatingLayoutLoader } from './pages/seatingLayout/SeatingLayout'
-import { loader as UpdateSeatingLayoutLoader } from './pages/seatingLayout/UpdateSeatingLayout'
-import { action as UpdateSeatingLayoutAction } from './pages/seatingLayout/UpdateSeatingLayout'
-import { action as CreateSeatingLayoutAction } from './pages/seatingLayout/CreateSeatingLayout'
-import { loader as CreateSeatingLayoutLoader } from './pages/seatingLayout/CreateSeatingLayout'
+import { loader as SeatingLayoutLoader } from "./pages/seatingLayout/SeatingLayout";
+import { loader as UpdateSeatingLayoutLoader } from "./pages/seatingLayout/UpdateSeatingLayout";
+import { action as UpdateSeatingLayoutAction } from "./pages/seatingLayout/UpdateSeatingLayout";
+import { action as CreateSeatingLayoutAction } from "./pages/seatingLayout/CreateSeatingLayout";
+import { loader as CreateSeatingLayoutLoader } from "./pages/seatingLayout/CreateSeatingLayout";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -201,90 +199,95 @@ const router = createBrowserRouter([
         element: <UpdateRanked />,
       },
       {
+        path: "rankings",
+        element: <Rankings />,
+      },
+      {
         path: "athletes",
         element: <Athletes />,
       },
       {
         path: "profile",
         element: <Profile />,
-        loader: ProfileLoader(queryClient)
+        loader: ProfileLoader(queryClient),
       },
       {
-        path: 'fighters/create',
+        path: "fighters/create",
         element: <CreateFighter />,
       },
       {
-        path: 'fighters/update/:id',
+        path: "fighters/update/:id",
         element: <UpdateFighter />,
       },
       {
-        path: 'refers',
+        path: "refers",
         element: <Refer />,
-        loader: ReferLoader(queryClient)
+        loader: ReferLoader(queryClient),
       },
       {
-        path: 'refers/create',
+        path: "refers/create",
         element: <CreateRefer />,
-        action: CreateReferAction(queryClient)
+        action: CreateReferAction(queryClient),
       },
       {
-        path: 'refers/update/:id',
+        path: "refers/update/:id",
         element: <UpdateRefer />,
         loader: UpdateReferLoader(queryClient),
-        action: UpdateReferAction(queryClient)
+        action: UpdateReferAction(queryClient),
       },
       {
-        path: 'quotes',
+        path: "quotes",
         element: <Quotes />,
-        loader: QuotesLoader(queryClient)
+        loader: QuotesLoader(queryClient),
       },
       {
-        path: 'quotes/create',
+        path: "quotes/create",
         element: <CreateQuote />,
         loader: CreateQuoteLoader(queryClient),
-        action: CreateQuoteAction(queryClient)
+        action: CreateQuoteAction(queryClient),
       },
       {
-        path: 'quotes/update/:id',
+        path: "quotes/update/:id",
         element: <UpdateQuote />,
         loader: UpdateQuoteLoader(queryClient),
-        action: UpdateQuoteAction(queryClient)
+        action: UpdateQuoteAction(queryClient),
       },
       {
-        path: 'arena',
+        path: "arena",
         element: <Arena />,
-        loader: ArenaLoader(queryClient)
+        loader: ArenaLoader(queryClient),
       },
       {
-        path: 'arena/create',
+        path: "arena/create",
         element: <CreateArena />,
-        action: CreateArenaAction(queryClient)
+        action: CreateArenaAction(queryClient),
       },
       {
-        path: 'arena/update/:id',
+        path: "arena/update/:id",
         element: <UpdateArena />,
         loader: UpdateArenaLoader(queryClient),
-        action: UpdateArenaAction(queryClient)
+        action: UpdateArenaAction(queryClient),
       },
       {
-        path: 'seating-layout',
+        path: "seating-layout",
         element: <SeatingLayout />,
-        loader: SeatingLayoutLoader(queryClient)
+        loader: SeatingLayoutLoader(queryClient),
       },
       {
-        path: 'seating-layout/create',
+        path: "seating-layout/create",
         element: <CreateSeatingLayout />,
         action: CreateSeatingLayoutAction(queryClient),
-        loader: CreateSeatingLayoutLoader(queryClient)
+        loader: CreateSeatingLayoutLoader(queryClient),
       },
       {
-        path: 'seating-layout/update/:id',
+        path: "seating-layout/update/:id",
         element: <UpdateSeatingLayout />,
         loader: UpdateSeatingLayoutLoader(queryClient),
-        action: UpdateSeatingLayoutAction(queryClient)
-      }
-    ]
-  }])
+        action: UpdateSeatingLayoutAction(queryClient),
+      },
+    ],
+  },
+]);
 
 function App() {
   return (
