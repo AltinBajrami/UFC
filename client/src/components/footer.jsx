@@ -54,20 +54,22 @@ const Footer = () => {
 }
 
 const Wrapper = styled.footer`
-  background-color: #333;
+  background-color: #212126;
   color: #fff;
-  padding: 20px 0;
+  padding: 2rem 3rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
   .footer-left {
     display: flex;
     align-items: center;
   }
 
   .icon-u {
-    width: 120px; /* Shtoni madhësinë që deshironi për ikonën */
-    height: auto;
+    color: red;
+    height: 300px;
+    width: 200px;
   }
 
   .footer-right {

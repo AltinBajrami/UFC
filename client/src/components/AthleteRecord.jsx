@@ -4,6 +4,9 @@ import styled from 'styled-components'
 
 const AthleteRecord = ({ fights }) => {
     console.log("🚀 ~ AthleteRecord ~ fights:", fights)
+    if (fights.length === 0) {
+        return null;
+    }
     return (
         <Wrapper>
             <h1 className='head'>Athlete record</h1>
@@ -89,6 +92,7 @@ const Wrapper = styled.div`
         gap: 1rem;
         justify-content: center;
         flex-wrap: wrap;
+        color:red;
         h1{
             text-transform: uppercase;
         }

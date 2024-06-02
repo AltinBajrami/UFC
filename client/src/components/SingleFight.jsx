@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 const SingleFight = ({ fighter1ID, fighter2ID, weightClassID, finishID, winnerID, round, minute, seconds }) => {
@@ -18,9 +19,9 @@ const SingleFight = ({ fighter1ID, fighter2ID, weightClassID, finishID, winnerID
                 </div>
 
                 <div className="names">
-                    <h3>{fighter1ID.fighterName}</h3>
+                    <h3><Link to={`/fighter/${fighter1ID._id}`}>{fighter1ID.fighterName}</Link></h3>
                     <h3>vs</h3>
-                    <h3>{fighter2ID.fighterName}</h3>
+                    <h3><Link to={`/fighter/${fighter2ID._id}`}>{fighter2ID.fighterName}</Link></h3>
                 </div>
                 {winnerID &&
                     <div className="winnerInfo">
@@ -115,6 +116,13 @@ const Wrapper = styled.article`
             text-transform: uppercase;
             font-weight: bold;
             letter-spacing: 2px;
+        }
+        a{
+            color: black;
+            text-decoration:none;
+        }
+        a:hover{
+            text-decoration: underline;
         }
     }
     @media (min-width : 520px){

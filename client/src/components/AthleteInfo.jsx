@@ -36,7 +36,6 @@ const Wrapper = styled.div`
      h1{
         color: red;
         text-transform: uppercase;
-        justify-self: start;
         margin-bottom: 4rem;
      }
      .info{

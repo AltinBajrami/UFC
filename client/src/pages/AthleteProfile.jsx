@@ -37,13 +37,13 @@ const AthleteProfile = () => {
     const { data } = useQuery(getSingleFighter(id));
     const { data: data1 } = useQuery(getAllFightsByFighterId(id));
 
-    const { fighter } = data
+    const { fighter } = data;
     console.log("🚀 ~ AthleteProfile ~ fighter:", data1?.fights)
-    const { fighterName, fightingStyle, win, draw, lose, status, age, weightClass, country, gender,
+    const { fighterName, fightingStyle, win, draw, lose, status, age, weightClass, country,
         image2, legReach, nickName, reach, homeTown } = fighter;
+
     return (
         <>
-
             <Wrapper>
                 <div className="info">
                     <p>
@@ -105,6 +105,7 @@ const Wrapper = styled.section`
         text-transform: uppercase;
         letter-spacing: 2px;
         font-size: 4rem;
+        color: red;
      }
      .weightClass,.record{
         font-size:1.2rem;
