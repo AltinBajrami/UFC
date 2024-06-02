@@ -29,7 +29,17 @@ const Events = () => {
     }
 
     const { name, date, image, arena, fights } = data[0];
-    const { fighter1ID, fighter2ID } = fights[0];
+
+    let fighter1ID;
+    let fighter2ID;
+
+    if (fights[0]) {
+        fighter1ID = fights[0].fighter1ID;
+        fighter2ID = fights[0].fighter2ID;
+    } else {
+        fighter1ID = { image1: '/uploads/fighters/no-profile-image.png', fighterName: 'Tbo tbo' };
+        fighter2ID = { image1: '/uploads/fighters/no-profile-image.png', fighterName: 'Tbo tbo' };
+    }
 
     return <Wrapper>
         <EventLanding name={name} fighter1Name={fighter1ID?.fighterName.split(' ')[0]}
