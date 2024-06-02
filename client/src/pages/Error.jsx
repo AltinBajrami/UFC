@@ -22,12 +22,10 @@ const Error = () => {
 
 
     return <section style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-        <h3>Something Went wrong</h3>
+        <h3>Something Went wrong please try again later</h3>
         <p>{error?.response?.data?.msg}</p>
     </section>
 }
-
-
 
 const Wrapper = styled.div`
  min-height:100vh;

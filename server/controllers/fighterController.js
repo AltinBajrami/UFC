@@ -3,7 +3,6 @@ const { BadRequestError, NotFoundError } = require('../errors');
 const Fighter = require('../models/Fighter');
 const WeightClass = require('../models/WeightClass');
 const path = require('path');
-const { log } = require('console');
 
 const getAll = async (req, res) => {
   const fighters = await Fighter.find({}).populate('weightClass');

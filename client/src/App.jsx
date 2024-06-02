@@ -40,7 +40,8 @@ import {
   CreateEvent,
   ManageEvents,
   UpdateEvent,
-  SingleEventPage
+  SingleEventPage,
+  AthleteProfile
 } from "./pages";
 import CreateFight from "./pages/fights/CreateFight";
 import UpdateFight from "./pages/fights/UpdateFight";
@@ -95,6 +96,7 @@ import { loader as FightsLoader } from './pages/fights/Fights'
 
 import { loader as EventsLoader } from './pages/Events';
 import { loader as SingleEventLoader } from './pages/events/SingleEventPage';
+import { loader as AthleteProfileLoader } from './pages/AthleteProfile';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -345,6 +347,11 @@ const router = createBrowserRouter([
         element: <SingleEventPage />,
         loader: SingleEventLoader(queryClient)
       },
+      {
+        path: 'fighter/:id',
+        element: <AthleteProfile />,
+        loader: AthleteProfileLoader(queryClient)
+      }
     ]
   }])
 

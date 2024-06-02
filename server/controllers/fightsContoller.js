@@ -23,6 +23,19 @@ const getOneFight = async (req, res) => {
   return res.status(StatusCodes.OK).json({ fight });
 };
 
+const getAllFightsByFighterId = async (req, res) => {
+  const { fighterId } = req.params;
+  const fights1 = await Fight.find({ fighter1ID: fighterId }).populate(
+    'fighter1ID fighter2ID weightClassID refereeID winnerID finishID'
+  );
+  const fights2 = await Fight.find({ fighter2ID: fighterId }).populate(
+    'fighter1ID fighter2ID weightClassID refereeID winnerID finishID'
+  );
+  const fights = [...fights1, ...fights2];
+  console.log('🚀 ~ getAllFightsByFighterId ~ fights:', fights);
+  return res.status(StatusCodes.OK).json({ fights });
+};
+
 const createFight = async (req, res) => {
   const {
     miniEventID,
@@ -191,4 +204,5 @@ module.exports = {
   createFight,
   updateFight,
   deleteFight,
+  getAllFightsByFighterId,
 };

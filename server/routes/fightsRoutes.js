@@ -6,6 +6,7 @@ const {
   createFight,
   updateFight,
   deleteFight,
+  getAllFightsByFighterId,
 } = require('../controllers/fightsContoller');
 const {
   authenticateUser,
@@ -13,16 +14,9 @@ const {
 } = require('../middleware/authentication');
 
 // Admin-only routes for fights
-router.get(
-  '/',
-  [authenticateUser, authorizePermissions('admin')],
-  getAllFights
-);
-router.get(
-  '/:id',
-  [authenticateUser, authorizePermissions('admin')],
-  getOneFight
-);
+router.get('/', [authenticateUser], getAllFights);
+router.get('/:id', [authenticateUser], getOneFight);
+router.get('/fighter/:fighterId', [authenticateUser], getAllFightsByFighterId);
 router.post(
   '/',
   [authenticateUser, authorizePermissions('admin')],

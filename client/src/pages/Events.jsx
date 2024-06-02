@@ -10,7 +10,7 @@ const getAllEvents = () => {
     return {
         queryKey: ['events'],
         queryFn: async () => {
-            const response = await customFetch.get('/events', { withCredentials: true });
+            const response = await customFetch.get('/events');
             return response.data;
         }
     };
@@ -23,7 +23,7 @@ export const loader = (queryClient) => async () => {
 
 const Events = () => {
     const { data } = useQuery(getAllEvents())
-    // console.log(data);
+
     if (data.length === 0) {
         return <h3>No events,please add some</h3>
     }
