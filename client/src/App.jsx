@@ -98,6 +98,8 @@ import { loader as EventsLoader } from './pages/Events';
 import { loader as SingleEventLoader } from './pages/events/SingleEventPage';
 import { loader as AthleteProfileLoader } from './pages/AthleteProfile';
 
+import { loader as LandingLoader } from './pages/Landing';
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -115,6 +117,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Landing />,
+        loader: LandingLoader(queryClient),
       },
       {
         path: "register",
