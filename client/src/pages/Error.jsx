@@ -20,20 +20,12 @@ const Error = () => {
         </Wrapper>
     }
 
-    toast.error(error?.response?.data?.msg)
-
 
     return <section style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-        <h3>Something Went wrong</h3>
-<<<<<<< HEAD
-        {/* <h3>{error?.response?.data}</h3> */}
-=======
->>>>>>> 41924ac6cb14512093362125085148073a4cd50b
+        <h3>Something Went wrong please try again later</h3>
         <p>{error?.response?.data?.msg}</p>
     </section>
 }
-
-
 
 const Wrapper = styled.div`
  min-height:100vh;

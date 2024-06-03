@@ -34,7 +34,7 @@ const getMiniEventById = async (req, res) => {
           WHERE miniEventId = ${id}
         `;
     if (result.length === 0) {
-      res.status(404).json({ error: 'Mini-event not found' });
+      res.status(404).json({ msg: 'Mini-event not found' });
     } else {
       res.json(result[0]);
     }
@@ -74,13 +74,13 @@ const deleteMiniEvent = async (req, res) => {
           RETURNING *
         `;
     if (result.length === 0) {
-      res.status(404).json({ error: 'Mini-event not found' });
+      res.status(404).json({ msg: 'Mini-event not found' });
     } else {
-      res.json({ message: 'Mini-event deleted successfully' });
+      res.json({ msg: 'Mini-event deleted successfully' });
     }
   } catch (error) {
     console.error('Error deleting mini-event:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ msg: 'Internal server error' });
   }
 };
 

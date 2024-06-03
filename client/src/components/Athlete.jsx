@@ -13,7 +13,7 @@ const Athlete = (props) => {
                             <img src={`http://localhost:5000/` + image1} alt="fighterImage" />
                         </div>
                         <div className="fighter-info">
-                            <p className="nickName">"{nickName}"</p>
+                            <p className="nickName">{nickName && `'${nickName}'`}</p>
                             <h5>{fighterName}</h5>
                             <p>{className}</p>
                             <p>{win}-{lose}-{draw} [W-L-D]</p>
@@ -22,7 +22,7 @@ const Athlete = (props) => {
                 </div>
                 <div className="card-side card-back">
                     <div className="fighter-info-back">
-                        <p className="nickName">"{nickName}"</p>
+                        <p className="nickName">{nickName && `'${nickName}'`}</p>
                     </div>
                     <div className="fighter-img-back">
                         <img src={`http://localhost:5000/` + image2} alt="s" />

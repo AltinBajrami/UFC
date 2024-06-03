@@ -7,7 +7,9 @@ const Footer = () => {
   return (
     <Wrapper>
       <div className="footer-left">
-      <Link to="/"><SiUfc /></Link>
+        <Link to="/">
+          <SiUfc className="icon-u" />
+        </Link>
       </div>
       <div className="footer-right">
         <div className="footer-column">
@@ -52,16 +54,22 @@ const Footer = () => {
 }
 
 const Wrapper = styled.footer`
-  background-color: #333;
+  background-color: #212126;
   color: #fff;
-  padding: 20px 0;
+  padding: 2rem 3rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
+  .footer-left {
+    display: flex;
+    align-items: center;
+  }
 
-  .footer-left img {
-    width: 100px;
-    height: auto;
+  .icon-u {
+    color: red;
+    height: 300px;
+    width: 200px;
   }
 
   .footer-right {

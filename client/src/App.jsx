@@ -33,8 +33,15 @@ import {
   CreateQuote,
   UpdateQuote,
   Arena,
-  CreateArena,
-  UpdateArena,
+  CreateArena, UpdateArena,
+  OctagonTickets,
+  Success, Cancel, Orders,
+  MiniEvent, CreateMiniEvent, UpdateMiniEvent,
+  CreateEvent,
+  ManageEvents,
+  UpdateEvent,
+  SingleEventPage,
+  AthleteProfile,
   SeatingLayout,
   CreateSeatingLayout,
   UpdateSeatingLayout,
@@ -71,11 +78,31 @@ import { loader as UpdateArenaLoader } from "./pages/Arena/UpdateArena";
 import { action as UpdateArenaAction } from "./pages/Arena/UpdateArena";
 import { action as CreateArenaAction } from "./pages/Arena/CreateArena";
 
-import { loader as SeatingLayoutLoader } from "./pages/seatingLayout/SeatingLayout";
-import { loader as UpdateSeatingLayoutLoader } from "./pages/seatingLayout/UpdateSeatingLayout";
-import { action as UpdateSeatingLayoutAction } from "./pages/seatingLayout/UpdateSeatingLayout";
-import { action as CreateSeatingLayoutAction } from "./pages/seatingLayout/CreateSeatingLayout";
-import { loader as CreateSeatingLayoutLoader } from "./pages/seatingLayout/CreateSeatingLayout";
+import { loader as octagonLoader } from './pages/OctagonTickets'
+import { loader as ordersLoader } from './pages/tickets/Orders'
+
+import { loader as MiniEventLoader } from './pages/miniEvent/MiniEvent'
+import { loader as UpdateMiniEventLoader } from './pages/miniEvent/UpdateMiniEvent'
+import { action as UpdateMiniEventAction } from './pages/miniEvent/UpdateMiniEvent'
+import { action as CreateMiniEventAction } from './pages/miniEvent/CreateMiniEvent'
+
+import { action as CreateEventAction } from './pages/events/CreateEvent'
+import { loader as CreateEventLoader } from './pages/events/CreateEvent'
+import { action as UpdateEventAction } from './pages/events/UpdateEvent'
+import { loader as UpdateEventLoader } from './pages/events/UpdateEvent'
+import { loader as ManageEventLoader } from './pages/events/ManageEvents'
+
+import { action as CreateFightAction } from './pages/fights/CreateFight'
+import { loader as CreateFightLoader } from './pages/fights/CreateFight'
+import { action as UpdateFightAction } from './pages/fights/UpdateFight'
+import { loader as UpdateFightLoader } from './pages/fights/UpdateFight'
+import { loader as FightsLoader } from './pages/fights/Fights'
+
+import { loader as EventsLoader } from './pages/Events';
+import { loader as SingleEventLoader } from './pages/events/SingleEventPage';
+import { loader as AthleteProfileLoader } from './pages/AthleteProfile';
+
+import { loader as LandingLoader } from './pages/Landing';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -94,6 +121,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Landing />,
+        loader: LandingLoader(queryClient),
       },
       {
         path: "register",
@@ -133,6 +161,7 @@ const router = createBrowserRouter([
       {
         path: "events",
         element: <Events />,
+        loader: EventsLoader(queryClient)
       },
       {
         path: "fightFinish",
@@ -168,23 +197,28 @@ const router = createBrowserRouter([
       },
       {
         path: "fighters/create",
-        element: <CreateFighter />,
+        element: <CreateFighter />
       },
       {
         path: "fighters/update/:id",
-        element: <UpdateFighter />,
+        element: <UpdateFighter />
       },
       {
         path: "fights",
         element: <Fights />,
+        loader: FightsLoader(queryClient)
       },
       {
         path: "fights/create",
         element: <CreateFight />,
+        loader: CreateFightLoader(queryClient),
+        action: CreateFightAction(queryClient)
       },
       {
         path: "fights/update/:id",
         element: <UpdateFight />,
+        loader: UpdateFightLoader(queryClient),
+        action: UpdateFightAction(queryClient)
       },
       {
         path: "ranked",
@@ -269,15 +303,32 @@ const router = createBrowserRouter([
         action: UpdateArenaAction(queryClient),
       },
       {
-        path: "seating-layout",
-        element: <SeatingLayout />,
-        loader: SeatingLayoutLoader(queryClient),
+        path: '/events/tickets/:eventId',
+        element: <OctagonTickets />,
+        loader: octagonLoader(queryClient)
       },
       {
-        path: "seating-layout/create",
-        element: <CreateSeatingLayout />,
-        action: CreateSeatingLayoutAction(queryClient),
-        loader: CreateSeatingLayoutLoader(queryClient),
+        path: '/tickets/success',
+        element: <Success />,
+      },
+      {
+        path: '/tickets/cancel',
+        element: <Cancel />,
+      },
+      {
+        path: '/my-orders',
+        element: <Orders />,
+        loader: ordersLoader(queryClient),
+      },
+      {
+        path: 'mini-event',
+        element: <MiniEvent />,
+        loader: MiniEventLoader(queryClient)
+      },
+      {
+        path: 'mini-event/create',
+        element: <CreateMiniEvent />,
+        action: CreateMiniEventAction(queryClient)
       },
       {
         path: "seating-layout/update/:id",
@@ -285,9 +336,35 @@ const router = createBrowserRouter([
         loader: UpdateSeatingLayoutLoader(queryClient),
         action: UpdateSeatingLayoutAction(queryClient),
       },
-    ],
-  },
-]);
+      {
+        path: 'events/create',
+        element: <CreateEvent />,
+        action: CreateEventAction(queryClient),
+        loader: CreateEventLoader(queryClient)
+      },
+      {
+        path: 'events/manage',
+        element: <ManageEvents />,
+        loader: ManageEventLoader(queryClient)
+      },
+      {
+        path: 'events/update/:id',
+        element: <UpdateEvent />,
+        action: UpdateEventAction(queryClient),
+        loader: UpdateEventLoader(queryClient)
+      },
+      {
+        path: 'events/:id',
+        element: <SingleEventPage />,
+        loader: SingleEventLoader(queryClient)
+      },
+      {
+        path: 'fighter/:id',
+        element: <AthleteProfile />,
+        loader: AthleteProfileLoader(queryClient)
+      }
+    ]
+  }])
 
 function App() {
   return (

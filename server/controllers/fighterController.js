@@ -3,7 +3,6 @@ const { BadRequestError, NotFoundError } = require('../errors');
 const Fighter = require('../models/Fighter');
 const WeightClass = require('../models/WeightClass');
 const path = require('path');
-const { log } = require('console');
 
 const getAll = async (req, res) => {
   const fighters = await Fighter.find({}).populate('weightClass');
@@ -163,7 +162,7 @@ const updateFighter = async (req, res) => {
   }
 
   fighter.fighterName = fighterName;
-  fighter.nickName = nickName;
+  fighter.nickName = nickName || '';
   fighter.country = country;
   fighter.reach = reach;
   fighter.homeTown = homeTown;

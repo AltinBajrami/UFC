@@ -37,8 +37,8 @@ export const action = (queryClient) => async ({ request, params }) => {
 
 
 const CreateQuote = () => {
-    const data = useQuery(getFighters());
-    const fighters = data.data || [];
+    const { data } = useQuery(getFighters());
+    const fighters = data || [];
     console.log(fighters);
     return (
         <Form method="post" className="form">

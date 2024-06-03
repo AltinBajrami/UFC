@@ -56,8 +56,6 @@ const FighterSchema = new mongoose.Schema({
   },
   nickName: {
     type: String,
-    required: [true, 'Please provide fighter nickname'],
-    minlength: 3,
     maxlength: 50,
   },
   weightClass: {

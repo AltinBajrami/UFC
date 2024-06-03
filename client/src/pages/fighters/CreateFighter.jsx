@@ -54,7 +54,7 @@ const CreateFighter = () => {
         try {
             const formData = new FormData();
             formData.append('fighterName', fighterName);
-            formData.append('nickName', nickName);
+            if (nickName) formData.append('nickName', nickName);
             formData.append('homeTown', homeTown);
             formData.append('reach', reach);
             formData.append('legReach', legReach);
@@ -90,7 +90,7 @@ const CreateFighter = () => {
         <div className="d-flex vh-50 bg-primary justify-content-center align-items-center p-5">
             <div className='w-50 bg-white rounded p-3'>
                 <form onSubmit={Submit} encType="multipart/form-data">
-                    <h2>Add User</h2>
+                    <h2>Add Fighter</h2>
                     <div className='mb-2'>
                         <label htmlFor="">FighterName</label>
                         <input type="text" placeholder='Enter FighterName' required className='form-control'
@@ -98,7 +98,7 @@ const CreateFighter = () => {
                     </div>
                     <div className='mb-2'>
                         <label htmlFor="">NickName</label>
-                        <input type="text" placeholder='Enter NickName' required className='form-control'
+                        <input type="text" placeholder='Enter NickName' className='form-control'
                             onChange={(e) => setNickName(e.target.value)} />
                     </div>
                     <div className='mb-2'>
