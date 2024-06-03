@@ -162,7 +162,7 @@ const updateFighter = async (req, res) => {
   }
 
   fighter.fighterName = fighterName;
-  fighter.nickName = nickName;
+  fighter.nickName = nickName || '';
   fighter.country = country;
   fighter.reach = reach;
   fighter.homeTown = homeTown;

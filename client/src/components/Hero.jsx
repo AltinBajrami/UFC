@@ -24,7 +24,7 @@ const Wrapper = styled.div`
   background-position: center;
   background-attachment: scroll;
   .landing-info{
-    color: white;
+    color: whitesmoke;
     padding-top: 8rem;
     display: grid;
     gap: 1.5rem;
@@ -32,7 +32,7 @@ const Wrapper = styled.div`
   }
   .vs{
     font-weight: 700;
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
   h4{
     font-weight: 700;
