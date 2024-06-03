@@ -331,6 +331,12 @@ const router = createBrowserRouter([
         action: CreateMiniEventAction(queryClient)
       },
       {
+        path: 'mini-event/update/:id',
+        element: <UpdateMiniEvent />,
+        action: UpdateMiniEventAction(queryClient),
+        loader: UpdateMiniEventLoader(queryClient)
+      },
+      {
         path: "seating-layout/update/:id",
         element: <UpdateSeatingLayout />,
         loader: UpdateSeatingLayoutLoader(queryClient),
