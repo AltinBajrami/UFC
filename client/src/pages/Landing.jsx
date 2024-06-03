@@ -26,7 +26,7 @@ const Landing = () => {
 
     const { data, isError } = useQuery(getAll());
     const { quotes } = data;
-    console.log("🚀 ~ Landing ~ quotes:", quotes)
+
     if (isError) {
         return <div >
             <h2>Error fetching quotes</h2>

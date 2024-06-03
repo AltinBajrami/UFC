@@ -34,7 +34,7 @@ const SingleFight = ({ fighter1ID, fighter2ID, weightClassID, finishID, winnerID
             <div className="img-container">
                 <img src={`http://localhost:5000/${fighter2ID?.image1}`} className='img'
                     alt={fighter2ID?.fighterName} />
-                <p>{fighter2ID.country} {winnerID?._id === fighter2ID._id && <span>Won</span>}</p>
+                <p>{fighter2ID.country} {winnerID?._id === fighter2ID._id && <span className='won'>Won</span>}</p>
             </div>
         </Wrapper>
     )

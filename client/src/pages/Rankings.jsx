@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import customFetch from "../utils";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const Rankings = () => {
   const [ranked, setRanked] = React.useState([]);
@@ -43,7 +44,7 @@ const Rankings = () => {
             <div key={rank._id}>
               <WeightClass>{rank.weightClass.className}</WeightClass>
               <Champion>
-                {rank.champion ? `${rank.champion.fighterName}` : "N/A"}
+                <Link to={`/fighter/${rank.champion._id}`}> {rank.champion ? ` ${rank.champion.fighterName}` : "N/A"}</Link>
                 <span
                   style={{
                     color: "#abadb1",
@@ -57,13 +58,13 @@ const Rankings = () => {
                 </span>
                 {rank.champion.image1 ? (
                   <img
-                    src={`http://localhost:5111${rank.champion.image1}`}
+                    src={`http://localhost:5000${rank.champion.image1}`}
                     alt="Champion"
                     width="250"
                   />
                 ) : (
                   <img
-                    src="http://localhost:5111/uploads/fighters/no-profile-image.png"
+                    src="http://localhost:5000/uploads/fighters/no-profile-image.png"
                     alt="Champion"
                   />
                 )}
@@ -74,7 +75,7 @@ const Rankings = () => {
                   {rank[`rank${i + 1}`] ? (
                     <>
                       <span>{i + 1} </span>
-                      <a href="#">{rank[`rank${i + 1}`].fighterName}</a>
+                      <Link to={`/fighter/${rank[`rank${i + 1}`]._id}`}>{rank[`rank${i + 1}`].fighterName}</Link>
                     </>
                   ) : (
                     `N/A`
@@ -113,6 +114,10 @@ const Champion = styled.div`
   font-size: 18px;
   border-bottom: 1px solid #e5e5e5;
   margin-bottom: 30px;
+  a{
+    text-decoration:none;
+    color: #1e1e1e;
+  }
 `;
 
 const Banner = styled.img`

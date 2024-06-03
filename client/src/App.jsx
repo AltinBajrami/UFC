@@ -104,6 +104,12 @@ import { loader as AthleteProfileLoader } from './pages/AthleteProfile';
 
 import { loader as LandingLoader } from './pages/Landing';
 
+
+import { loader as SeatingLayoutLoader } from "./pages/seatingLayout/SeatingLayout";
+import { loader as UpdateSeatingLayoutLoader } from "./pages/seatingLayout/UpdateSeatingLayout";
+import { action as UpdateSeatingLayoutAction } from "./pages/seatingLayout/UpdateSeatingLayout";
+import { action as CreateSeatingLayoutAction } from "./pages/seatingLayout/CreateSeatingLayout";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -335,6 +341,16 @@ const router = createBrowserRouter([
         element: <UpdateMiniEvent />,
         action: UpdateMiniEventAction(queryClient),
         loader: UpdateMiniEventLoader(queryClient)
+      },
+      {
+        path: 'seating-layout',
+        element: <SeatingLayout />,
+        loader: SeatingLayoutLoader(queryClient)
+      },
+      {
+        path: 'seating-layout/create',
+        element: <CreateSeatingLayout />,
+        action: CreateSeatingLayoutAction(queryClient)
       },
       {
         path: "seating-layout/update/:id",
