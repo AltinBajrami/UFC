@@ -34,8 +34,14 @@ const FightSchema = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: 'finishs',
   },
-  miniEventID: Number,
-  eventID: Number,
+  miniEventID: {
+    type: mongoose.Types.ObjectId,
+    ref: 'MiniEvent',
+  },
+  eventID: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Event',
+  },
   refereeID: {
     type: mongoose.Types.ObjectId,
     ref: 'Refer',

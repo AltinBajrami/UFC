@@ -20,7 +20,7 @@ const getAllEvents = () => {
     queryKey: ['events'],
     queryFn: async () => {
       const response = await customFetch.get('/events', { withCredentials: true });
-      return response.data;
+      return response.data.events;
     }
   };
 };
@@ -30,7 +30,7 @@ const getAllMiniEvents = () => {
     queryKey: ['mini-events'],
     queryFn: async () => {
       const response = await customFetch.get('/mini-events', { withCredentials: true });
-      return response.data;
+      return response.data.miniEvents;
     }
   };
 };
@@ -87,10 +87,10 @@ export const action =
     async ({ request, params }) => {
       const formData = await request.formData();
       const data = Object.fromEntries(formData);
+      console.log(data);
+
       try {
-        const response = await customFetch.patch('/fights/' + params.id, data, {
-          withCredentials: true,
-        });
+        const response = await customFetch.patch('/fights/' + params.id, data);
         console.log(response);
         queryClient.invalidateQueries(['fights']);
         toast.success(' Fight added successfully ');
@@ -123,6 +123,7 @@ const UpdateFight = () => {
     weightClassID,
     eventID,
   } = data5.fight;
+  console.log(data5);
 
   const events = data;
   const miniEvents = data1;
@@ -169,18 +170,18 @@ const UpdateFight = () => {
         <div className="form-row">
           <label htmlFor='eventID' className="form-label">Event </label>
           <select name='eventID' id='eventID' className='form-select'
-            defaultValue={events.find((item) => item.eventid == eventID).eventid}>
+            defaultValue={events.find((item) => item._id == eventID)._id}>
             {events.map((item) => {
-              return <option key={item.eventid} value={item.eventid}>{item.name}</option>
+              return <option key={item._id} value={item._id}>{item.name}</option>
             })}
           </select>
         </div>
         <div className="form-row">
           <label htmlFor='miniEventID' className="form-label">Mini event </label>
           <select name='miniEventID' id='miniEventID' className='form-select'
-            defaultValue={miniEvents.find((item) => item.minieventid == miniEventID).minieventid}>
+            defaultValue={miniEvents.find((item) => item._id == miniEventID)._id}>
             {miniEvents.map((item) => {
-              return <option key={item.minieventid} value={item.minieventid}>{item.eventtypename}</option>
+              return <option key={item._id} value={item._id}>{item.name}</option>
             })}
           </select>
         </div>

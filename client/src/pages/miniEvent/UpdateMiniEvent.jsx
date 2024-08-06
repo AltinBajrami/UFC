@@ -9,7 +9,7 @@ const getSingleMiniEvent = (id) => {
         queryKey: ['mini-event', id],
         queryFn: async () => {
             const response = await customFetch('/mini-events/' + id, { withCredentials: true });
-            return response.data
+            return response.data.miniEvent;
         }
     }
 }
@@ -38,13 +38,13 @@ const UpdateMiniEvent = () => {
     const id = useLoaderData();
     const { data } = useQuery(getSingleMiniEvent(id))
 
-    let { eventtypename } = data;
+    let { name } = data;
     return (
         <Form method="post" className="form">
-            <h2 style={{ textAlign: 'center', letterSpacing: '4px', marginBottom: '1rem' }} >update Refer</h2>
+            <h2 style={{ textAlign: 'center', letterSpacing: '4px', marginBottom: '1rem' }} >update Mini event</h2>
             <div className="form-row">
-                <label htmlFor="eventTypeName" className="form-label">event Type Name</label>
-                <input type="text" className="form-input" name='eventTypeName' defaultValue={eventtypename} />
+                <label htmlFor="name" className="form-label">event Type Name</label>
+                <input type="text" className="form-input" name='name' defaultValue={name} />
             </div>
             <button type="submit" className='btn-css btn-block '>Submit</button>
         </Form>

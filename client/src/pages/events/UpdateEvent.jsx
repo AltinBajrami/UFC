@@ -9,7 +9,7 @@ const getSingleEvent = (id) => {
         queryKey: ['event', id],
         queryFn: async () => {
             const response = await customFetch('/events/' + id, { withCredentials: true });
-            return response.data
+            return response.data.event;
         }
     }
 }
@@ -53,8 +53,9 @@ const UpdateEvent = () => {
     const { data } = useQuery(getSingleEvent(id))
     const { data: data1 } = useQuery(getAllArenas())
     const { arenas } = data1;
+    console.log(data, arenas);
 
-    const { name, date, venueinformation, arenaid } = data;
+    const { name, date, venueInformation, arenaId } = data;
 
     return (
         <Form method='post' className='form' encType='multipart/form-data'>
@@ -70,7 +71,7 @@ const UpdateEvent = () => {
             <div className="form-row">
                 <label htmlFor='arenaId' className="form-label">arena</label>
                 <select name='arenaId' id='arenaId' className='form-select'
-                    defaultValue={arenas.find((item) => item._id == arenaid)._id}>
+                    defaultValue={arenas.find((item) => item._id === arenaId?._id)?._id}>
                     {arenas.map((item) => {
                         return <option key={item._id} value={item._id}>{item.name}</option>
                     })}
@@ -78,7 +79,7 @@ const UpdateEvent = () => {
             </div>
             <div className="form-row">
                 <label htmlFor="venueInformation" className="form-label">venue Information</label>
-                <input type="textarea" className="form-input" name='venueInformation' defaultValue={venueinformation} />
+                <input type="textarea" className="form-input" name='venueInformation' defaultValue={venueInformation} />
             </div>
             <div className="form-row">
                 <label htmlFor="eventImage" className="form-label">Event Image</label>

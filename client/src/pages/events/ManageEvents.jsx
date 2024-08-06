@@ -14,7 +14,7 @@ const getAll = () => {
         queryKey: ['events'],
         queryFn: async () => {
             const response = await customFetch.get('/events', { withCredentials: true });
-            return response.data;
+            return response.data.events;
         }
     };
 };
@@ -28,6 +28,7 @@ const ManageEvents = () => {
     const { data, isLoading, isError, error } = useQuery(getAll());
     const [deleteItemId, setDeleteItemId] = useState(null);
     const queryClient = useQueryClient();
+    console.log(data);
 
     const { mutate } = useMutation({
         mutationFn: (id) => customFetch.delete(`/events/${id}`, { withCredentials: true }),
@@ -76,19 +77,19 @@ const ManageEvents = () => {
                     </thead>
                     <tbody>
                         {data.map((item) => (
-                            <tr key={item.eventid}>
+                            <tr key={item._id}>
                                 <td>{item.name}</td>
-                                <td>{item.venueinformation}</td>
+                                <td>{item.venueInformation}</td>
                                 <td>{day(item.date).format('MMM D, YYYY h:mm ')}</td>
                                 <td className='customizeBtns' >
-                                    <Link to={`/events/update/${item.eventid}`} style={{ textDecoration: 'none' }} className='btn btn-success'>Edit</Link>
+                                    <Link to={`/events/update/${item._id}`} style={{ textDecoration: 'none' }} className='btn btn-success'>Edit</Link>
                                     <Link className='btn btn-danger' style={{ textDecoration: 'none' }} onClick={() => {
-                                        setDeleteItemId(item.eventid);
+                                        setDeleteItemId(item._id);
                                     }}>delete</Link>
                                     <ConfirmationModal
-                                        isOpen={deleteItemId === item.eventid}
+                                        isOpen={deleteItemId === item._id}
                                         onClose={() => setDeleteItemId(null)}
-                                        onConfirm={() => handleDeleteMiniEvent(item.eventid)}
+                                        onConfirm={() => handleDeleteMiniEvent(item._id)}
                                     />
                                 </td>
                             </tr>

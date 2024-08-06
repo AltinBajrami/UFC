@@ -1,87 +1,57 @@
 const { StatusCodes } = require('http-status-codes');
-const sql = require('../utils/db');
-const { BadRequestError } = require('../errors');
+const { BadRequestError, NotFoundError } = require('../errors');
+const MiniEvent = require('../models/miniEvent');
 
 const createMiniEvent = async (req, res) => {
-  const { eventTypeName } = req.body;
-  if (!eventTypeName) throw new BadRequestError('eventTypeName is required');
+  const { name } = req.body;
+  if (!name) throw new BadRequestError('name is required');
 
-  const result = await sql`
-          INSERT INTO MiniEvents (eventTypeName)
-          VALUES (${eventTypeName})
-          RETURNING *
-        `;
-  res.status(StatusCodes.OK).json(result[0]);
+  const miniEvent = MiniEvent.create({ name });
+  res.status(StatusCodes.OK).json({ miniEvent });
 };
 
 const getAllMiniEvents = async (req, res) => {
-  try {
-    const result = await sql`
-          SELECT * FROM MiniEvents
-        `;
-    res.status(StatusCodes.OK).json(result);
-  } catch (error) {
-    console.error('Error getting mini-events:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
+  const miniEvents = await MiniEvent.find({});
+  res.status(StatusCodes.OK).json({ miniEvents });
 };
 
 const getMiniEventById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const result = await sql`
-          SELECT * FROM MiniEvents
-          WHERE miniEventId = ${id}
-        `;
-    if (result.length === 0) {
-      res.status(404).json({ msg: 'Mini-event not found' });
-    } else {
-      res.json(result[0]);
-    }
-  } catch (error) {
-    console.error('Error getting mini-event by ID:', error);
-    res.status(500).json({ error: 'Internal server error' });
+  const { id } = req.params;
+  const miniEvent = await MiniEvent.findById(id);
+  if (!miniEvent) {
+    throw new NotFoundError('Mini-event not found');
   }
+  res.status(StatusCodes.OK).json({ miniEvent });
 };
 
 const updateMiniEvent = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { eventTypeName } = req.body;
-    const result = await sql`
-          UPDATE MiniEvents
-          SET eventTypeName = ${eventTypeName}
-          WHERE miniEventId = ${id}
-          RETURNING *
-        `;
-    if (result.length === 0) {
-      res.status(404).json({ error: 'Mini-event not found' });
-    } else {
-      res.json(result[0]);
-    }
-  } catch (error) {
-    console.error('Error updating mini-event:', error);
-    res.status(500).json({ error: 'Internal server error' });
+  const { id } = req.params;
+  const { name } = req.body;
+  if (!name) throw new BadRequestError('name is required');
+
+  const miniEvent = await MiniEvent.findById(id);
+  if (!miniEvent) {
+    throw new NotFoundError('Mini-event not found');
   }
+
+  miniEvent.name = name;
+  await miniEvent.save();
+  return res
+    .status(StatusCodes.OK)
+    .json({ msg: 'Mini Event updated successfully' });
 };
 
 const deleteMiniEvent = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const result = await sql`
-          DELETE FROM MiniEvents
-          WHERE miniEventId = ${id}
-          RETURNING *
-        `;
-    if (result.length === 0) {
-      res.status(404).json({ msg: 'Mini-event not found' });
-    } else {
-      res.json({ msg: 'Mini-event deleted successfully' });
-    }
-  } catch (error) {
-    console.error('Error deleting mini-event:', error);
-    res.status(500).json({ msg: 'Internal server error' });
+  const { id } = req.params;
+  const miniEvent = await MiniEvent.findById(id);
+  if (!miniEvent) {
+    throw new NotFoundError('Mini-event not found');
   }
+
+  await miniEvent.deleteOne();
+  return res
+    .status(StatusCodes.OK)
+    .json({ msg: 'Mini-event deleted successfully' });
 };
 
 module.exports = {

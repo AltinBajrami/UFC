@@ -1,19 +1,34 @@
-const createEventTable = async sql => {
-  await sql`
-    CREATE TABLE IF NOT EXISTS Events (
-        eventId SERIAL PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        date VARCHAR(255) NOT NULL,
-        MainEventID INT,
-        PrelimsEventID INT,
-        EarlyPrelimsEventID INT,
-        VenueInformation VARCHAR(255),
-        ArenaID VARCHAR(30) not null,
-        Image VARCHAR(255) ,
-        CONSTRAINT fk_main_event FOREIGN KEY (MainEventID) REFERENCES MiniEvents(miniEventId),
-        CONSTRAINT fk_prelims_event FOREIGN KEY (PrelimsEventID) REFERENCES MiniEvents(miniEventId),
-        CONSTRAINT fk_early_prelims_event FOREIGN KEY (EarlyPrelimsEventID) REFERENCES MiniEvents(miniEventId)
-      )
-    `;
-};
-module.exports = createEventTable;
+const mongoose = require('mongoose');
+
+const EventSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'Please provide event name '],
+    minlength: 3,
+    maxlength: 50,
+  },
+  date: {
+    type: Date,
+    required: [true, 'Please provide date'],
+  },
+  mainEventId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'MiniEvent',
+  },
+  prelimsEventId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'MiniEvent',
+  },
+  earlyPrelimsEventId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'MiniEvent',
+  },
+  venueInformation: String,
+  arenaId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Arena',
+  },
+  image: String,
+});
+
+module.exports = mongoose.model('Event', EventSchema);

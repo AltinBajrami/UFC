@@ -5,7 +5,7 @@ import advancedFormat from 'dayjs/plugin/advancedFormat';
 import { Link } from 'react-router-dom';
 day.extend(advancedFormat);
 
-const SingleEvent = ({ fights, arena, name, date, eventid }) => {
+const SingleEvent = ({ fights, arenaId, name, date, _id }) => {
 
     let fighter1ID;
     let fighter2ID;
@@ -28,13 +28,13 @@ const SingleEvent = ({ fights, arena, name, date, eventid }) => {
                 <img src={`http://localhost:5000/${fighter2ID?.image1}`} className='img' alt={fighter2ID?.fighterName} />
             </div>
             <div className="info">
-                <Link to={`/events/${eventid}`}> {fighter1ID.fighterName.split(' ')[1]} vs {fighter2ID.fighterName.split(' ')[1]}</Link>
+                <Link to={`/events/${_id}`}> {fighter1ID.fighterName.split(' ')[1]} vs {fighter2ID.fighterName.split(' ')[1]}</Link>
                 <p className='date'>{day(date).format('MMM D, YYYY h:mm ')}</p>
-                <p className='arena'>{arena.name}</p>
-                <p className='location'>{arena.location}</p>
+                <p className='arena'>{arenaId.name}</p>
+                <p className='location'>{arenaId.location}</p>
             </div>
             <div className="btns">
-                <Link to={`/events/tickets/${eventid}`} className='btn'>Tickets</Link>
+                <Link to={`/events/tickets/${_id}`} className='btn'>Tickets</Link>
             </div>
         </Wrapper>
     )

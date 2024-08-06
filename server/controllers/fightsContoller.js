@@ -1,11 +1,12 @@
 const { StatusCodes } = require('http-status-codes');
 const { BadRequestError, NotFoundError } = require('../errors');
 const Fight = require('../models/Fights');
+const Event = require('../models/Events');
+const MiniEvent = require('../models/miniEvent');
 const Refer = require('../models/Refer');
 const FightFinish = require('../models/FightFinish');
 const Fighter = require('../models/Fighter');
 const WeightClass = require('../models/WeightClass');
-const sql = require('../utils/db');
 
 const getAllFights = async (req, res) => {
   const fights = await Fight.find({}).populate(
@@ -73,15 +74,12 @@ const createFight = async (req, res) => {
     throw new BadRequestError('Provide a valid weightClass id');
   }
 
-  const event = await sql`
-  select * from Events where eventId = ${eventID}`;
-  if (event[0].length === 0) {
-    throw new BadRequestError('Provide a valid event id');
+  const event = await Event.findById(eventID);
+  if (!event) {
+    throw new NotFoundError('Not found event');
   }
-
-  const miniEvent = await sql`
-  select * from MiniEvents where miniEventId = ${miniEventID}`;
-  if (miniEvent[0].length === 0) {
+  const miniEvent = await MiniEvent.findById(miniEventID);
+  if (!miniEvent) {
     throw new BadRequestError('Provide a valid mini-event id');
   }
 
@@ -150,15 +148,12 @@ const updateFight = async (req, res) => {
     throw new BadRequestError('Provide a valid fight finish id');
   }
 
-  const event = await sql`
-  select * from Events where eventId = ${eventID}`;
-  if (event[0].length === 0) {
-    throw new BadRequestError('Provide a valid event id');
+  const event = await Event.findById(eventID);
+  if (!event) {
+    throw new NotFoundError('Not found event');
   }
-
-  const miniEvent = await sql`
-  select * from MiniEvents where miniEventId = ${miniEventID}`;
-  if (miniEvent[0].length === 0) {
+  const miniEvent = await MiniEvent.findById(miniEventID);
+  if (!miniEvent) {
     throw new BadRequestError('Provide a valid mini-event id');
   }
 

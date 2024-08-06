@@ -11,7 +11,7 @@ const getAll = () => {
         queryKey: ['mini-events'],
         queryFn: async () => {
             const response = await customFetch.get('/mini-events', { withCredentials: true });
-            return response.data;
+            return response?.data?.miniEvents;
         }
     };
 };
@@ -72,17 +72,17 @@ const MiniEvent = () => {
                     </thead>
                     <tbody>
                         {data.map((item) => (
-                            <tr key={item.minieventid}>
-                                <td>{item.eventtypename}</td>
+                            <tr key={item._id}>
+                                <td>{item.name}</td>
                                 <td style={{ display: 'flex', gap: '0.5rem' }}>
-                                    <Link to={`/mini-event/update/${item.minieventid}`} style={{ textDecoration: 'none' }} className='btn btn-success'>Edit</Link>
+                                    <Link to={`/mini-event/update/${item._id}`} style={{ textDecoration: 'none' }} className='btn btn-success'>Edit</Link>
                                     <Link className='btn btn-danger' style={{ textDecoration: 'none' }} onClick={() => {
-                                        setDeleteItemId(item.minieventid);
+                                        setDeleteItemId(item._id);
                                     }}>delete</Link>
                                     <ConfirmationModal
-                                        isOpen={deleteItemId === item.minieventid}
+                                        isOpen={deleteItemId === item._id}
                                         onClose={() => setDeleteItemId(null)}
-                                        onConfirm={() => handleDeleteMiniEvent(item.minieventid)}
+                                        onConfirm={() => handleDeleteMiniEvent(item._id)}
                                     />
                                 </td>
                             </tr>

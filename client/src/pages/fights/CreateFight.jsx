@@ -20,7 +20,7 @@ const getAllEvents = () => {
     queryKey: ['events'],
     queryFn: async () => {
       const response = await customFetch.get('/events', { withCredentials: true });
-      return response.data;
+      return response.data.events;
     }
   };
 };
@@ -30,7 +30,7 @@ const getAllMiniEvents = () => {
     queryKey: ['mini-events'],
     queryFn: async () => {
       const response = await customFetch.get('/mini-events', { withCredentials: true });
-      return response.data;
+      return response.data.miniEvents;
     }
   };
 };
@@ -89,7 +89,9 @@ const CreateFight = () => {
 
 
   const events = data;
+  console.log("🚀 ~ CreateFight ~ events:", events)
   const miniEvents = data1;
+  console.log("🚀 ~ CreateFight ~ miniEvents:", miniEvents)
   const refers = data2.refers;
   const weightClasses = data5.weightClasses;
   const [weightClass, setWeightClass] = useState(weightClasses[4]._id);
@@ -128,7 +130,7 @@ const CreateFight = () => {
           <label htmlFor='eventID' className="form-label">Event </label>
           <select name='eventID' id='eventID' className='form-select' defaultValue={events[0]._id}>
             {events.map((item) => {
-              return <option key={item.eventid} value={item.eventid}>{item.name}</option>
+              return <option key={item._id} value={item._id}>{item.name}</option>
             })}
           </select>
         </div>
@@ -136,7 +138,7 @@ const CreateFight = () => {
           <label htmlFor='miniEventID' className="form-label">Mini event </label>
           <select name='miniEventID' id='miniEventID' className='form-select' defaultValue={miniEvents[0]._id}>
             {miniEvents.map((item) => {
-              return <option key={item.minieventid} value={item.minieventid}>{item.eventtypename}</option>
+              return <option key={item._id} value={item._id}>{item.name}</option>
             })}
           </select>
         </div>

@@ -24,8 +24,8 @@ const CreateMiniEvent = () => {
         <Form method="post" className="form">
             <h2 style={{ textAlign: 'center', letterSpacing: '4px', marginBottom: '1rem' }} >Create Mini Event</h2>
             <div className="form-row">
-                <label htmlFor="eventTypeName" className="form-label">event Type Name</label>
-                <input type="text" className="form-input" name='eventTypeName' />
+                <label htmlFor="name" className="form-label">event Type Name</label>
+                <input type="text" className="form-input" name='name' />
             </div>
             <button type="submit" className='btn-css btn-block '>Submit</button>
         </Form>

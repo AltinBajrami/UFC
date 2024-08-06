@@ -1,10 +1,11 @@
 const { StatusCodes } = require('http-status-codes');
-const sql = require('../utils/db');
-const { BadRequestError } = require('../errors');
+const { BadRequestError, NotFoundError } = require('../errors');
 const path = require('path');
 const Arena = require('../models/Arena');
 const Fights = require('../models/Fights');
 const fs = require('fs');
+const miniEvent = require('../models/miniEvent');
+const Event = require('../models/Events');
 
 const createEvent = async (req, res) => {
   const { name, date, venueInformation, arenaId } = req.body;
@@ -14,26 +15,25 @@ const createEvent = async (req, res) => {
       'Please provide all properties that are required'
     );
   }
-  const mainEventId = await sql`
-    SELECT * FROM MiniEvents
-    WHERE eventTypeName = 'main event'
-  `;
-  const prelimsEventId = await sql`
-    SELECT * FROM MiniEvents
-    WHERE eventTypeName = 'Prelims'
-  `;
-  const earlyPrelimsEventId = await sql`
-    SELECT * FROM MiniEvents
-    WHERE eventTypeName = 'early prelims'
-    `;
-  if (mainEventId.length === 0) {
+  const mainEventId = await miniEvent.findOne({ name: 'main event' });
+  const prelimsEventId = await miniEvent.findOne({ name: 'Prelims' });
+  const earlyPrelimsEventId = await miniEvent.findOne({
+    name: 'early prelims',
+  });
+
+  if (!mainEventId) {
     return res.status(404).json({ msg: 'mainEvent not found' });
   }
-  if (prelimsEventId.length === 0) {
+  if (!prelimsEventId) {
     return res.status(404).json({ msg: 'prelimsEvent not found' });
   }
-  if (earlyPrelimsEventId.length === 0) {
+  if (!earlyPrelimsEventId) {
     return res.status(404).json({ msg: 'earlyPrelimsEvent not found' });
+  }
+
+  const arenaExists = await Arena.findById(arenaId);
+  if (!arenaExists) {
+    throw new BadRequestError('Provide a valid arena id');
   }
 
   const image = req.files?.eventImage;
@@ -48,99 +48,58 @@ const createEvent = async (req, res) => {
   await image.mv(imagePath1);
   const eventImage = `/uploads/events/${image.name}`;
 
-  const arenaExists = await Arena.findById(arenaId);
-  if (!arenaExists) {
-    throw new BadRequestError('Provide a valid arena id');
-  }
-
-  const result = await sql`
-      INSERT INTO Events (name, date, MainEventID, PrelimsEventID, EarlyPrelimsEventID, VenueInformation,
-         ArenaID,Image)
-      VALUES (${name},${date},${mainEventId[0].minieventid},${prelimsEventId[0].minieventid},
-        ${earlyPrelimsEventId[0].minieventid},${venueInformation},${arenaId},${eventImage})
-    `;
+  await Event.create({
+    name,
+    date,
+    venueInformation,
+    image: eventImage,
+    arenaId: arenaId,
+    mainEventId: mainEventId._id,
+    prelimsEventId: prelimsEventId._id,
+    earlyPrelimsEventId: earlyPrelimsEventId._id,
+  });
   return res.status(200).json({ msg: 'event created' });
 };
 
 const getAllEvents = async (req, res) => {
-  try {
-    const result = await sql`
-          SELECT 
-          e.eventId,
-          e.name,
-          e.date,
-          e.VenueInformation,
-          e.ArenaID,
-          e.Image,
-          e.MainEventID,
-          e.PrelimsEventID,
-          e.EarlyPrelimsEventID,
-          me1.eventTypeName AS MainEventType,
-          me2.eventTypeName AS PrelimsEventType,
-          me3.eventTypeName AS EarlyPrelimsEventType
-      FROM 
-          Events e
-      LEFT JOIN 
-          MiniEvents me1 ON e.MainEventID = me1.miniEventId
-      LEFT JOIN 
-          MiniEvents me2 ON e.PrelimsEventID = me2.miniEventId
-      LEFT JOIN 
-          MiniEvents me3 ON e.EarlyPrelimsEventID = me3.miniEventId
-          ORDER BY 
-           e.date ASC
-        `;
-    for (let i = 0; i < result.length; i++) {
-      const fights = await Fights.find({ eventID: result[i].eventid }).populate(
-        'fighter1ID fighter2ID winnerID weightClassID finishID'
-      );
+  const events = await Event.find({}).populate(
+    'mainEventId prelimsEventId earlyPrelimsEventId arenaId'
+  );
+  let newEvents = [];
 
-      const arena = await Arena.findOne({ _id: result[i].arenaid });
-      result[i].fights = fights;
-      result[i].arena = arena;
-    }
-    res.status(StatusCodes.OK).json(result);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ msg: 'Internal server error' });
-  }
-};
-
-const getEventById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const result = await sql`
-          SELECT * FROM Events
-          WHERE eventId = ${id}
-        `;
-    if (result.length === 0) {
-      return res.status(404).json({ msg: 'Event not found' });
-    }
-    const fights = await Fights.find({ eventID: result[0].eventid }).populate(
+  for (let i = 0; i < events.length; i++) {
+    // Fetch fights for the current event
+    const fights = await Fights.find({ eventID: events[i]._id }).populate(
       'fighter1ID fighter2ID winnerID weightClassID finishID'
     );
 
-    const arena = await Arena.findOne({ _id: result[0].arenaid });
-    result[0].fights = fights;
-    result[0].arena = arena;
-
-    return res.status(StatusCodes.OK).json(result[0]);
-  } catch (error) {
-    console.error('Error getting event by ID:', error);
-    res.status(500).json({ msg: 'Internal server error' });
+    newEvents[i] = { ...events[i]._doc, fights: [...fights] };
   }
+  res.status(StatusCodes.OK).json({ events: newEvents });
+};
+
+const getEventById = async (req, res) => {
+  const { id } = req.params;
+  const event = await Event.findById(id).populate('arenaId');
+  if (!event) {
+    throw new NotFoundError('Event not found');
+  }
+
+  const fights = await Fights.find({ eventID: id }).populate(
+    'fighter1ID fighter2ID winnerID weightClassID finishID'
+  );
+
+  return res.status(StatusCodes.OK).json({ event, fights });
 };
 
 const updateEvent = async (req, res) => {
   const { id } = req.params;
   const { name, date, venueInformation, arenaId } = req.body;
 
-  const result = await sql`SELECT * FROM Events WHERE eventId = ${id}`;
-
-  console.log('🚀 ~ updateEvent ~ event:', result);
-  if (result.length === 0) {
-    return res.status(404).json({ msg: `Event with ID ${id} not found` });
+  const event = await Event.findById(id).populate('arenaId');
+  if (!event) {
+    throw new NotFoundError('Event not found');
   }
-  const event = result[0];
 
   const arenaExists = await Arena.findById(arenaId);
   if (!arenaExists) {
@@ -165,48 +124,32 @@ const updateEvent = async (req, res) => {
     eventImage = `/uploads/events/${image.name}`;
   }
 
-  await sql`
-    UPDATE Events
-    SET
-        name = ${name},
-        date = ${date},
-        VenueInformation = ${venueInformation},
-        ArenaID = ${arenaId},
-        Image = ${eventImage}
-    WHERE eventId = ${id}
-`;
+  event.name = name;
+  event.date = date;
+  event.venueInformation = venueInformation;
+  event.arenaId = arenaId;
+  event.image = eventImage;
+  await event.save();
 
-  res.status(200).json({ msg: 'Updated event' });
+  res.status(200).json({ msg: 'Updated event', event });
 };
 
 const deleteEvent = async (req, res) => {
-  try {
-    const { id } = req.params;
+  const { id } = req.params;
 
-    const event = await sql`
-    SELECT * FROM Events
-    WHERE eventId = ${id}
-    `;
-    console.log(event, id);
-
-    if (event[0].length === 0) {
-      return res.status(404).json({ msg: 'Event not found' });
-    }
-
-    const imagePath = path.join(__dirname, '../public', event[0].image);
-    if (fs.existsSync(imagePath)) {
-      fs.unlinkSync(imagePath);
-    }
-
-    await sql`
-          DELETE FROM Events
-          WHERE eventId = ${id}
-        `;
-    return res.status(200).json({ msg: 'event deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting event:', error);
-    res.status(500).json({ msg: 'Internal server error' });
+  const event = await Event.findById(id).populate('arenaId');
+  if (!event) {
+    throw new NotFoundError('Event not found');
   }
+
+  const imagePath = path.join(__dirname, '../public', event.image);
+  if (fs.existsSync(imagePath)) {
+    fs.unlinkSync(imagePath);
+  }
+
+  await event.deleteOne();
+
+  return res.status(StatusCodes.OK).json({ msg: 'deleted event' });
 };
 
 module.exports = {
