@@ -1,52 +1,60 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLoaderData, Form, redirect } from "react-router-dom";
 import axios from 'axios'
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import customFetch from "../../utils";
+import { toast } from "react-toastify";
+
+const getFightFinish = (id) => {
+    return {
+        queryKey: ['fightFinishs', id],
+        queryFn: async () => {
+            const response = await customFetch('/fightFinish/' + id);
+            console.log(response.data);
+
+            return response.data.fightFinish;
+        }
+    }
+}
+
+export const loader = (queryClient) => async ({ params }) => {
+    const { id } = params;
+    await queryClient.ensureQueryData(getFightFinish(id));
+    return id;
+}
+
+export const action = (queryClient) => async ({ request, params }) => {
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
+    try {
+        await customFetch.patch('/fightFinish/' + params.id, data);
+        queryClient.invalidateQueries(['fightFinishs']);
+        toast.success('Fight finish updated successfully');
+        return redirect('/fightFinish');
+    } catch (error) {
+        toast.error(error?.response?.data?.msg);
+        return error;
+    }
+}
 
 const UpdateFightFinish = () => {
-    const { id } = useParams()
-    const [finishType, setFinishType] = useState('')
-    const [description, setDescription] = useState('')
-    const navigate = useNavigate()
-
-    const getFinishType = async () => {
-        const { data } = await axios.get('http://localhost:5000/api/v1/fightFinish/' + id);
-        const { finishType, description } = data.fightFinish;
-        setDescription(description)
-        setFinishType(finishType)
-    }
-
-    useEffect(() => {
-        getFinishType()
-    }, [id])
-
-    const Update = async (e) => {
-        e.preventDefault();
-        axios.patch("http://localhost:5000/api/v1/fightFinish/" + id, { finishType, description })
-            .then(result => {
-                navigate('/fightFinish')
-            })
-            .catch(err => console.log(err))
-    }
+    const id = useLoaderData();
+    const { data } = useQuery(getFightFinish(id));
+    console.log(data);
 
     return (
-        <div className='d-flex vh-100 bg-primary justify-content-center align-items-center'>
-            <div className='w-50 bg-white rounded p-3'>
-                <form onSubmit={Update}>
-                    <h2>Update Finish</h2>
-                    <div className='mb-2'>
-                        <label htmlFor="">FinishType</label>
-                        <input type="text" placeholder="Enter FinishType" className="form-control"
-                            value={finishType} onChange={(e) => setFinishType(e.target.value)} />
-                    </div>
-                    <div className='mb-2'>
-                        <label htmlFor="">Description</label>
-                        <input type="text" placeholder="Enter Description" className="form-control"
-                            value={description} onChange={(e) => setDescription(e.target.value)} />
-                    </div>
-                    <button className="btn btn-success">Update</button>
-                </form>
+        <Form method="post" className="form">
+            <h2 style={{ textAlign: 'center', letterSpacing: '4px', marginBottom: '1rem' }} >Update Fight Finish</h2>
+            <div className="form-row">
+                <label htmlFor="finishType" className="form-label">finish type</label>
+                <input type="text" className="form-input" defaultValue={data?.finishType} name='finishType' />
             </div>
-        </div>
+            <div className="form-row">
+                <label htmlFor="description" className="form-label">description</label>
+                <input type="text" className="form-input" defaultValue={data?.description} name='description' />
+            </div>
+            <button type="submit" className='btn-css btn-block '>Submit</button>
+        </Form>
     )
 }
 

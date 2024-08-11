@@ -110,6 +110,11 @@ import { loader as UpdateSeatingLayoutLoader } from "./pages/seatingLayout/Updat
 import { action as UpdateSeatingLayoutAction } from "./pages/seatingLayout/UpdateSeatingLayout";
 import { action as CreateSeatingLayoutAction } from "./pages/seatingLayout/CreateSeatingLayout";
 
+import { action as createFightFinishAction } from "./pages/fightFinish/CreateFightFinish";
+import { loader as fightFinishLoader } from "./pages/fightFinish/FightsFinish";
+import { action as updateFightFinishAction } from "./pages/fightFinish/UpdateFightFinish";
+import { loader as updateFightFinishLoader } from "./pages/fightFinish/UpdateFightFinish";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -137,10 +142,6 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
-      },
-      {
-        path: "fightFinish",
-        element: <FightsFinish />,
       },
       {
         path: "verify-email",
@@ -172,14 +173,18 @@ const router = createBrowserRouter([
       {
         path: "fightFinish",
         element: <FightsFinish />,
+        loader: fightFinishLoader(queryClient),
       },
       {
         path: "fightFinish/create",
         element: <CreateFightFinish />,
+        action: createFightFinishAction(queryClient)
       },
       {
         path: "fightFinish/update/:id",
         element: <UpdateFightFinish />,
+        loader: updateFightFinishLoader(queryClient),
+        action: updateFightFinishAction(queryClient),
       },
       {
         path: "weightClasses",

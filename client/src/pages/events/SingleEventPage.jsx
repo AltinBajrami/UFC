@@ -11,7 +11,9 @@ const getSingleEvent = (id) => {
         queryKey: ['event', id],
         queryFn: async () => {
             const response = await customFetch('/events/' + id);
-            return response.data
+            console.log(response.data);
+
+            return response.data;
         }
     }
 }
@@ -26,7 +28,10 @@ const SingleEventPage = () => {
     const id = useLoaderData();
     const navigate = useNavigate()
     const { data } = useQuery(getSingleEvent(id))
-    const { image, name, arena, date, fights } = data;
+    console.log(data.fights);
+
+    const { image, name, arena, date, mainEventId, prelimsEventId, earlyPrelimsEventId } = data.event;
+    const fights = data.fights;
     if (fights.length === 0) {
         return <EventLanding image={image} name={name} date={date} arenaLocation={arena?.location} arenaName={arena?.name}
             fighter1Name={'TBO'} fighter2Name={'TBO'}
@@ -34,9 +39,9 @@ const SingleEventPage = () => {
     }
     const { fighter1ID, fighter2ID } = fights[0];
 
-    const mainFights = fights.filter((item) => item.miniEventID == data.maineventid)
-    const prelimsfights = fights.filter((item) => item.miniEventID == data.prelimseventid);
-    const earlyprelimsfights = fights.filter((item) => item.miniEventID == data.earlyprelimseventid);
+    const mainFights = fights.filter((item) => item.miniEventID === mainEventId)
+    const prelimsfights = fights.filter((item) => item.miniEventID === prelimsEventId);
+    const earlyprelimsfights = fights.filter((item) => item.miniEventID === earlyPrelimsEventId);
 
     return <Wrapper>
         <EventLanding image={image} name={name} date={date} arenaLocation={arena?.location} arenaName={arena?.name}

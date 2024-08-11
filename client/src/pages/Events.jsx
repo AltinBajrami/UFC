@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
 import customFetch from '../utils';
@@ -23,14 +22,20 @@ export const loader = (queryClient) => async () => {
 
 const Events = () => {
     const { data } = useQuery(getAllEvents())
-    let events = data;
+    const [events, setEvents] = useState(data);
 
-    if (events?.length === 0) {
-        return <h3>No events,please add some</h3>
+    if (data?.length === 0) {
+        return <h3>No events for the moment</h3>
     }
-    console.log(events);
+    useEffect(() => {
+        const now = new Date().getTime();
+        setEvents(data.filter(event => {
+            const eventTime = new Date(event.date).getTime();
+            return eventTime > now;
+        }));
+    }, [data]);
 
-    const { name, date, image, arenaId, fights } = events?.[0];
+    const { name, date, image, arenaId, fights } = data?.[0];
 
     let fighter1ID;
     let fighter2ID;
@@ -43,13 +48,36 @@ const Events = () => {
         fighter2ID = { image1: '/uploads/fighters/no-profile-image.png', fighterName: 'Tbo tbo' };
     }
 
+    const pastEvents = () => {
+        const now = new Date().getTime();
+        setEvents(data.filter(event => {
+            const eventTime = new Date(event.date).getTime();
+            return eventTime < now;
+        }));
+    }
+
+    const upcomingEvents = () => {
+        const now = new Date().getTime();
+        setEvents(data.filter(event => {
+            const eventTime = new Date(event.date).getTime();
+            return eventTime > now;
+        }));
+    }
+
     return <Wrapper>
         <EventLanding name={name} fighter1Name={fighter1ID?.fighterName?.split(' ')[1]}
             fighter2Name={fighter2ID?.fighterName?.split(' ')[1]} date={date} image={image}
             arenaName={arenaId.name} arenaLocation={arenaId.location} />
 
+        <div className="info">
+            <div className="buttons">
+                <button onClick={upcomingEvents}>Upcoming</button>
+                <button onClick={pastEvents}>Past</button>
+            </div>
+            <p>{events?.length} events</p>
+        </div>
         <div className="events">
-            {data.map((event) => {
+            {events.map((event) => {
                 return <SingleEvent key={event._id} {...event} />
             })}
         </div>
@@ -62,11 +90,31 @@ const Wrapper = styled.section`
         display: grid;
         gap: 3rem;
     }
-    /* @media (min-width : 600px){
-        .events{
-            grid-template-columns: 1fr 1fr;
+   .info{
+    width: 100%;
+    display: grid;
+    place-items: center;
+    .buttons{
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        button{
+            border: transparent;
+            background: transparent;
+            font-size: 2.5rem;
+            font-weight: bolder;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
-    } */
+    }
+    p{
+        letter-spacing: 3px;
+        margin-top: 1rem;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+   }
 `
 
 export default Events

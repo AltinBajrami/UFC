@@ -1,75 +1,98 @@
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from 'styled-components'
+import customFetch, { TableWrapper } from "../../utils";
+import ConfirmationModal from "../../components/ConfirmationModal";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
+const getAllFightFinishes = () => {
+    return {
+        queryKey: ['fightFinishs'],
+        queryFn: async () => {
+            const response = await customFetch.get('/fightFinish');
+
+            console.log(response.data.fightFinishs);
+
+            return response.data.fightFinishs;
+        }
+    };
+};
+export const loader = (queryClient) => async () => {
+    await queryClient.ensureQueryData(getAllFightFinishes());
+    return '';
+}
 
 const FightsFinish = () => {
+    const { data } = useQuery(getAllFightFinishes());
+    const fightFinishs = data || [];
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [fightFinishId, setFightFinishId] = useState(null);
+    const queryClient = useQueryClient();
 
-    const [finishs, setFinishs] = useState([])
-
-    const getAllFightFinishes = async (url) => {
-        try {
-            const response = await axios.get(url);
-            setFinishs(response.data.fightFinishs);
-        } catch (error) {
-
+    const { mutate: deleteFightFinish, isError, error } = useMutation({
+        mutationFn: (id) => customFetch.delete(`/fightFinish/${id}`),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['fightFinishs'] })
+            toast.success('fight finish deleted')
+            setFightFinishId(null)
+            setIsModalOpen(false)
+        },
+        onError: (error) => {
+            toast.error(error.response.data.msg)
         }
+    })
+
+    if (isError) {
+        toast.error(error?.response?.data?.msg)
     }
 
-    useEffect(() => {
+    const handleDeleteFightFinish = () => {
+        deleteFightFinish(fightFinishId);
+    };
 
-        getAllFightFinishes('http://localhost:5000/api/v1/fightFinish')
-    }, [])
-
-    const handleDelete = (id) => {
-        axios.delete('http://localhost:5000/api/v1/fightFinish/' + id)
-            .then(res => {
-                console.log(res)
-                window.location.reload()
-            })
-            .catch(err => console.log(err))
-    }
     return (
-        <div className="d-flex vh-100 bg-primary justify-content-center align-items-center">
-            <div className='w-50 bg-white rounded p-3'>
-                <Link to="/fightFinish/create" className='btn btn-success'>Add </Link>
-                <table className='table'>
+        <TableWrapper>
+            <Link to={'/fightFinish/create'} className='btn btn-outline-secondary'
+                style={{ justifySelf: 'start', textDecoration: 'none', margin: '1rem' }}>Create</Link>
+            <div className='scroll'>
+                <table>
                     <thead>
                         <tr>
-                            <th>FinishType</th>
+                            <th>Finish type</th>
                             <th>Description</th>
-                            <th>Action</th>
+                            <th>Edit</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {
-                            finishs.map((finish, index) => {
-                                return <tr key={index}>
-                                    <td>{finish.finishType}</td>
-                                    <td>{finish.description}</td>
-                                    <td>
-                                        <Link to={`/fightFinish/update/${finish._id}`} className='btn btn-success'>Update </Link>
-                                        <button className='btn btn-danger'
-                                            onClick={(e) => handleDelete(finish._id)}>Delete</button>
+                        {fightFinishs.map((f) => (
+                            <tr key={f._id}>
+                                <td>{f.finishType}</td>
+                                <td>{f.description}</td>
+                                <td style={{ display: 'flex', gap: '0.5rem' }}>
+                                    <Link to={'/fightFinish/update/' + f._id} className='btn btn-primary'>Update</Link>
 
-                                    </td>
-                                </tr>
-                            })
-                        }
+                                    <Link className='btn btn-danger'
+                                        style={{ textDecoration: 'none' }} onClick={() => {
+                                            setIsModalOpen(true);
+                                            setFightFinishId(f._id);
+                                        }}>delete</Link>
 
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
-
                 </table>
-
+                <ConfirmationModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    onConfirm={handleDeleteFightFinish}
+                />
             </div>
-
-        </div>
+        </TableWrapper>
     )
 }
 
-const Wrapper = styled.div`
-    
-`
 
 export default FightsFinish

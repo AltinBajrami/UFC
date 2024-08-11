@@ -1,43 +1,39 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import axios from 'axios'
+import React from "react";
+import { Form, redirect } from "react-router-dom";
+import customFetch from "../../utils";
+import { toast } from "react-toastify";
+
+export const action =
+    (queryClient) =>
+        async ({ request }) => {
+            const formData = await request.formData();
+            const data = Object.fromEntries(formData);
+            try {
+                await customFetch.post('/fightFinish', data);
+                queryClient.invalidateQueries(['fightFinishs']);
+                toast.success(' Fight finish added successfully ');
+                return redirect('/fightFinish');
+            } catch (error) {
+                toast.error(error?.response?.data?.msg);
+                return error;
+            }
+        };
 
 const CreateFightFinish = () => {
 
-    const { id } = useParams()
-    const [finishType, setFinishType] = useState('')
-    const [description, setDescription] = useState('')
-    const navigate = useNavigate()
-
-
-    const Create = async (e) => {
-        e.preventDefault();
-        axios.post("http://localhost:5000/api/v1/fightFinish", { finishType, description })
-            .then(result => {
-                navigate('/fightFinish')
-            })
-            .catch(err => console.log(err))
-    }
-
     return (
-        <div className='d-flex vh-100 bg-primary justify-content-center align-items-center'>
-            <div className='w-50 bg-white rounded p-3'>
-                <form onSubmit={Create}>
-                    <h2>Create Finish</h2>
-                    <div className='mb-2'>
-                        <label htmlFor="">FinishType</label>
-                        <input type="text" placeholder="Enter FinishType" className="form-control"
-                            value={finishType} onChange={(e) => setFinishType(e.target.value)} />
-                    </div>
-                    <div className='mb-2'>
-                        <label htmlFor="">Description</label>
-                        <input type="text" placeholder="Enter Description" className="form-control"
-                            value={description} onChange={(e) => setDescription(e.target.value)} />
-                    </div>
-                    <button className="btn btn-success">Update</button>
-                </form>
+        <Form method="post" className="form">
+            <h2 style={{ textAlign: 'center', letterSpacing: '4px', marginBottom: '1rem' }} >Create Fight Finish</h2>
+            <div className="form-row">
+                <label htmlFor="finishType" className="form-label">finish type</label>
+                <input type="text" className="form-input" name='finishType' />
             </div>
-        </div>
+            <div className="form-row">
+                <label htmlFor="description" className="form-label">description</label>
+                <input type="text" className="form-input" name='description' />
+            </div>
+            <button type="submit" className='btn-css btn-block '>Submit</button>
+        </Form>
     )
 }
 

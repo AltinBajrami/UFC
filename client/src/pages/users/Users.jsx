@@ -1,6 +1,7 @@
 
 import { useState } from 'react'
 import customFetch from '../../utils'
+import { TableWrapper } from '../../utils'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
@@ -12,7 +13,7 @@ const getAllUsers = () => {
     return {
         queryKey: ['users'],
         queryFn: async () => {
-            const response = await customFetch('/users', { withCredentials: true });
+            const response = await customFetch('/users');
             return response.data;
         }
     }
@@ -55,7 +56,7 @@ const Users = () => {
     };
 
     return (
-        <Wrapper>
+        <TableWrapper>
             <div className='scroll'>
                 <table>
                     <thead>
@@ -102,38 +103,8 @@ const Users = () => {
                 {isChangeRoleOpen && <ChangeRole userId={userId}
                     setIsChangeRoleOpen={setIsChangeRoleOpen} setUserId={setUserId} />}
             </div>
-        </Wrapper>
+        </TableWrapper>
     )
 }
 
-const Wrapper = styled.div`
-    .scroll{
-        overflow-x:auto;
-    }
-    max-width: 100%;
-    table {
-        width: 90%;
-        margin: 5rem auto;
-        border-collapse: collapse;
-        margin-bottom: 0;
-    }
-    
-    th, td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: left;
-    }
-    
-    th {
-        background-color: #f2f2f2;
-    }
-    
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-    
-    tr:hover {
-        background-color: #ddd;
-    }
-`;
 export default Users

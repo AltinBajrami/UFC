@@ -12,26 +12,14 @@ const sublinks = [
                 id: nanoid(),
                 label: 'upcoming',
                 icon: <MdUpcoming />,
-                url: '/events/upcoming',
+                url: '/events?time=upcoming',
             },
             {
                 id: nanoid(),
                 label: 'past',
                 icon: <SiPastebin />,
-                url: '/product/past',
-            },
-            {
-                id: nanoid(),
-                label: 'tickets',
-                icon: <IoTicketSharp />,
-                url: '/product/tickets',
-            },
-            {
-                id: nanoid(),
-                label: 'Manage event',
-                icon: <MdOutlineManageHistory />,
-                url: '/events/manage',
-            },
+                url: '/events/?time=past',
+            }
         ],
     },
     {
@@ -40,9 +28,9 @@ const sublinks = [
         links: [
             {
                 id: nanoid(),
-                label: 'manage rankings',
+                label: ' rankings',
                 icon: <MdOutlineManageHistory />,
-                url: '/rankings/manage',
+                url: '/rankings',
             }
         ],
     },
@@ -55,12 +43,6 @@ const sublinks = [
                 label: 'all athletes',
                 icon: <MdOutlineSportsMartialArts />,
                 url: '/athletes',
-            },
-            {
-                id: nanoid(),
-                label: 'manage athletes',
-                icon: <MdOutlineManageHistory />,
-                url: '/fighters',
             },
         ],
     },

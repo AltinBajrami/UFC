@@ -33,6 +33,7 @@ const SingleEvent = ({ fights, arenaId, name, date, _id }) => {
                 <p className='arena'>{arenaId.name}</p>
                 <p className='location'>{arenaId.location}</p>
             </div>
+
             <div className="btns">
                 <Link to={`/events/tickets/${_id}`} className='btn'>Tickets</Link>
             </div>

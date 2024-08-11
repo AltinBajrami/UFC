@@ -43,40 +43,35 @@ const CreateEvent = () => {
     const arenas = data?.arenas;
 
     return (
-        <Wrapper>
-            <Form method='post' className='form' encType='multipart/form-data'>
-                <h2 style={{ textAlign: 'center', letterSpacing: '4px', marginBottom: '1rem' }} >Create  Event</h2>
-                <div className="form-row">
-                    <label htmlFor="name" className="form-label">event Name</label>
-                    <input type="text" className="form-input" name='name' />
-                </div>
-                <div className="form-row">
-                    <label htmlFor="date" className="form-label">date</label>
-                    <input type="datetime-local" className="form-input" name='date' />
-                </div>
-                <div className="form-row">
-                    <label htmlFor='arenaId' className="form-label">arena</label>
-                    <select name='arenaId' id='arenaId' className='form-select' defaultValue={arenas[0]}>
-                        {arenas.map((item) => {
-                            return <option key={item._id} value={item._id}>{item.name}</option>
-                        })}
-                    </select>
-                </div>
-                <div className="form-row">
-                    <label htmlFor="venueInformation" className="form-label">venue Information</label>
-                    <textarea className="form-input" name='venueInformation' />
-                </div>
-                <div className="form-row">
-                    <label htmlFor="eventImage" className="form-label">Event Image</label>
-                    <input type="file" id='eventImage' className="form-input" name='eventImage' />
-                </div>
-                <button type="submit" className='btn-css btn-block'>Submit</button>
-            </Form>
-        </Wrapper>
+        <Form method='post' className='form' encType='multipart/form-data'>
+            <h2 style={{ textAlign: 'center', letterSpacing: '4px', marginBottom: '1rem' }} >Create  Event</h2>
+            <div className="form-row">
+                <label htmlFor="name" className="form-label">event Name</label>
+                <input type="text" className="form-input" name='name' />
+            </div>
+            <div className="form-row">
+                <label htmlFor="date" className="form-label">date</label>
+                <input type="datetime-local" className="form-input" name='date' />
+            </div>
+            <div className="form-row">
+                <label htmlFor='arenaId' className="form-label">arena</label>
+                <select name='arenaId' id='arenaId' className='form-select' defaultValue={arenas[0]}>
+                    {arenas.map((item) => {
+                        return <option key={item._id} value={item._id}>{item.name}</option>
+                    })}
+                </select>
+            </div>
+            <div className="form-row">
+                <label htmlFor="venueInformation" className="form-label">venue Information</label>
+                <textarea className="form-input" name='venueInformation' />
+            </div>
+            <div className="form-row">
+                <label htmlFor="eventImage" className="form-label">Event Image</label>
+                <input type="file" id='eventImage' className="form-input" name='eventImage' />
+            </div>
+            <button type="submit" className='btn-css btn-block'>Submit</button>
+        </Form>
     )
 }
 
-const Wrapper = styled.div`
-    
-`
 export default CreateEvent

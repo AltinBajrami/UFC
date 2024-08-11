@@ -9,10 +9,12 @@ import { loadStripe } from '@stripe/stripe-js'
 
 export const loader = (queryClient) => async ({ params }) => {
     try {
-        const { data } = await customFetch(`/events/${params.eventId}`, { withCredentials: true });
-        const response = await customFetch('/seatingLayout/arena/' + data?.arenaid)
+        const { data } = await customFetch(`/events/${params.eventId}`);
+        const { event, fight } = data;
+
+        const response = await customFetch('/seatingLayout/arena/' + event?.arenaId?._id)
         const seatingLayouts = response?.data?.seatingLayouts;
-        return { seatingLayouts, eventId: params.eventId, image: data.image, name: data.name }
+        return { seatingLayouts, eventId: params.eventId, image: event?.image, name: event.name }
     } catch (error) {
         toast.error('Failed to load events tickets,please try later')
         return redirect('/events')
