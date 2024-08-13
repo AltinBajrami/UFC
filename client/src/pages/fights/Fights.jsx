@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import customFetch from "../../utils";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -21,10 +21,8 @@ export const loader = (queryClient) => async () => {
 }
 
 const Fights = () => {
-
   const { data } = useQuery(getAllFights())
-  const fights = data.fights
-  console.log("🚀 ~ Fights ~ fights:", fights)
+  const [fights, setFights] = useState(data.fights || []);
 
   const handleDelete = async (id) => {
     try {
@@ -37,13 +35,29 @@ const Fights = () => {
     }
   };
 
+  const handleSearch = (e) => {
+    if (e.target.value) {
+      const filteredFights = data.fights.filter((fight) =>
+        fight.fighter1ID.fighterName.toLowerCase().includes(e.target.value.toLowerCase()) ||
+        fight.fighter2ID.fighterName.toLowerCase().includes(e.target.value.toLowerCase())
+      );
+      setFights(filteredFights);
+    } else {
+      setFights(data.fights)
+    }
+  }
+
   return (
     <Wrapper>
-      <Link to="/fights/create" className="btn btn-success">
-        Add +
-      </Link>
+
+      <div className="searchContainer">
+        <Link to="/fights/create" className="btn btn-success">
+          Add +
+        </Link>
+        <input type="text" onChange={handleSearch} placeholder='Search fighters' />
+      </div>
       <div className="fights">
-        {data.fights.map((fight) => {
+        {fights.map((fight) => {
           const { eventID, fighter1ID, fighter2ID, winnerID, finishID, weightClassID, round, seconds, minute } = fight;
           return <article key={fight._id} className="fight" >
             <h2>{eventID.name}</h2>
@@ -79,10 +93,18 @@ const Wrapper = styled.section`
     min-height: 100vh;
     width: 100%;
   padding: 3rem 2rem;
+  .searchContainer{
+        display: flex;
+        gap:1rem;
+        input{
+            border-radius: var(--borderRadius);
+            padding: 0.2rem 0.7rem;
+        }
+    }
   .fights{
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 600px));
     margin: 2rem 0;
   }
   .fight{
