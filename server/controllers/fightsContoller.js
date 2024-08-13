@@ -10,7 +10,7 @@ const WeightClass = require('../models/WeightClass');
 
 const getAllFights = async (req, res) => {
   const fights = await Fight.find({}).populate(
-    'fighter1ID fighter2ID weightClassID refereeID winnerID finishID'
+    'fighter1ID fighter2ID weightClassID refereeID winnerID finishID eventID'
   );
   return res.status(StatusCodes.OK).json({ fights });
 };

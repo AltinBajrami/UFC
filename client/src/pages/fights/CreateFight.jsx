@@ -112,7 +112,7 @@ const CreateFight = () => {
         </div>
         <div className="form-row">
           <label htmlFor='fighter1ID' className="form-label">Fighter 1</label>
-          <select name='fighter1ID' id='fighter1ID' className='form-select' defaultValue={fighters[0]._id}>
+          <select name='fighter1ID' id='fighter1ID' className='form-select' defaultValue={fighters[0]?._id}>
             {fighters.map((item) => {
               return <option key={item._id} value={item._id}>{item.fighterName}</option>
             })}
@@ -120,7 +120,7 @@ const CreateFight = () => {
         </div>
         <div className="form-row">
           <label htmlFor='fighter2ID' className="form-label">Fighter 2</label>
-          <select name='fighter2ID' id='fighter2ID' className='form-select' defaultValue={fighters[1]._id}>
+          <select name='fighter2ID' id='fighter2ID' className='form-select' defaultValue={fighters[1]?._id}>
             {fighters.map((item) => {
               return <option key={item._id} value={item._id}>{item.fighterName}</option>
             })}

@@ -18,11 +18,12 @@ export const TableWrapper = styled.div`
     overflow-x: auto;
   }
   max-width: 100%;
+  margin-bottom: 5rem;
   table {
     width: 90%;
     margin: 5rem auto;
     border-collapse: collapse;
-    margin-bottom: 5rem;
+    margin-bottom: 0;
   }
 
   th,
