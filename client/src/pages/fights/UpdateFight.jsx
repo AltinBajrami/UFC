@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, redirect, useLoaderData, useNavigate } from "react-router-dom";
 import customFetch from "../../utils";
 import { toast } from "react-toastify";
@@ -93,7 +93,7 @@ export const action =
         const response = await customFetch.patch('/fights/' + params.id, data);
         console.log(response);
         queryClient.invalidateQueries(['fights']);
-        toast.success(' Fight added successfully ');
+        toast.success(' Fight updated successfully ');
         return redirect('/fights');
       } catch (error) {
         toast.error(error?.response?.data?.msg);
@@ -123,7 +123,6 @@ const UpdateFight = () => {
     weightClassID,
     eventID,
   } = data5.fight;
-  console.log(data5);
 
   const events = data;
   const miniEvents = data1;
@@ -135,13 +134,12 @@ const UpdateFight = () => {
 
   return (
     <Form method="post" className="form">
-      <h2 style={{ textAlign: 'center', letterSpacing: '4px', marginBottom: '1rem' }} >Update  Event</h2>
+      <h2 style={{ textAlign: 'center', letterSpacing: '4px', marginBottom: '1rem' }} >Update  Fight</h2>
       <Wrapper>
-
         <div className="form-row">
-          <label htmlFor='weightClassID' className="form-label">Fighter 1</label>
+          <label htmlFor='weightClassID' className="form-label">Weight class</label>
           <select name='weightClassID' id='weightClassID' className='form-select'
-            defaultValue={weightClasses.find((item) => item._id === weightClassID)._id}>
+            defaultValue={weightClassID}>
             {weightClasses.map((item) => {
               return <option key={item._id} value={item._id}>{item.className}</option>
             })}
@@ -151,7 +149,7 @@ const UpdateFight = () => {
         <div className="form-row">
           <label htmlFor='fighter1ID' className="form-label">Fighter 1</label>
           <select name='fighter1ID' id='fighter1ID' className='form-select'
-            defaultValue={fighters.find((item) => item._id === fighter1ID)._id}>
+            defaultValue={fighter1ID}>
             {fighters.map((item) => {
               return <option key={item._id} value={item._id}>{item.fighterName}</option>
             })}
@@ -161,7 +159,7 @@ const UpdateFight = () => {
         <div className="form-row">
           <label htmlFor='fighter2ID' className="form-label">Fighter 2</label>
           <select name='fighter2ID' id='fighter2ID' className='form-select'
-            defaultValue={fighters.find((item) => item._id === fighter2ID)._id}>
+            defaultValue={fighter2ID}>
             {fighters.map((item) => {
               return <option key={item._id} value={item._id}>{item.fighterName}</option>
             })}
@@ -170,7 +168,7 @@ const UpdateFight = () => {
         <div className="form-row">
           <label htmlFor='eventID' className="form-label">Event </label>
           <select name='eventID' id='eventID' className='form-select'
-            defaultValue={events.find((item) => item._id == eventID)._id}>
+            defaultValue={events.find((item) => item._id == eventID)?._id}>
             {events.map((item) => {
               return <option key={item._id} value={item._id}>{item.name}</option>
             })}
@@ -179,7 +177,7 @@ const UpdateFight = () => {
         <div className="form-row">
           <label htmlFor='miniEventID' className="form-label">Mini event </label>
           <select name='miniEventID' id='miniEventID' className='form-select'
-            defaultValue={miniEvents.find((item) => item._id == miniEventID)._id}>
+            defaultValue={miniEvents.find((item) => item._id == miniEventID)?._id}>
             {miniEvents.map((item) => {
               return <option key={item._id} value={item._id}>{item.name}</option>
             })}
@@ -188,7 +186,7 @@ const UpdateFight = () => {
         <div className="form-row">
           <label htmlFor='refereeID' className="form-label">Referee </label>
           <select name='refereeID' id='miniEventID' className='form-select'
-            defaultValue={refers.find(item => item._id === refereeID)._id}>
+            defaultValue={refers.find(item => item._id === refereeID)?._id}>
             {refers.map((item) => {
               return <option key={item._id} value={item._id}>{item.name}</option>
             })}
@@ -197,7 +195,7 @@ const UpdateFight = () => {
         <div className="form-row">
           <label htmlFor='winnerID' className="form-label">winner</label>
           <select name='winnerID' id='winnerID' className='form-select'
-            defaultValue={winnerID ? fighters.find((item) => item._id === winnerID)._id : fighters[0]._id}>
+            defaultValue={winnerID ? winnerID : ''}>
             {fighters.map((item) => {
               return <option key={item._id} value={item._id}>{item.fighterName}</option>
             })}
@@ -206,7 +204,7 @@ const UpdateFight = () => {
         <div className="form-row">
           <label htmlFor='finishID' className="form-label">Finish Type</label>
           <select name='finishID' id='finishID' className='form-select'
-            defaultValue={finishID ? finishs.find((item) => item._id === finishID)._id : finishs[0]._id}>
+            defaultValue={finishID ? finishs.find((item) => item._id === finishID)?._id : finishs[0]?._id}>
             {finishs.map((item) => {
               return <option key={item._id} value={item._id}>{item.finishType}</option>
             })}
@@ -230,6 +228,18 @@ const UpdateFight = () => {
   );
 };
 const Wrapper = styled.div`
-  
+     @media (min-width: 1000px){
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 1rem;
+        max-width: 800px;
+        h2{
+            grid-column: 1 / -1;
+        }
+        button{
+          margin-bottom: -13px;
+        }
+   }
 `
 export default UpdateFight;

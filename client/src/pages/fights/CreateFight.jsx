@@ -95,9 +95,8 @@ const CreateFight = () => {
   const refers = data2.refers;
   const weightClasses = data5.weightClasses;
   const [weightClass, setWeightClass] = useState(weightClasses[4]._id);
-  // const fighters = data4.fighters;
-  // console.log("🚀 ~ CreateFight ~ fighters:", fighters)
   const fighters = data4.fighters.filter((item) => item.weightClass._id === weightClass && item.status === 'active');
+
   return (
     <Form method="post" className="form">
       <h2 style={{ textAlign: 'center', letterSpacing: '4px', marginBottom: '1rem' }} >Create  Fight</h2>
@@ -158,6 +157,15 @@ const CreateFight = () => {
   );
 };
 const Wrapper = styled.div`
-  
+    @media (min-width: 1100px){
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 1rem;
+        max-width: 800px;
+        h2,button{
+            grid-column: 1 / -1;
+        }
+   }
 `
 export default CreateFight;

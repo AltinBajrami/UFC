@@ -105,7 +105,8 @@ const Wrapper = styled.section`
     display: grid;
     gap: 1rem;
     grid-template-columns: repeat(auto-fit, minmax(250px, 600px));
-    margin: 2rem 0;
+    margin: 2rem auto;
+    justify-content: center;
   }
   .fight{
       background-color: var(--grey-50);

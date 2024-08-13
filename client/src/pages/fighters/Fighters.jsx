@@ -122,6 +122,7 @@ const Wrapper = styled.section`
     gap: 2rem;
     grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
     margin: 2rem 0;
+    justify-content: center;
   }
   .fighter{
       background-color: var(--grey-50);
