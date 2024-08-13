@@ -115,6 +115,11 @@ import { loader as fightFinishLoader } from "./pages/fightFinish/FightsFinish";
 import { action as updateFightFinishAction } from "./pages/fightFinish/UpdateFightFinish";
 import { loader as updateFightFinishLoader } from "./pages/fightFinish/UpdateFightFinish";
 
+import { loader as fightersLoader } from "./pages/fighters/Fighters";
+import { action as createFighterAction } from "./pages/fighters/CreateFighter";
+import { loader as updateFighterLoader } from "./pages/fighters/UpdateFighter";
+import { action as updateFighterAction } from "./pages/fighters/UpdateFighter";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -205,14 +210,18 @@ const router = createBrowserRouter([
       {
         path: "fighters",
         element: <Fighters />,
+        loader: fightersLoader(queryClient)
       },
       {
         path: "fighters/create",
-        element: <CreateFighter />
+        element: <CreateFighter />,
+        action: createFighterAction(queryClient)
       },
       {
         path: "fighters/update/:id",
-        element: <UpdateFighter />
+        element: <UpdateFighter />,
+        loader: updateFighterLoader(queryClient),
+        action: updateFighterAction(queryClient)
       },
       {
         path: "fights",

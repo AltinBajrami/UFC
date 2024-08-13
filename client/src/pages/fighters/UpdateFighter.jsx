@@ -1,154 +1,147 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, redirect } from "react-router-dom";
-import customFetch from "../../utils";
+import React from 'react'
+import customFetch from '../../utils'
+import { Form, useLoaderData, redirect } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
+import styled from 'styled-components'
 
-const UpdateFighter = () => {
-
-    const { id } = useParams()
-
-    const [fighterName, setFighterName] = useState('')
-    const [nickName, setNickName] = useState('')
-    const [homeTown, setHomeTown] = useState('')
-    const [reach, setReach] = useState('')
-    const [legReach, setLegReach] = useState('')
-    const [age, setAge] = useState('32')
-    const [status, setStatus] = useState('')
-    const [fightingStyle, setFightingStyle] = useState('')
-    const [fighterImage1, setFighterImage1] = useState(null)
-    const [fighterImage2, setFighterImage2] = useState(null)
-    const [gender, setGender] = useState('')
-    const [country, setCountry] = useState('')
-    const [weightClass, setWeightClass] = useState(null);
-    const [weightClasses, setWeightClasses] = useState([]);
-    const navigate = useNavigate()
-
-    const getAllWeightClasses = async () => {
-        try {
-            const { data } = await customFetch('/weightClasses', { withCredentials: true });
-            setWeightClasses(data?.weightClasses)
-        } catch (error) {
-            setWeightClasses([]);
+const getSingleFighter = (id) => {
+    return {
+        queryKey: ['fighter', id],
+        queryFn: async () => {
+            const response = await customFetch('/fighters/' + id);
+            return response.data?.fighter;
         }
     }
-
-    const getFighter = async () => {
-        const response = await customFetch.get('/fighters/' + id, { withCredentials: true, });
-        const { fighterName, nickName, homeTown, reach, legReach,
-            status, fightingStyle, gender, country, weightClass, age } = response.data.fighter;
-        setFighterName(fighterName)
-        setNickName(nickName)
-        setHomeTown(homeTown)
-        setReach(reach)
-        setLegReach(legReach)
-        setStatus(status)
-        setFightingStyle(fightingStyle)
-        setGender(gender)
-        setCountry(country)
-        setWeightClass(weightClass?._id);
-        setAge(age)
+}
+const getAllWeightClasses = () => {
+    return {
+        queryKey: ['weightClasses'],
+        queryFn: async () => {
+            const response = await customFetch.get('/weightClasses', { withCredentials: true });
+            return response.data;
+        }
     }
-    useEffect(() => {
-        getFighter()
-        getAllWeightClasses();
-    }, [id])
+}
 
-    const Update = async (e) => {
-        e.preventDefault();
-        customFetch.patch("/fighters/" + id, {
-            fighterName, nickName,
-            homeTown, reach, legReach, status, fightingStyle, gender, country,
-            fighterImage1, weightClass, age, fighterImage2
-        }, {
-            withCredentials: true, headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        }).then((response) => {
-            toast.success('Updated successfully')
-            navigate('/fighters')
-        }).catch((err) => toast.error(err?.response?.data?.msg))
-    }
+export const loader = (queryClient) => async ({ params }) => {
+    const { id } = params;
+    await queryClient.ensureQueryData(getSingleFighter(id), getAllWeightClasses());
+    return id;
+}
+
+export const action =
+    (queryClient) =>
+        async ({ request, params }) => {
+            const formData = await request.formData();
+            const data = Object.fromEntries(formData);
+            try {
+                await customFetch.patch('/fighters/' + params?.id, data);
+                queryClient.invalidateQueries(['fighters']);
+                toast.success('Fighter updated successfully ');
+                return redirect('/fighters');
+            } catch (error) {
+                toast.error(error?.response?.data?.msg);
+                return error;
+            }
+        };
+
+const UpdateFighter = () => {
+    const id = useLoaderData();
+    const { data } = useQuery(getSingleFighter(id));
+    const { data: data1 } = useQuery(getAllWeightClasses());
+    const weightClasses = data1?.weightClasses || [];
+
     return (
-        <div className="d-flex vh-50 bg-primary justify-content-center align-items-center p-5">
-            <div className='w-50 bg-white rounded p-3'>
-                <form onSubmit={Update}>
-                    <h2>Update Fighter</h2>
-                    <div className='mb-2'>
-                        <label htmlFor="">FighterName</label>
-                        <input type="text" placeholder='Enter FighterName' className='form-control'
-                            value={fighterName} onChange={(e) => setFighterName(e.target.value)} />
-                    </div>
-                    <div className='mb-2'>
-                        <label htmlFor="">NickName</label>
-                        <input type="text" placeholder='Enter NickName' className='form-control'
-                            value={nickName} onChange={(e) => setNickName(e.target.value)} />
-                    </div>
-                    <div className='mb-2'>
-                        <label htmlFor="">HomeTown</label>
-                        <input type="text" placeholder='Enter HomeTown' className='form-control'
-                            value={homeTown} onChange={(e) => setHomeTown(e.target.value)} />
-                    </div>
-                    <div className='mb-2'>
-                        <label htmlFor="">Reach</label>
-                        <input type="text" placeholder='Enter Reach' className='form-control'
-                            value={reach} onChange={(e) => setReach(e.target.value)} />
-                    </div>
-                    <div className='mb-2'>
-                        <label htmlFor="">LegReach</label>
-                        <input type="text" placeholder='Enter LegReach' className='form-control'
-                            value={legReach} onChange={(e) => setLegReach(e.target.value)} />
-                    </div>
-                    <div className='mb-2'>
-                        <label htmlFor="">Age</label>
-                        <input type="number" placeholder='Enter Age' className='form-control'
-                            value={age} onChange={(e) => setAge(e.target.value)} />
-                    </div>
-                    <div className='mb-2'>
-                        <label htmlFor="">Status</label>
-                        <input type="text" placeholder='Enter Status' className='form-control'
-                            value={status} onChange={(e) => setStatus(e.target.value)} />
-                    </div>
-                    <div className='mb-2'>
-                        <label htmlFor="">FightingStyle</label>
-                        <input type="text" placeholder='Enter FightingStyle' className='form-control'
-                            value={fightingStyle} onChange={(e) => setFightingStyle(e.target.value)} />
-                    </div>
-                    <div className='mb-2'>
-                        <label htmlFor="">Gender</label>
-                        <input type="text" placeholder='Enter Gender' className='form-control'
-                            value={gender} onChange={(e) => setGender(e.target.value)} />
-                    </div>
-                    <div className='mb-2'>
-                        <label htmlFor="">Country</label>
-                        <input type="text" placeholder='Enter Country' className='form-control'
-                            value={country} onChange={(e) => setCountry(e.target.value)} />
-                    </div>
-                    <div className='mb-2'>
-                        <label htmlFor="">First Image</label>
-                        <input type="file" name="fighterImage1" onChange={(e) => setFighterImage1(e.target.files[0])} className='form-control'
-                        />
-                    </div>
-                    <div className='mb-2'>
-                        <label htmlFor="">Second Image</label>
-                        <input type="file" name="fighterImage2" onChange={(e) => setFighterImage2(e.target.files[0])} className='form-control'
-                        />
-                    </div>
-                    <div className='mb-2'>
-                        <select name="weightClass" value={weightClass || 'default'} className="form-select" onChange={(e) => setWeightClass(e.target.value)} id="">
-                            {weightClasses.map((item) => (
-                                <option key={item._id} value={item._id}>
-                                    {item.className}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <button className='btn btn-success'>Update</button>
+        <Wrapper>
+            <Form method="post" className="form">
+                <h2 style={{ textAlign: 'center', letterSpacing: '4px', marginBottom: '1rem' }} >Update Fighters</h2>
+                <div className="form-row">
+                    <label htmlFor="fighterName" className="form-label">fighter Name</label>
+                    <input type="text" className="form-input" name='fighterName' defaultValue={data?.fighterName} />
+                </div>
+                <div className="form-row">
+                    <label htmlFor="nickName" className="form-label">nick Name</label>
+                    <input type="text" className="form-input" name='nickName' defaultValue={data?.nickName} />
+                </div>
+                <div className="form-row">
+                    <label htmlFor="homeTown" className="form-label">home Town</label>
+                    <input type="text" className="form-input" name='homeTown' defaultValue={data?.homeTown} />
+                </div>
+                <div className="form-row">
+                    <label htmlFor="reach" className="form-label">reach</label>
+                    <input type="number" className="form-input" name='reach' defaultValue={data?.reach} />
+                </div>
+                <div className="form-row">
+                    <label htmlFor="legReach" className="form-label">leg Reach</label>
+                    <input type="number" className="form-input" name='legReach' defaultValue={data?.legReach} />
+                </div>
+                <div className="form-row">
+                    <label htmlFor="status" className="form-label">status</label>
+                    <input type="text" className="form-input" name='status' defaultValue={data?.status} />
+                </div>
+                <div className="form-row">
+                    <label htmlFor="fightingStyle" className="form-label">fighting Style</label>
+                    <input type="text" className="form-input" name='fightingStyle' defaultValue={data?.fightingStyle} />
+                </div>
 
-                </form>
+                <div className="form-row">
+                    <label htmlFor="gender" className="form-label">gender</label>
+                    <input type="text" className="form-input" name='gender' defaultValue={data?.gender} />
+                </div>
+                <div className="form-row">
+                    <label htmlFor="country" className="form-label">country</label>
+                    <input type="text" className="form-input" name='country' defaultValue={data?.country} />
+                </div>
+                <div className="form-row">
+                    <label htmlFor="win" className="form-label">win</label>
+                    <input type="number" className="form-input" name='win' defaultValue={data?.win} />
+                </div>
+                <div className="form-row">
+                    <label htmlFor="lose" className="form-label">lose</label>
+                    <input type="number" className="form-input" name='lose' defaultValue={data?.lose} />
+                </div>
+                <div className="form-row">
+                    <label htmlFor="draw" className="form-label">draw</label>
+                    <input type="number" className="form-input" name='draw' defaultValue={data?.draw} />
+                </div>
+                <div className="form-row">
+                    <label htmlFor='weightClass' className="form-label">weight Class</label>
+                    <select name='weightClass' id='weightClass' className='form-select'
+                        defaultValue={data.weightClass?._id || ''}>
+                        {weightClasses.map((item) => {
+                            return <option key={item._id} value={item._id}>{item.className}</option>
+                        })}
+                    </select>
+                </div>
+                <div className="form-row">
+                    <label htmlFor="fighterImage1" className="form-label">first image</label>
+                    <input type="file" className="form-input" name='fighterImage1' />
+                </div>
+                <div className="form-row">
+                    <label htmlFor="fighterImage2" className="form-label">second image</label>
+                    <input type="file" className="form-input" name='fighterImage2' />
+                </div>
+                <button type="submit" className='btn-css btn-block '>Submit</button>
+            </Form>
 
-            </div>
-        </div>
+        </Wrapper>
     )
 }
+
+const Wrapper = styled.div`
+   @media (min-width: 1100px){
+    form{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 1rem;
+        max-width: 800px;
+        h2,button{
+            grid-column: 1 / -1;
+        }
+    }
+   }
+`
 
 export default UpdateFighter
