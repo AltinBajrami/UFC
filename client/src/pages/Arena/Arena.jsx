@@ -19,13 +19,13 @@ const getAllArenas = () => {
 
 export const loader = (queryClient) => async (req) => {
     await queryClient.ensureQueryData(getAllArenas())
-    return "232";
+    return null;
 }
 
 const Arena = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [arenaId, setArenaId] = useState(null);
-    let { data, isError, isLoading, error } = useQuery(getAllArenas());
+    let { data, isError, isLoading } = useQuery(getAllArenas());
 
     const queryClient = useQueryClient();
 
@@ -56,6 +56,7 @@ const Arena = () => {
             </div>
         </section>
     }
+
     const { arenas } = data;
     return <>
         <Wrapper className='page'>
@@ -78,8 +79,8 @@ const Arena = () => {
                                 <td>{arena.location}</td>
                                 <td>{arena.seatingCapacity}</td>
                                 <td style={{ display: 'flex', gap: '0.5rem' }}>
-                                    <Link to={`update/${arena._id}`} style={{ textDecoration: 'none' }} className='btn-css'>Edit</Link>
-                                    <Link to={'/arena'} className='btn-css' style={{ textDecoration: 'none' }} onClick={() => {
+                                    <Link to={`update/${arena._id}`} className='btn btn-success'>Edit</Link>
+                                    <Link to={'/arena'} className='btn btn-danger' style={{ textDecoration: 'none' }} onClick={() => {
                                         setIsModalOpen(true);
                                         setArenaId(arena._id)
                                     }}>delete</Link>

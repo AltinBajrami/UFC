@@ -34,10 +34,12 @@ const Athletes = () => {
                 {
                     athletes.length === 0 ? <div>
                         <h2>no fighter found please reset filters</h2>
-                    </div> :
-                        athletes.map((item) => {
+                    </div> : <>
+                        {athletes.map((item) => {
                             return <Athlete key={item._id} {...item} />
-                        })
+                        })}
+                    </>
+
                 }
             </div>
         </Wrapper>

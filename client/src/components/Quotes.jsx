@@ -3,36 +3,36 @@ import styled from 'styled-components'
 import { FaChevronLeft, FaChevronRight, FaQuoteRight } from 'react-icons/fa';
 
 const Quotes = ({ quotes }) => {
-    const [index, setIndex] = useState(0);
-    const { fighter, quote } = quotes[index];
-    const { image1, fighterName } = fighter;
+  const [index, setIndex] = useState(0);
+  const { fighter, quote } = quotes[index];
+  const { image1, fighterName } = fighter;
 
-    const nextPerson = () => {
-        setIndex((index + 1) % quotes.length)
-    }
-    const prevPerson = () => {
-        setIndex((index - 1 + quotes.length) % quotes.length)
-    }
-    const randomPerson = () => {
-        setIndex(Math.floor(Math.random() * quotes.length))
-    }
+  const nextPerson = () => {
+    setIndex((index + 1) % quotes.length)
+  }
+  const prevPerson = () => {
+    setIndex((index - 1 + quotes.length) % quotes.length)
+  }
+  const randomPerson = () => {
+    setIndex(Math.floor(Math.random() * quotes.length))
+  }
 
-    return (
-        <Wrapper>
-            <article className="review">
-                <div className="img-container">
-                    <img src={`http://localhost:5000/${image1}`} alt="name" className="person-img" />
-                </div>
-                <h4 className="author">{fighterName}</h4>
-                <p className="info">{quote}</p>
-                <div className="btn-container">
-                    <button className="prev-btn" onClick={prevPerson}><FaChevronLeft /></button>
-                    <button className="next-btn" onClick={nextPerson}><FaChevronRight /></button>
-                </div>
-                <button className="btn-main" onClick={randomPerson}>surprise me </button>
-            </article>
-        </Wrapper>
-    )
+  return (
+    <Wrapper>
+      <article className="review">
+        <div className="img-container">
+          <img src={`http://localhost:5000/${image1}`} alt="name" className="person-img" />
+        </div>
+        <h4 className="author">{fighterName}</h4>
+        <p className="info">{quote}</p>
+        <div className="btn-container">
+          <button className="prev-btn" onClick={prevPerson}><FaChevronLeft /></button>
+          <button className="next-btn" onClick={nextPerson}><FaChevronRight /></button>
+        </div>
+        <button className="btn-main" onClick={randomPerson}>surprise me </button>
+      </article>
+    </Wrapper>
+  )
 }
 
 export default Quotes
@@ -78,11 +78,11 @@ const Wrapper = styled.section`
   content: '';
   width: 100%;
   height: 100%;
-  background: var(--primary-500);
+  background-color: #850000;
   position: absolute;
   border-radius: 50%;
   top: 0rem;
-  right: 0rem;
+  right: 0rem ;
 }
 .author {
   margin-bottom: 0.5rem;
