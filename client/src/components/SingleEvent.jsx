@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 day.extend(advancedFormat);
 
 const SingleEvent = ({ fights, arenaId, name, date, _id }) => {
-
     let fighter1ID;
     let fighter2ID;
 
@@ -29,14 +28,15 @@ const SingleEvent = ({ fights, arenaId, name, date, _id }) => {
             </div>
             <div className="info">
                 <Link to={`/events/${_id}`}> {fighter1ID.fighterName.split(' ')[1]} vs {fighter2ID.fighterName.split(' ')[1]}</Link>
-                <p className='date'>{day(date).format('MMM D, YYYY h:mm ')}</p>
+                <p className='date'>{day(date).format('MMM D, YYYY hh:mm')}</p>
                 <p className='arena'>{arenaId.name}</p>
                 <p className='location'>{arenaId.location}</p>
             </div>
-
-            <div className="btns">
-                <Link to={`/events/tickets/${_id}`} className='btn'>Tickets</Link>
-            </div>
+            {(new Date(date).getTime() > Date.now()) &&
+                <div className="btns">
+                    <Link to={`/events/tickets/${_id}`} className='btn'>Tickets</Link>
+                </div>
+            }
         </Wrapper>
     )
 }
@@ -75,7 +75,7 @@ const Wrapper = styled.div`
             font-weight:bold;
             letter-spacing: normal;
             margin-top: 1rem;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             color: black;
             text-decoration:none;
         }
@@ -85,10 +85,12 @@ const Wrapper = styled.div`
         .date{
             font-weight:bold;
             letter-spacing: 2px;
+            font-size:1rem;
         }
         .arena,.location{
-            text-transform: uppercase;
+            text-transform: capitalize;
             margin-bottom: 0.5rem;
+            font-size:1rem;
         }
     }
     .btns{

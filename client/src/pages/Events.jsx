@@ -23,10 +23,12 @@ export const loader = (queryClient) => async () => {
 const Events = () => {
     const { data } = useQuery(getAllEvents())
     const [events, setEvents] = useState(data);
+    const [isPastEvents, setIsPastEvents] = useState(false);
 
     if (data?.length === 0) {
         return <h3>No events for the moment</h3>
     }
+
     useEffect(() => {
         const now = new Date().getTime();
         setEvents(data.filter(event => {
@@ -54,6 +56,7 @@ const Events = () => {
             const eventTime = new Date(event.date).getTime();
             return eventTime < now;
         }));
+        setIsPastEvents(true);
     }
 
     const upcomingEvents = () => {
@@ -62,6 +65,7 @@ const Events = () => {
             const eventTime = new Date(event.date).getTime();
             return eventTime > now;
         }));
+        setIsPastEvents(false);
     }
 
     return <Wrapper>
@@ -71,8 +75,8 @@ const Events = () => {
 
         <div className="info">
             <div className="buttons">
-                <button onClick={upcomingEvents}>Upcoming</button>
-                <button onClick={pastEvents}>Past</button>
+                <button onClick={upcomingEvents} style={{ color: `${isPastEvents ? 'grey' : 'black'}` }}>Upcoming</button>
+                <button onClick={pastEvents} style={{ color: `${isPastEvents ? 'black' : 'grey'}` }}>Past</button>
             </div>
             <p>{events?.length} events</p>
         </div>
@@ -96,15 +100,15 @@ const Wrapper = styled.section`
     place-items: center;
     .buttons{
         display: flex;
-        gap: 1rem;
+        gap: 2rem;
         margin-top: 2rem;
         button{
             border: transparent;
             background: transparent;
-            font-size: 2.5rem;
-            font-weight: bolder;
+            font-size: 3rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 4px;
+            font-weight: 900;
         }
     }
     p{
