@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import styled from 'styled-components'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import ConfirmationModal from '../../components/ConfirmationModal'
+import Pagination from '../../components/Pagination'
 
 const getAll = () => {
     return {
@@ -26,6 +27,9 @@ const Fighters = () => {
 
     const [fighters, setFighters] = useState(data || [])
     const [deleteItemId, setDeleteItemId] = useState(null);
+    const [currentPage, setCurrentPage] = useState(0);
+    const itemsPerPage = 4;
+
     const queryClient = useQueryClient();
     const { mutate } = useMutation({
         mutationFn: (id) => customFetch.delete(`/fighters/${id}`),
@@ -45,18 +49,32 @@ const Fighters = () => {
     }, [data]);
 
     const handleSearch = (e) => {
-        if (e.target.value) {
-            setFighters(data.filter(fighter => fighter.fighterName.toLowerCase().includes(
-                e.target.value.toLowerCase())))
+        const searchValue = e.target.value.toLowerCase();
+        if (searchValue) {
+            setFighters(data.filter(fighter =>
+                fighter.fighterName.toLowerCase().includes(searchValue)
+            ));
         } else {
-            setFighters(data)
+            setFighters(data);
         }
-    }
+        setCurrentPage(0);
+    };
 
     const handleDelete = (id) => {
         setDeleteItemId(id)
         mutate(id)
     };
+
+    const handlePageClick = (data) => {
+        setCurrentPage(data.selected);
+    };
+
+    const getPaginatedFighters = () => {
+        const offset = currentPage * itemsPerPage;
+        return fighters.slice(offset, offset + itemsPerPage);
+    };
+
+
     return (
         <Wrapper>
             <div className="searchContainer">
@@ -64,10 +82,7 @@ const Fighters = () => {
                 <input type="text" onChange={handleSearch} placeholder='Search fighters' />
             </div>
             <div className="fighters">
-                {fighters.map((fighter) => {
-
-                    console.log(fighter);
-
+                {getPaginatedFighters().map((fighter) => {
                     return <article key={fighter._id} className="fighter" >
                         <h2>{fighter.fighterName}</h2>
                         <h4>{fighter.nickName}</h4>
@@ -101,6 +116,11 @@ const Fighters = () => {
                     </article>
                 })}
             </div>
+            <Pagination
+                pageCount={Math.ceil(fighters.length / itemsPerPage)}
+                onPageChange={handlePageClick}
+                currentPage={currentPage}
+            />
         </Wrapper>
     );
 }
@@ -112,6 +132,7 @@ const Wrapper = styled.section`
     .searchContainer{
         display: flex;
         gap:1rem;
+        justify-content: center;
         input{
             border-radius: var(--borderRadius);
             padding: 0.2rem 0.7rem;

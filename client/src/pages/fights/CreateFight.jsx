@@ -68,9 +68,7 @@ export const action =
       const formData = await request.formData();
       const data = Object.fromEntries(formData);
       try {
-        const response = await customFetch.post('/fights', data, {
-          withCredentials: true,
-        });
+        await customFetch.post('/fights', data);
         queryClient.invalidateQueries(['fights']);
         toast.success(' Fight added successfully ');
         return redirect('/fights');
@@ -94,7 +92,7 @@ const CreateFight = () => {
   console.log("🚀 ~ CreateFight ~ miniEvents:", miniEvents)
   const refers = data2.refers;
   const weightClasses = data5.weightClasses;
-  const [weightClass, setWeightClass] = useState(weightClasses[4]._id);
+  const [weightClass, setWeightClass] = useState(weightClasses?.[4]._id);
   const fighters = data4.fighters.filter((item) => item.weightClass._id === weightClass && item.status === 'active');
 
   return (

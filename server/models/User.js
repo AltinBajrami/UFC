@@ -1,8 +1,8 @@
-const mongose = require('mongoose');
+const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
-const UserSchema = new mongose.Schema({
+const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: [true, 'Please provide first name'],
@@ -68,4 +68,4 @@ UserSchema.methods.comparePassword = async function (candidatePassword) {
   return isMatch;
 };
 
-module.exports = mongose.model('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema);

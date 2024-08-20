@@ -42,9 +42,8 @@ const CreateFighter = () => {
 
     return (
         <Wrapper>
-
             <Form method="post" className="form">
-                <h2 style={{ textAlign: 'center', letterSpacing: '4px', marginBottom: '1rem' }} >Create Fighters</h2>
+                <h2 className="formHeader" >Create Fighters</h2>
                 <div className="form-row">
                     <label htmlFor="fighterName" className="form-label">fighter Name</label>
                     <input type="text" className="form-input" name='fighterName' />

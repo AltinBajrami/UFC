@@ -50,7 +50,6 @@ import Rankings from "./pages/Rankings";
 import CreateFight from "./pages/fights/CreateFight";
 import UpdateFight from "./pages/fights/UpdateFight";
 import Fights from "./pages/fights/Fights";
-import Ranked from "./pages/ranked/Ranked";
 import CreateRanked from "./pages/ranked/CreateRanked";
 import UpdateRanked from "./pages/ranked/UpdateRanked";
 import { action as RegisterAction } from "./pages/authPages/Register";
@@ -119,6 +118,13 @@ import { loader as fightersLoader } from "./pages/fighters/Fighters";
 import { action as createFighterAction } from "./pages/fighters/CreateFighter";
 import { loader as updateFighterLoader } from "./pages/fighters/UpdateFighter";
 import { action as updateFighterAction } from "./pages/fighters/UpdateFighter";
+
+import { action as createRankedAction } from './pages/ranked/CreateRanked';
+import { loader as createRankedLoader } from './pages/ranked/CreateRanked';
+import { loader as rankingLoader } from './pages/Rankings';
+import { action as deleteRankingAction } from './pages/ranked/DeleteRanking';
+import { loader as updateRankedLoader } from './pages/ranked/UpdateRanked';
+import { action as updateRankedAction } from './pages/ranked/UpdateRanked';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -241,20 +247,26 @@ const router = createBrowserRouter([
         action: UpdateFightAction(queryClient)
       },
       {
-        path: "ranked",
-        element: <Ranked />,
-      },
-      {
         path: "ranked/create",
         element: <CreateRanked />,
+        action: createRankedAction(queryClient),
+        loader: createRankedLoader(queryClient),
+
       },
       {
         path: "ranked/update/:id",
         element: <UpdateRanked />,
+        loader: updateRankedLoader(queryClient),
+        action: updateRankedAction(queryClient),
       },
       {
         path: "rankings",
         element: <Rankings />,
+        loader: rankingLoader(queryClient)
+      },
+      {
+        path: 'rankings/:id',
+        action: deleteRankingAction(queryClient)
       },
       {
         path: "athletes",

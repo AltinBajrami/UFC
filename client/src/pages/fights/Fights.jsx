@@ -48,6 +48,7 @@ const Fights = () => {
     } else {
       setFights(data.fights)
     }
+    setCurrentPage(0)
   }
 
   const handlePageClick = (data) => {
@@ -110,8 +111,10 @@ const Wrapper = styled.section`
     min-height: 100vh;
     width: 100%;
   padding: 3rem 2rem;
+
   .searchContainer{
         display: flex;
+        justify-content: center;
         gap:1rem;
         input{
             border-radius: var(--borderRadius);
