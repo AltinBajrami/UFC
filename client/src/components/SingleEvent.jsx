@@ -2,10 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import day from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
-import { Link } from 'react-router-dom';
+import { Form, Link } from 'react-router-dom';
+import { useAppContext } from '../context/AppContext';
 day.extend(advancedFormat);
+import { MdEdit, MdDelete } from 'react-icons/md'
 
 const SingleEvent = ({ fights, arenaId, name, date, _id }) => {
+    const { user } = useAppContext()
     let fighter1ID;
     let fighter2ID;
 
@@ -37,6 +40,12 @@ const SingleEvent = ({ fights, arenaId, name, date, _id }) => {
                     <Link to={`/events/tickets/${_id}`} className='btn'>Tickets</Link>
                 </div>
             }
+            {user && user.role === 'admin' && <div className='actions'>
+                <Link to={`/events/update/${_id}`}><MdEdit /></Link>
+                <Form method='post' action={`/events/delete/${_id}`}>
+                    <button type='submit'><MdDelete /></button>
+                </Form>
+            </div>}
         </Wrapper>
     )
 }
@@ -95,7 +104,7 @@ const Wrapper = styled.div`
     }
     .btns{
         margin-top: 0.5rem;
-        margin-bottom: 2.5rem;
+        margin-bottom: 1.5rem;
         .btn {
             position: relative;
             display: inline-block;
@@ -129,7 +138,7 @@ const Wrapper = styled.div`
     }
 
     @media (min-width : 992px){
-        grid-template-columns: auto 1fr 1fr auto;
+        grid-template-columns: auto 1fr 1fr auto auto;
         gap: 3rem;
         padding: 4rem 3rem;
         align-items: center;
@@ -145,7 +154,27 @@ const Wrapper = styled.div`
                 height: 150px;
             }
         }
+     
     }
-
+    .actions{
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        
+            a,button{
+                color: var(--grey-800);
+                font-size: 1.5rem;
+                background-color: transparent;
+                border: transparent;
+            }
+            a:hover,button:hover{
+                color: black
+            }
+       }
+       @media (max-width : 992px){
+        .actions{
+            margin-bottom: 2rem;
+        }
+       }
 `
 export default SingleEvent

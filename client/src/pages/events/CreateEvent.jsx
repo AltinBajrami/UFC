@@ -28,7 +28,7 @@ export const action =
                 });
                 queryClient.invalidateQueries(['events']);
                 toast.success(' Event added successfully ');
-                return redirect('/events/manage');
+                return redirect('/events');
             } catch (error) {
                 toast.error(error?.response?.data?.msg);
                 return error;

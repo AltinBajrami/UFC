@@ -4,6 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import customFetch from '../utils';
 import EventLanding from '../components/EventLanding';
 import SingleEvent from '../components/SingleEvent';
+import { useAppContext } from '../context/AppContext';
+import { Link } from 'react-router-dom';
 
 const getAllEvents = () => {
     return {
@@ -24,6 +26,7 @@ const Events = () => {
     const { data } = useQuery(getAllEvents())
     const [events, setEvents] = useState(data);
     const [isPastEvents, setIsPastEvents] = useState(false);
+    const { user } = useAppContext()
 
     if (data?.length === 0) {
         return <h3>No events for the moment</h3>
@@ -79,6 +82,9 @@ const Events = () => {
                 <button onClick={pastEvents} style={{ color: `${isPastEvents ? 'black' : 'grey'}` }}>Past</button>
             </div>
             <p>{events?.length} events</p>
+            {user && user.role === 'admin' && (
+                <CreateButton> <Link to="/events/create">Create new event</Link></CreateButton>
+            )}
         </div>
         <div className="events">
             {events.map((event) => {
@@ -120,5 +126,22 @@ const Wrapper = styled.section`
     }
    }
 `
+
+const CreateButton = styled.div`
+  margin: 30px 0;
+  text-align: center;
+  a{
+    color: black;
+    text-transform: capitalize;
+    text-decoration: none;
+    background-color: aliceblue;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: var(--transition);
+  }
+  a:hover{
+    background-color: #d7edff
+  }
+  `
 
 export default Events

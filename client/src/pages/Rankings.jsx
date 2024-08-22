@@ -68,25 +68,6 @@ const Wrapper = styled.div`
   max-width: 1100px;
   margin: 0 auto;
  
-  .champion{
-    font-weight: bold;
-    color: #191919;
-    text-transform: uppercase;
-    font-size: 18px;
-    border-bottom: 1px solid #e5e5e5;
-    margin-bottom: 30px;
-    a{
-      text-decoration:none;
-      color: #1e1e1e;
-    }
-  }
-  .champion-span{
-     color:#abadb1;
-     font-size: 10px;
-     text-transform: uppercasse;
-     display: block;
-     margin-top: 5px;
-  }
   .rankings{
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 250px));
@@ -105,61 +86,7 @@ const Wrapper = styled.div`
       grid-template-columns: 250px;
     }
   }
-  .weightClass{
-    color: rgb(210, 10, 10);
-    text-transform: uppercase;
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 15px;
-  }
-  .athleteRows{
-      height: 36px;
-      display: flex;
-      justify-content: start;
-      align-items: center;
-      padding: 5px;
-      border-radius: 8px;
-
-    span {
-      width: 35px;
-      color: #191919;
-      font-weight: bold;
-      font-size: 14px;
-    }
-    a {
-      color: rgb(88, 91, 99);
-      font-size: 14px;
-      line-height: 20px;
-      text-decoration: none;
-    }
-
-    &:hover {
-      background-color: #e5e5e5;
-    }
-  }
-  .actions{
-    display: flex;
-    gap: 1rem;
-    justify-content: start;
-    align-items: center;
-    a,button{
-      border: transparent;
-      text-transform: capitalize;
-      color: var(--grey-600);
-      text-decoration: none;
-      background: none;
-      transition: var(--transition);
-    }
-    button{
-      color: red;
-    }
-    button:hover{
-      color: #850707;
-    }
-    a:hover{
-      color:black;
-    }
-  }
+  
 `;
 
 const Title = styled.h2`

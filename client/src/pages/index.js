@@ -38,7 +38,6 @@ import SeatingLayout from './seatingLayout/SeatingLayout';
 import CreateSeatingLayout from './seatingLayout/CreateSeatingLayout';
 import UpdateSeatingLayout from './seatingLayout/UpdateSeatingLayout';
 import CreateEvent from './events/CreateEvent';
-import ManageEvents from './events/ManageEvents';
 import UpdateEvent from './events/UpdateEvent';
 import SingleEventPage from './events/SingleEventPage';
 import AthleteProfile from './AthleteProfile';
@@ -87,7 +86,6 @@ export {
   CreateSeatingLayout,
   UpdateSeatingLayout,
   CreateEvent,
-  ManageEvents,
   UpdateEvent,
   SingleEventPage,
   AthleteProfile,

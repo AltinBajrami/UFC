@@ -41,7 +41,7 @@ export const action = (queryClient) => async ({ request, params }) => {
         });
         queryClient.invalidateQueries(['events']);
         toast.success('Event updated successfully');
-        return redirect('/events/manage');
+        return redirect('/events');
     } catch (error) {
         toast.error(error?.response?.data?.msg);
         return error;

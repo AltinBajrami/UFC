@@ -38,7 +38,6 @@ import {
   Success, Cancel, Orders,
   MiniEvent, CreateMiniEvent, UpdateMiniEvent,
   CreateEvent,
-  ManageEvents,
   UpdateEvent,
   SingleEventPage,
   AthleteProfile,
@@ -89,7 +88,7 @@ import { action as CreateEventAction } from './pages/events/CreateEvent'
 import { loader as CreateEventLoader } from './pages/events/CreateEvent'
 import { action as UpdateEventAction } from './pages/events/UpdateEvent'
 import { loader as UpdateEventLoader } from './pages/events/UpdateEvent'
-import { loader as ManageEventLoader } from './pages/events/ManageEvents'
+import { action as deleteEventAction } from './pages/events/DeleteEvent'
 
 import { action as CreateFightAction } from './pages/fights/CreateFight'
 import { loader as CreateFightLoader } from './pages/fights/CreateFight'
@@ -391,9 +390,8 @@ const router = createBrowserRouter([
         loader: CreateEventLoader(queryClient)
       },
       {
-        path: 'events/manage',
-        element: <ManageEvents />,
-        loader: ManageEventLoader(queryClient)
+        path: 'events/delete/:id',
+        action: deleteEventAction(queryClient)
       },
       {
         path: 'events/update/:id',
