@@ -32,6 +32,9 @@ const Events = () => {
         return <h3>No events for the moment</h3>
     }
 
+    console.log(events);
+
+
     useEffect(() => {
         const now = new Date().getTime();
         setEvents(data.filter(event => {

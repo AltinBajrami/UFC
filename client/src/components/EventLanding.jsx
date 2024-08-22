@@ -7,7 +7,8 @@ day.extend(advancedFormat);
 
 const EventLanding = ({ date, name, image, fighter1Name, fighter2Name, arenaName, arenaLocation }) => {
   return (
-    <Wrapper img={image}>
+    <Wrapper>
+      <img src={`http://localhost:5000` + image} alt="no image" className='img' />
       <div className="landing-info">
         <h4>{name}</h4>
         <h2>{fighter1Name}</h2>
@@ -24,16 +25,24 @@ const EventLanding = ({ date, name, image, fighter1Name, fighter2Name, arenaName
 const Wrapper = styled.div`
      min-height: calc(100vh - 5rem);
     text-align: center;
-    background-image: url(http://localhost:5000/${props => props.img});
-    background-size: cover;
-    background-position: center;
+    position: relative;
     width: 100%;
+    .img{
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      height: 100%;
+    }
   .landing-info{
+    position: absolute;
     color: white;
     padding-top: 14rem;
     display: grid;
     gap: 1.5rem;
     letter-spacing: 2px;
+   text-align: center;
+   width: 100%;
   }
   .vs{
     font-weight: 700;

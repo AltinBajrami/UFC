@@ -26,11 +26,11 @@ export const loader = (queryClient) => async ({ params }) => {
 
 const SingleEventPage = () => {
     const id = useLoaderData();
-    const navigate = useNavigate()
     const { data } = useQuery(getSingleEvent(id))
-    console.log(data.fights);
+
 
     const { image, name, arena, date, mainEventId, prelimsEventId, earlyPrelimsEventId } = data.event;
+    console.log(image || 'no igem');
     const fights = data.fights;
     if (fights.length === 0) {
         return <EventLanding image={image} name={name} date={date} arenaLocation={arena?.location} arenaName={arena?.name}
@@ -47,6 +47,7 @@ const SingleEventPage = () => {
         <EventLanding image={image} name={name} date={date} arenaLocation={arena?.location} arenaName={arena?.name}
             fighter1Name={fighter1ID?.fighterName.split(' ')[1]} fighter2Name={fighter2ID?.fighterName.split(' ')[1]}
         />
+
         {mainFights.length > 0 &&
             <div className='fights'>
                 <h1 className='mini-event'>Main Card</h1>
