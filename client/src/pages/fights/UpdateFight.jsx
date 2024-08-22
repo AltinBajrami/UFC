@@ -128,7 +128,7 @@ const UpdateFight = () => {
   const miniEvents = data1;
   const refers = data2.refers;
   const finishs = data3.fightFinishs
-  const fighters = data4.fighters.filter((item) => item.weightClass._id === weightClassID);
+  const fighters = data4?.fighters?.filter((item) => item.weightClass._id === weightClassID);
   const weightClasses = data6.weightClasses;
 
 

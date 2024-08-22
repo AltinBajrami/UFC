@@ -95,6 +95,7 @@ import { loader as CreateFightLoader } from './pages/fights/CreateFight'
 import { action as UpdateFightAction } from './pages/fights/UpdateFight'
 import { loader as UpdateFightLoader } from './pages/fights/UpdateFight'
 import { loader as FightsLoader } from './pages/fights/Fights'
+import { action as deleteFightAction } from './pages/fights/DeleteFight'
 
 import { loader as EventsLoader } from './pages/Events';
 import { loader as SingleEventLoader } from './pages/events/SingleEventPage';
@@ -244,6 +245,10 @@ const router = createBrowserRouter([
         element: <UpdateFight />,
         loader: UpdateFightLoader(queryClient),
         action: UpdateFightAction(queryClient)
+      },
+      {
+        path: 'fights/delete/:id',
+        action: deleteFightAction(queryClient),
       },
       {
         path: "ranked/create",

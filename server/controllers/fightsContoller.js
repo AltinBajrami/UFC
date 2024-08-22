@@ -33,7 +33,6 @@ const getAllFightsByFighterId = async (req, res) => {
     'fighter1ID fighter2ID weightClassID refereeID winnerID finishID'
   );
   const fights = [...fights1, ...fights2];
-  console.log('🚀 ~ getAllFightsByFighterId ~ fights:', fights);
   return res.status(StatusCodes.OK).json({ fights });
 };
 
@@ -110,6 +109,11 @@ const updateFight = async (req, res) => {
     winnerID,
   } = req.body;
 
+  const fightExists = await Fight.findById(id);
+
+  if (!fightExists) {
+    throw new BadRequestError('Fight does not exist');
+  }
   if (
     !fighter1ID ||
     !fighter2ID ||
@@ -162,7 +166,33 @@ const updateFight = async (req, res) => {
       throw new BadRequestError('Winner must be fighter 1 or 2');
     }
   }
+  console.log(fightExists);
 
+  if (fightExists.winnerID.toString()) {
+    const oldFighter1 = await Fighter.findById(fightExists.fighter1ID);
+    const oldFighter2 = await Fighter.findById(fightExists.fighter2ID);
+    console.log(oldFighter1);
+
+    if (fightExists.winnerID.toString() === oldFighter1?._id) {
+      oldFighter1.win -= 1;
+      oldFighter2.lose -= 1;
+    } else {
+      oldFighter2.win -= 1;
+      oldFighter1.lose -= 1;
+    }
+    await oldFighter1.save();
+    await oldFighter2.save();
+  }
+
+  if (winnerID === fighter1ID) {
+    fighter1.win += 1;
+    fighter2.lose += 1;
+  } else {
+    fighter2.win += 1;
+    fighter1.lose += 1;
+  }
+  await fighter1.save();
+  await fighter2.save();
   // Create the fight
   const fight = await Fight.findByIdAndUpdate(
     id,

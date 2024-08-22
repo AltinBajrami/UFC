@@ -19,7 +19,6 @@ const MenuDropDown = ({ toggleSidebar, user }) => {
                         <Dropdown.Item as={NavLink} onClick={toggleSidebar} to="/refers">Refers</Dropdown.Item>
                         <Dropdown.Item as={NavLink} onClick={toggleSidebar} to="/quotes">Quotes</Dropdown.Item>
                         <Dropdown.Item as={NavLink} onClick={toggleSidebar} to="/fights">Fights</Dropdown.Item>
-                        <Dropdown.Item as={NavLink} onClick={toggleSidebar} to="/ranked">Ranked</Dropdown.Item>
                         <Dropdown.Item as={NavLink} onClick={toggleSidebar} to="/arena">Arena</Dropdown.Item>
                         <Dropdown.Item as={NavLink} onClick={toggleSidebar} to="/mini-event">Mini-Event</Dropdown.Item>
                     </>

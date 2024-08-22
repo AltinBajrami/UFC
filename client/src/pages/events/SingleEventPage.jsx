@@ -1,10 +1,11 @@
 import React from 'react'
 import customFetch from '../../utils';
 import { useQuery } from '@tanstack/react-query';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { Link, useLoaderData, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import EventLanding from '../../components/EventLanding';
 import SingleFight from '../../components/SingleFight';
+import { useAppContext } from '../../context/AppContext';
 
 const getSingleEvent = (id) => {
     return {
@@ -27,11 +28,11 @@ export const loader = (queryClient) => async ({ params }) => {
 const SingleEventPage = () => {
     const id = useLoaderData();
     const { data } = useQuery(getSingleEvent(id))
-
+    const { user } = useAppContext()
 
     const { image, name, arena, date, mainEventId, prelimsEventId, earlyPrelimsEventId } = data.event;
-    console.log(image || 'no igem');
     const fights = data.fights;
+
     if (fights.length === 0) {
         return <EventLanding image={image} name={name} date={date} arenaLocation={arena?.location} arenaName={arena?.name}
             fighter1Name={'TBO'} fighter2Name={'TBO'}
@@ -47,7 +48,9 @@ const SingleEventPage = () => {
         <EventLanding image={image} name={name} date={date} arenaLocation={arena?.location} arenaName={arena?.name}
             fighter1Name={fighter1ID?.fighterName.split(' ')[1]} fighter2Name={fighter2ID?.fighterName.split(' ')[1]}
         />
-
+        {user && user.role === 'admin' && (
+            <CreateButton> <Link to="/fights/create">Add fight</Link></CreateButton>
+        )}
         {mainFights.length > 0 &&
             <div className='fights'>
                 <h1 className='mini-event'>Main Card</h1>
@@ -92,4 +95,20 @@ const Wrapper = styled.div`
     }
 `
 
+const CreateButton = styled.div`
+  margin: 30px 0;
+  text-align: center;
+  a{
+    color: black;
+    text-transform: capitalize;
+    text-decoration: none;
+    background-color: aliceblue;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: var(--transition);
+  }
+  a:hover{
+    background-color: #d7edff
+  }
+  `
 export default SingleEventPage

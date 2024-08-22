@@ -1,9 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { MdDelete, MdEdit } from 'react-icons/md'
+import { Form, Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { useAppContext } from '../context/AppContext'
 
-const SingleFight = ({ fighter1ID, fighter2ID, weightClassID, finishID, winnerID, round, minute, seconds }) => {
-
+const SingleFight = ({ fighter1ID, fighter2ID, weightClassID, finishID, winnerID, round, minute, seconds, _id }) => {
+    const { user } = useAppContext();
     return (
         <Wrapper>
             <div className="img-container">
@@ -36,6 +38,12 @@ const SingleFight = ({ fighter1ID, fighter2ID, weightClassID, finishID, winnerID
                     alt={fighter2ID?.fighterName} />
                 <p>{fighter2ID.country} {winnerID?._id === fighter2ID._id && <span className='won'>Won</span>}</p>
             </div>
+            {user && user.role === 'admin' && <div className='actions'>
+                <Link to={`/fights/update/${_id}`}><MdEdit /></Link>
+                <Form method='post' action={`/fights/delete/${_id}`}>
+                    <button type='submit'><MdDelete /></button>
+                </Form>
+            </div>}
         </Wrapper>
     )
 }
@@ -158,6 +166,27 @@ const Wrapper = styled.article`
         border-radius: var(--borderRadius);
         font-weight:normal;
     }
-
+    .actions{
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        width: 100%;
+        justify-content: center;
+        grid-column: 1 /-1;
+            a,button{
+                color: var(--grey-800);
+                font-size: 1.5rem;
+                background-color: transparent;
+                border: transparent;
+            }
+            a:hover,button:hover{
+                color: black
+            }
+       }
+       @media (max-width : 992px){
+        .actions{
+            margin-bottom: 2rem;
+        }
+       }
     `
 export default SingleFight
