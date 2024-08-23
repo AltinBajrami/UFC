@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import Hero from '../components/Hero'
 import YouTubeVideo from '../components/YouTubeVideo'
 import Quotes from '../components/Quotes'
 import { useQuery } from '@tanstack/react-query'
 import customFetch from '../utils'
+import EventLanding from '../components/EventLanding'
 
 const getAll = () => {
     return {
@@ -15,28 +15,37 @@ const getAll = () => {
         }
     };
 };
+const getNextEvent = () => {
+    return {
+        queryKey: ['nextEvent'],
+        queryFn: async () => {
+            const { data } = await customFetch.get('/events/next-event');
+            return { event: data?.event, fights: data?.fights };
+        }
+    };
+}
 
 
 export const loader = (queryClient) => async () => {
     await queryClient.ensureQueryData(getAll());
-    return '';
+    await queryClient.ensureQueryData(getNextEvent());
+    return null;
 }
 
 const Landing = () => {
 
     const { data, isError } = useQuery(getAll());
+    const { event, fights } = useQuery(getNextEvent())?.data;
+    console.log(event, fights);
+
     const { quotes } = data;
 
-    if (isError) {
-        return <div >
-            <h2>Error fetching quotes</h2>
-        </div>
-    }
+
 
     return <Wrapper>
-        <Hero />
+        <EventLanding event={event} fights={fights} />
         <YouTubeVideo videoId={'0OswAJOEXn8'} title={'UFC History'} />
-        <Quotes quotes={quotes} />
+        <Quotes quotes={quotes} isError={isError} />
     </Wrapper>
 }
 

@@ -379,3 +379,72 @@ PROJECT CSS
     z-index: 10;
   }
 }
+
+.landing-container {
+  min-height: calc(100vh - 5rem);
+  text-align: center;
+  position: relative;
+  width: 100%;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    height: 100%;
+    background-color: white;
+    filter: brightness(80%);
+  }
+}
+
+.landing-info {
+  position: absolute;
+  color: white;
+  padding-top: 14rem;
+  display: grid;
+  gap: 1.5rem;
+  letter-spacing: 2px;
+  text-align: center;
+  width: 100%;
+}
+.landing-vs {
+  font-weight: 700;
+  font-size: 2rem;
+}
+.landing-h4 {
+  font-weight: 700;
+}
+.landing-h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.landing-location {
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.landing-date {
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
+
+.createBtn {
+  margin: 30px 0;
+  text-align: center;
+  a {
+    color: black;
+    text-transform: capitalize;
+    text-decoration: none;
+    background-color: aliceblue;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: var(--transition);
+  }
+  a:hover {
+    background-color: #d7edff;
+  }
+}

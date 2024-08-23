@@ -40,18 +40,7 @@ const Events = () => {
         }));
     }, [data]);
 
-    const { name, date, image, arenaId, fights } = data?.[0];
 
-    let fighter1ID;
-    let fighter2ID;
-
-    if (fights?.[0]) {
-        fighter1ID = fights[0].fighter1ID;
-        fighter2ID = fights[0].fighter2ID;
-    } else {
-        fighter1ID = { image1: '/uploads/fighters/no-profile-image.png', fighterName: 'Tbo tbo' };
-        fighter2ID = { image1: '/uploads/fighters/no-profile-image.png', fighterName: 'Tbo tbo' };
-    }
 
     const pastEvents = () => {
         const now = new Date().getTime();
@@ -72,9 +61,7 @@ const Events = () => {
     }
 
     return <Wrapper>
-        <EventLanding name={name} fighter1Name={fighter1ID?.fighterName?.split(' ')[1]}
-            fighter2Name={fighter2ID?.fighterName?.split(' ')[1]} date={date} image={image}
-            arenaName={arenaId.name} arenaLocation={arenaId.location} />
+        <EventLanding event={events?.[events.length - 1]} fights={events?.[events.length - 1]?.fights} />
 
         <div className="info">
             <div className="buttons">
@@ -83,7 +70,7 @@ const Events = () => {
             </div>
             <p>{events?.length} events</p>
             {user && user.role === 'admin' && (
-                <CreateButton> <Link to="/events/create">Create new event</Link></CreateButton>
+                <div className='createBtn'> <Link to="/events/create">Create new event</Link></div>
             )}
         </div>
         <div className="events">
@@ -127,21 +114,6 @@ const Wrapper = styled.section`
    }
 `
 
-const CreateButton = styled.div`
-  margin: 30px 0;
-  text-align: center;
-  a{
-    color: black;
-    text-transform: capitalize;
-    text-decoration: none;
-    background-color: aliceblue;
-    padding: 10px 20px;
-    border-radius: 8px;
-    transition: var(--transition);
-  }
-  a:hover{
-    background-color: #d7edff
-  }
-  `
+
 
 export default Events

@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { FaChevronLeft, FaChevronRight, FaQuoteRight } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
-const Quotes = ({ quotes }) => {
+const Quotes = ({ quotes, isError }) => {
   const [index, setIndex] = useState(0);
-  const { fighter, quote } = quotes[index];
+  const { fighter, quote } = quotes?.[index];
   const { image1, fighterName } = fighter;
 
   const nextPerson = () => {
@@ -15,6 +15,11 @@ const Quotes = ({ quotes }) => {
   }
   const randomPerson = () => {
     setIndex(Math.floor(Math.random() * quotes.length))
+  }
+  if (isError) {
+    return <div >
+      <h2>Error fetching quotes</h2>
+    </div>
   }
 
   return (

@@ -5,6 +5,7 @@ const {
   getEventById,
   updateEvent,
   deleteEvent,
+  getNextEvent,
 } = require('../controllers/eventsController');
 const {
   authenticateUser,
@@ -15,6 +16,7 @@ const router = express.Router();
 
 router.post('/', authenticateUser, authorizePermissions('admin'), createEvent);
 router.get('/', authenticateUser, getAllEvents);
+router.get('/next-event', getNextEvent);
 router.get('/:id', authenticateUser, getEventById);
 router.patch(
   '/:id',

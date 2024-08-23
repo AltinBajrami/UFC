@@ -1,10 +1,10 @@
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { getUniqueValues } from '../utils'
 import { useAthleteContext } from '../context/AthletesContext';
 import styled from 'styled-components';
 
-const Filters = ({ athletes }) => {
+const Filters = ({ athletes, setCurrentPage }) => {
     const { filters: {
         status,
         text,
@@ -17,6 +17,10 @@ const Filters = ({ athletes }) => {
     const fightingStyles = getUniqueValues(athletes, 'fightingStyle');
     const countries = getUniqueValues(athletes, 'country');
     const genders = getUniqueValues(athletes, 'gender');
+
+    useEffect(() => {
+        setCurrentPage(0)
+    }, [text, gender, fightingStyle, status, country])
 
     return (
         <Wrapper>

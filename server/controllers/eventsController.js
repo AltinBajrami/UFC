@@ -92,6 +92,23 @@ const getEventById = async (req, res) => {
   return res.status(StatusCodes.OK).json({ event, fights });
 };
 
+const getNextEvent = async (req, res) => {
+  const now = new Date();
+
+  // Query to find the next event
+  let event = await Event.findOne({ date: { $gte: now } }).sort({ date: 1 });
+
+  if (!event) {
+    event = await Event.findOne({ date: { $lt: now } }).sort({ date: -1 });
+  }
+
+  const fights = await Fights.find({ eventID: event._id }).populate(
+    'fighter1ID fighter2ID winnerID weightClassID'
+  );
+  await event.populate('arenaId');
+  return res.status(StatusCodes.OK).json({ event, fights });
+};
+
 const updateEvent = async (req, res) => {
   const { id } = req.params;
   const { name, date, venueInformation, arenaId } = req.body;
@@ -158,4 +175,5 @@ module.exports = {
   getEventById,
   updateEvent,
   deleteEvent,
+  getNextEvent,
 };

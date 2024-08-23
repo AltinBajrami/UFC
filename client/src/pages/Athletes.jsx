@@ -1,15 +1,19 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useAthleteContext } from '../context/AthletesContext'
 import Athlete from '../components/Athlete'
 import Filters from '../components/Filters'
+import Pagination from '../components/Pagination'
 
 
 
 const Athletes = () => {
     // const { data, isLoading, isError, error } = useQuery(getAllFighters());
     const { fetchAthletes, filteredAthletes, isLoading, isError, allAthletes } = useAthleteContext();
-    let athletes = filteredAthletes;
+
+
+    const [currentPage, setCurrentPage] = useState(0);
+    const itemsPerPage = 4;
 
     useEffect(() => {
         fetchAthletes()
@@ -25,22 +29,39 @@ const Athletes = () => {
         </div>
     }
 
+    const handlePageClick = (data) => {
+        setCurrentPage(data.selected);
+    };
+
+    const getPaginatedAthletes = () => {
+        const offset = currentPage * itemsPerPage;
+        return filteredAthletes.slice(offset, offset + itemsPerPage);
+    };
+
     return (
         <Wrapper>
             <div className="filters">
-                <Filters athletes={allAthletes} />
+                <Filters athletes={allAthletes} setCurrentPage={setCurrentPage} />
             </div>
             <div className="fighters">
                 {
-                    athletes.length === 0 ? <div>
+                    getPaginatedAthletes().length === 0 ? <div>
                         <h2>no fighter found please reset filters</h2>
                     </div> : <>
-                        {athletes.map((item) => {
+                        {getPaginatedAthletes().map((item) => {
                             return <Athlete key={item._id} {...item} />
                         })}
                     </>
 
                 }
+                <div className="pagination">
+
+                    <Pagination
+                        pageCount={Math.ceil(filteredAthletes?.length / itemsPerPage)}
+                        onPageChange={handlePageClick}
+                        currentPage={currentPage}
+                    />
+                </div>
             </div>
         </Wrapper>
     )
@@ -72,6 +93,10 @@ const Wrapper = styled.section`
         .fighters{
             grid-template-columns: 1fr 1fr 1fr;
         }
+    }
+    .pagination{
+        display: block;
+        grid-column: -3 / -1;
     }
 `
 export default Athletes

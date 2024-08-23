@@ -40,7 +40,7 @@ const Rankings = () => {
     <div>
       <Title>ATHLETE RANKINGS</Title>
       {user && user.role === 'admin' && (
-        <CreateButton> <Link to="/ranked/create">Create a new ranking</Link></CreateButton>
+        <div className='createBtn'>  <Link to="/ranked/create">Create a new ranking</Link></div>
       )}
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Banner
@@ -104,20 +104,3 @@ const Banner = styled.img`
   margin-left: 10%;
   margin-right: 10%;
 `;
-
-const CreateButton = styled.div`
-  margin: 30px 0;
-  text-align: center;
-  a{
-    color: black;
-    text-transform: capitalize;
-    text-decoration: none;
-    background-color: aliceblue;
-    padding: 10px 20px;
-    border-radius: 8px;
-    transition: var(--transition);
-  }
-  a:hover{
-    background-color: #d7edff
-  }
-  `
