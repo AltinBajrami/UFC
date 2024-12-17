@@ -3,6 +3,7 @@ const { BadRequestError, NotFoundError } = require('../errors');
 const Fighter = require('../models/Fighter');
 const WeightClass = require('../models/WeightClass');
 const path = require('path');
+const { log } = require('console');
 
 const getAll = async (req, res) => {
   const fighters = await Fighter.find({}).populate('weightClass');
@@ -28,68 +29,69 @@ const createFighter = async (req, res) => {
   } = req.body;
 
   // Check if weightClass exists
-  const weightClassSchema = await WeightClass.findById(weightClass);
-  if (!weightClassSchema) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ error: 'Please provide a valid weight class ID' });
-  }
+  // const weightClassSchema = await WeightClass.findById(weightClass);
+  // if (!weightClassSchema) {
+  //   return res
+  //     .status(StatusCodes.BAD_REQUEST)
+  //     .json({ error: 'Please provide a valid weight class ID' });
+  // }
+  log(req.files, req.file);
 
-  let image1;
-  let image2;
+  // let image1;
+  // let image2;
 
-  if (req.files && Object.keys(req.files).length !== 0) {
-    const fighterImage1 = req.files.fighterImage1;
-    const fighterImage2 = req.files.fighterImage2;
-    const maxSize = 1024 * 1024;
-    if (fighterImage1.size > maxSize) {
-      throw new BadRequestError('Please upload first image smaller 1MB');
-    }
-    if (fighterImage2.size > maxSize) {
-      throw new BadRequestError('Please upload second image smaller 1MB');
-    }
+  // if (req.files && Object.keys(req.files).length !== 0) {
+  //   const fighterImage1 = req.files.fighterImage1;
+  //   const fighterImage2 = req.files.fighterImage2;
+  //   const maxSize = 1024 * 1024;
+  //   if (fighterImage1.size > maxSize) {
+  //     throw new BadRequestError('Please upload first image smaller 1MB');
+  //   }
+  //   if (fighterImage2.size > maxSize) {
+  //     throw new BadRequestError('Please upload second image smaller 1MB');
+  //   }
 
-    const imagePath1 = path.join(
-      __dirname,
-      `../public/uploads/fighters/` + `${fighterImage1.name}`
-    );
+  //   const imagePath1 = path.join(
+  //     __dirname,
+  //     `../public/uploads/fighters/` + `${fighterImage1.name}`
+  //   );
 
-    const imagePath2 = path.join(
-      __dirname,
-      `../public/uploads/fighters/` + `${fighterImage2.name}`
-    );
+  //   const imagePath2 = path.join(
+  //     __dirname,
+  //     `../public/uploads/fighters/` + `${fighterImage2.name}`
+  //   );
 
-    await fighterImage1.mv(imagePath1);
-    await fighterImage2.mv(imagePath2);
-    image1 = `/uploads/fighters/${fighterImage1.name}`;
-    image2 = `/uploads/fighters/${fighterImage2.name}`;
-  }
-  // Create fighter record
+  //   await fighterImage1.mv(imagePath1);
+  //   await fighterImage2.mv(imagePath2);
+  //   image1 = `/uploads/fighters/${fighterImage1.name}`;
+  //   image2 = `/uploads/fighters/${fighterImage2.name}`;
+  // }
+  // // Create fighter record
 
-  const newFighter = await Fighter.create({
-    fighterName,
-    fightingStyle,
-    nickName,
-    reach,
-    country,
-    gender,
-    win,
-    lose,
-    draw,
-    homeTown,
-    status,
-    legReach,
-    image1,
-    image2,
-    weightClass,
-    age,
-    win,
-    draw,
-    lose,
-  });
+  // const newFighter = await Fighter.create({
+  //   fighterName,
+  //   fightingStyle,
+  //   nickName,
+  //   reach,
+  //   country,
+  //   gender,
+  //   win,
+  //   lose,
+  //   draw,
+  //   homeTown,
+  //   status,
+  //   legReach,
+  //   image1,
+  //   image2,
+  //   weightClass,
+  //   age,
+  //   win,
+  //   draw,
+  //   lose,
+  // });
 
   // Return success response
-  return res.status(StatusCodes.CREATED).json({ fighter: newFighter });
+  return res.status(StatusCodes.CREATED).json({ fighter: null });
 };
 
 const getSingleFighter = async (req, res) => {

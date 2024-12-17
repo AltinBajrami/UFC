@@ -34,8 +34,8 @@ const eventsRouter = require('./routes/eventsRoutes');
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 
+app.use(fileUpload({ limits: { fileSize: 10 * 1024 * 1024 } }));
 app.use(morgan('dev'));
-app.use(fileUpload());
 app.use(mongoSanitize());
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));

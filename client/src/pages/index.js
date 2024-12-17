@@ -41,9 +41,6 @@ import CreateEvent from './events/CreateEvent';
 import UpdateEvent from './events/UpdateEvent';
 import SingleEventPage from './events/SingleEventPage';
 import AthleteProfile from './AthleteProfile';
-import MiniEvent from './miniEvent/MiniEvent';
-import CreateMiniEvent from './miniEvent/CreateMiniEvent';
-import UpdateMiniEvent from './miniEvent/UpdateMiniEvent';
 
 export {
   Events,
@@ -89,7 +86,4 @@ export {
   UpdateEvent,
   SingleEventPage,
   AthleteProfile,
-  MiniEvent,
-  CreateMiniEvent,
-  UpdateMiniEvent,
 };

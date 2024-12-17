@@ -9,7 +9,9 @@ const customFetch = axios.create({
 export default customFetch;
 
 export const getUniqueValues = (data, type) => {
-  let unique = data.map(item => item[type].toLowerCase());
+  let unique = data.map(item =>
+    item[type].toLowerCase()
+  );
   return ['all', ...new Set(unique)];
 };
 
@@ -45,3 +47,31 @@ export const TableWrapper = styled.div`
     background-color: #ddd;
   }
 `;
+
+export const FIGHTER_FIGHTING_STYLE = {
+  BOXING: 'boxing',
+  SAMBO: 'sambo',
+  JIU_JITSU: 'jiu-jitsu',
+  MMA: 'mma',
+  MUAI_THAI: 'muai-thai',
+  KICKBOXER: 'kickboxer',
+  STRIKER: 'striker',
+  WRESTLER: 'wrestler',
+  FREE_STYLE: 'free-style',
+};
+
+export const GENDER = {
+  MALE: 'Male',
+  FEMALE: 'Female',
+};
+
+export const STATUS = {
+  ACTIVE: 'active',
+  RETIRED: 'retired',
+};
+
+export const MINI_EVENTS = {
+  MAIN_EVENT: 'main event',
+  PRELIMS: 'prelims',
+  EARLY_PRELIMS: 'early prelims',
+};

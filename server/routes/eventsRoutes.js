@@ -15,7 +15,7 @@ const {
 const router = express.Router();
 
 router.post('/', authenticateUser, authorizePermissions('admin'), createEvent);
-router.get('/', authenticateUser, getAllEvents);
+router.get('/', getAllEvents);
 router.get('/next-event', getNextEvent);
 router.get('/:id', authenticateUser, getEventById);
 router.patch(

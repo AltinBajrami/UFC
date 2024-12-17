@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const {
+  MINI_EVENTS,
+} = require('../utils/constants');
 
 const FightSchema = new mongoose.Schema({
   fighter1ID: {
@@ -34,9 +37,10 @@ const FightSchema = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: 'finishs',
   },
-  miniEventID: {
-    type: mongoose.Types.ObjectId,
-    ref: 'MiniEvent',
+  miniEvent: {
+    type: String,
+    enum: Object.values(MINI_EVENTS),
+    default: MINI_EVENTS.MAIN_EVENT,
   },
   eventID: {
     type: mongoose.Types.ObjectId,
@@ -54,5 +58,8 @@ const FightSchema = new mongoose.Schema({
   },
 });
 
-const FightModel = mongoose.model('Fight', FightSchema);
+const FightModel = mongoose.model(
+  'Fight',
+  FightSchema
+);
 module.exports = FightModel;
