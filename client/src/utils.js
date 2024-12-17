@@ -61,8 +61,8 @@ export const FIGHTER_FIGHTING_STYLE = {
 };
 
 export const GENDER = {
-  MALE: 'Male',
-  FEMALE: 'Female',
+  MALE: 'male',
+  FEMALE: 'female',
 };
 
 export const STATUS = {

@@ -34,17 +34,22 @@ const eventsRouter = require('./routes/eventsRoutes');
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 
-app.use(fileUpload({ limits: { fileSize: 10 * 1024 * 1024 } }));
+app.use(fileUpload());
 app.use(morgan('dev'));
 app.use(mongoSanitize());
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+  express.static(path.join(__dirname, 'public'))
+);
 app.use(
   cors({
     origin: 'http://localhost:5173',
     credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+    ],
   })
 );
 
@@ -52,13 +57,19 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/fightFinish', fightFinishRouter);
 app.use('/api/v1/fighters', fighterRoutesRouter);
-app.use('/api/v1/weightClasses', weightClassesRouter);
+app.use(
+  '/api/v1/weightClasses',
+  weightClassesRouter
+);
 app.use('/api/v1/fights', fightRoutesRouter);
 app.use('/api/v1/ranked', rankedRoutesRouter);
 app.use('/api/v1/refers', referRoutesRouter);
 app.use('/api/v1/quotes', quoteRoutesRouter);
 app.use('/api/v1/arena', arenaRouter);
-app.use('/api/v1/seatingLayout', seatingLayoutRouter);
+app.use(
+  '/api/v1/seatingLayout',
+  seatingLayoutRouter
+);
 app.use('/api/v1/tickets', ticketsRouter);
 app.use('/api/v1/mini-events', miniEventRouter);
 app.use('/api/v1/events', eventsRouter);
@@ -71,7 +82,9 @@ const start = async () => {
   try {
     await connectDB(process.env.MONGO_URL);
     app.listen(port, () =>
-      console.log(`Server is listening on port ${port}...`)
+      console.log(
+        `Server is listening on port ${port}...`
+      )
     );
   } catch (error) {
     console.log(error);
